@@ -2,20 +2,82 @@
 
 ## Purpose
 
-This document serves as the master library for all current and future services provided by Wali Productions LLC.
+This document serves as the canonical catalog of services offered by Wali Productions LLC.
 
-Each service will eventually include:
+Every service published on the website, government capability statement, proposals, marketing materials, and AI-generated content should originate from this document.
 
+---
+
+# Service Template
+
+Each service should define:
+
+- Service Name
 - Description
-- Deliverables
-- Benefits
+- Business Problem Solved
+- Typical Deliverables
 - Technologies
 - Ideal Clients
-- Typical Workflow
 - Future Expansion
 
 ---
 
-## Status
+# Current Service Categories
 
-Under Development
+## Technology Consulting
+
+Status: Under Development
+
+---
+
+## Software Development
+
+Status: Under Development
+
+---
+
+## Website Design & Development
+
+Status: Under Development
+
+---
+
+## Artificial Intelligence Integration
+
+Status: Under Development
+
+---
+
+## Business Automation
+
+Status: Under Development
+
+---
+
+## OBS Studio & Live Streaming Solutions
+
+Status: Under Development
+
+---
+
+## Audio Engineering & Production
+
+Status: Under Development
+
+---
+
+## Government Technology Services
+
+Status: Under Development
+
+---
+
+## Technical Training & Consulting
+
+Status: Under Development
+
+---
+
+## Future Services
+
+Additional services will be documented here as the company grows.
