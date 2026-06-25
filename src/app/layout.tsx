@@ -12,11 +12,13 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  ...(siteConfig.url ? { metadataBase: new URL(siteConfig.url) } : {}),
   title: {
     default: siteConfig.name,
     template: `%s | ${siteConfig.name}`,
   },
-  description: "Wali Productions LLC — official website.",
+  description: `${siteConfig.legalName} — official website.`,
+  applicationName: siteConfig.name,
 };
 
 export default function RootLayout({
@@ -26,9 +28,21 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={inter.variable}>
-      <body className="flex min-h-screen flex-col font-sans antialiased">
+      <body className="flex min-h-screen flex-col bg-background font-sans text-foreground antialiased">
+        {/* Skip link: first focusable element, visible only on focus. */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:shadow"
+        >
+          Skip to main content
+        </a>
+
         <Navbar />
-        <main className="flex-1">{children}</main>
+
+        <main id="main-content" className="flex-1">
+          {children}
+        </main>
+
         <Footer />
       </body>
     </html>
