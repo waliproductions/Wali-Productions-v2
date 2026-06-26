@@ -28,7 +28,14 @@ export const siteConfig = {
    * entries are added here once the sitemap is approved in documentation; the
    * Navbar and Footer render whatever this array contains.
    */
-  nav: [{ label: "Home", href: "/" }] satisfies NavItem[],
+  nav: [
+    { label: "Home", href: "/" },
+    { label: "About", href: "/about" },
+    { label: "Services", href: "/services" },
+    { label: "Government", href: "/government" },
+    { label: "Portfolio", href: "/portfolio" },
+    { label: "Contact", href: "/contact" },
+  ] satisfies NavItem[],
   /**
    * Routes that exist and should appear in the sitemap. These are built,
    * real pages (not navigation/IA decisions). Keep in sync as pages are added.
