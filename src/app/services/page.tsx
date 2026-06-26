@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 import { servicesContent } from "@/config/services";
 import { ServicesHero } from "@/components/services/ServicesHero";
 import { ProseSection } from "@/components/services/ProseSection";
@@ -7,11 +7,11 @@ import { ServiceCatalog } from "@/components/services/ServiceCatalog";
 import { WhyWork } from "@/components/services/WhyWork";
 import { ServicesCallToAction } from "@/components/services/ServicesCallToAction";
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: "Services",
-  description:
-    "Services from Wali Productions LLC — Christian Veteran-Owned Technology & Digital Solutions.",
-};
+  description: "Services from Wali Productions LLC — Christian Veteran-Owned Technology & Digital Solutions.",
+  path: "/services",
+});
 
 /**
  * Wali Productions LLC — Services page.

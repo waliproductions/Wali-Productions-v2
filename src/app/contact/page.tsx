@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 import { contactContent } from "@/config/contact";
 import { ContactHero } from "@/components/contact/ContactHero";
 import { ContactNarrative } from "@/components/contact/ContactNarrative";
@@ -7,11 +7,11 @@ import { ServiceInquiryCategories } from "@/components/contact/ServiceInquiryCat
 import { ContactInformation } from "@/components/contact/ContactInformation";
 import { ContactCallToAction } from "@/components/contact/ContactCallToAction";
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: "Contact",
-  description:
-    "Contact Wali Productions LLC — Christian Veteran-Owned Technology & Digital Solutions.",
-};
+  description: "Contact Wali Productions LLC — Christian Veteran-Owned Technology & Digital Solutions.",
+  path: "/contact",
+});
 
 /**
  * Wali Productions LLC — Contact page.

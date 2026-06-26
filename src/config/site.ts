@@ -29,6 +29,20 @@ export const siteConfig = {
    * Navbar and Footer render whatever this array contains.
    */
   nav: [{ label: "Home", href: "/" }] satisfies NavItem[],
+  /**
+   * Routes that exist and should appear in the sitemap. These are built,
+   * real pages (not navigation/IA decisions). Keep in sync as pages are added.
+   */
+  routes: ["/", "/about", "/services", "/government", "/portfolio", "/contact"],
 } as const;
 
 export type SiteConfig = typeof siteConfig;
+
+/**
+ * Absolute base URL for SEO routes (sitemap, robots, canonical resolution).
+ * Production MUST set NEXT_PUBLIC_SITE_URL; the localhost value is only a
+ * development fallback and is never an invented business domain.
+ */
+export function getBaseUrl(): string {
+  return (siteConfig.url || "http://localhost:3000").replace(/\/+$/, "");
+}

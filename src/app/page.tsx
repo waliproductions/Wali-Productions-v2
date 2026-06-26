@@ -4,6 +4,15 @@ import { ServicesOverview } from "@/components/home/ServicesOverview";
 import { GovernmentContracting } from "@/components/home/GovernmentContracting";
 import { WhyChooseUs } from "@/components/home/WhyChooseUs";
 import { CallToAction } from "@/components/home/CallToAction";
+import { buildMetadata } from "@/lib/seo";
+
+export const metadata = buildMetadata({
+  absoluteTitle:
+    "Wali Productions — Christian Veteran-Owned Technology & Digital Solutions",
+  description:
+    "Wali Productions LLC — Christian Veteran-Owned Technology & Digital Solutions.",
+  path: "/",
+});
 
 /**
  * Wali Productions LLC — homepage.

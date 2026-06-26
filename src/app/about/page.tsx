@@ -1,15 +1,15 @@
-import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 import { aboutContent } from "@/config/about";
 import { AboutHero } from "@/components/about/AboutHero";
 import { NarrativeSection } from "@/components/about/NarrativeSection";
 import { CoreValues } from "@/components/about/CoreValues";
 import { AboutCallToAction } from "@/components/about/AboutCallToAction";
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: "About",
-  description:
-    "About Wali Productions LLC — Christian Veteran-Owned Technology & Digital Solutions.",
-};
+  description: "About Wali Productions LLC — Christian Veteran-Owned Technology & Digital Solutions.",
+  path: "/about",
+});
 
 /**
  * Wali Productions LLC — About page.

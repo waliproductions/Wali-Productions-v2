@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 import { governmentContent } from "@/config/government";
 import { GovernmentHero } from "@/components/government/GovernmentHero";
 import { GovNarrative } from "@/components/government/GovNarrative";
@@ -7,11 +7,11 @@ import { RegistrationStatus } from "@/components/government/RegistrationStatus";
 import { PastPerformance } from "@/components/government/PastPerformance";
 import { GovernmentCallToAction } from "@/components/government/GovernmentCallToAction";
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: "Government Contracting",
-  description:
-    "Government contracting readiness for Wali Productions LLC — Christian Veteran-Owned Technology & Digital Solutions.",
-};
+  description: "Government contracting readiness for Wali Productions LLC — Christian Veteran-Owned Technology & Digital Solutions.",
+  path: "/government",
+});
 
 /**
  * Wali Productions LLC — Government Contracting page.

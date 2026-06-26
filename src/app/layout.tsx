@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
@@ -11,14 +11,44 @@ const inter = Inter({
   display: "swap",
 });
 
+const rootDescription = `${siteConfig.legalName} — Christian Veteran-Owned Technology & Digital Solutions.`;
+
 export const metadata: Metadata = {
   ...(siteConfig.url ? { metadataBase: new URL(siteConfig.url) } : {}),
   title: {
     default: siteConfig.name,
     template: `%s | ${siteConfig.name}`,
   },
-  description: `${siteConfig.legalName} — official website.`,
+  description: rootDescription,
   applicationName: siteConfig.name,
+  authors: [{ name: siteConfig.legalName }],
+  creator: siteConfig.legalName,
+  publisher: siteConfig.legalName,
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
+  openGraph: {
+    type: "website",
+    siteName: siteConfig.name,
+    title: siteConfig.name,
+    description: rootDescription,
+    locale: "en_US",
+    ...(siteConfig.url ? { url: siteConfig.url } : {}),
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.name,
+    description: rootDescription,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
 };
 
 export default function RootLayout({

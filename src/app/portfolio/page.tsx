@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { buildMetadata } from "@/lib/seo";
 import { portfolioContent } from "@/config/portfolio";
 import { PortfolioHero } from "@/components/portfolio/PortfolioHero";
 import { PortfolioNarrative } from "@/components/portfolio/PortfolioNarrative";
@@ -6,11 +6,11 @@ import { ProjectCategories } from "@/components/portfolio/ProjectCategories";
 import { FeaturedProjects } from "@/components/portfolio/FeaturedProjects";
 import { PortfolioCallToAction } from "@/components/portfolio/PortfolioCallToAction";
 
-export const metadata: Metadata = {
+export const metadata = buildMetadata({
   title: "Portfolio",
-  description:
-    "Portfolio of Wali Productions LLC — Christian Veteran-Owned Technology & Digital Solutions.",
-};
+  description: "Portfolio of Wali Productions LLC — Christian Veteran-Owned Technology & Digital Solutions.",
+  path: "/portfolio",
+});
 
 /**
  * Wali Productions LLC — Portfolio page.
