@@ -16,7 +16,7 @@ import { siteConfig } from "@/config/site";
  * supplied (see public/README.md). Resolved to an absolute URL via metadataBase.
  */
 export const OG_IMAGE = {
-  url: "/og-image.png",
+  url: "/opengraph/og-image.png",
   width: 1200,
   height: 630,
   alt: `${siteConfig.name} — ${siteConfig.identity}`,
