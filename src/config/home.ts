@@ -1,26 +1,19 @@
 /**
  * Homepage content model — single source of truth for homepage copy.
  *
- * ────────────────────────────────────────────────────────────────────────────
- * IMPORTANT: The text values below are PLACEHOLDERS, not approved copy.
+ * Content below is populated from approved canonical documentation:
+ * CORE_MESSAGES, KINGDOM_MISSION, MISSION_VISION_VALUES, COMPANY_PROFILE,
+ * COMPANY_STORY, VALUE_PROPOSITIONS, COMPETITIVE_ADVANTAGES, CLIENT_PROMISE,
+ * and the SERVICES documentation.
  *
- * The mission, faith-related messaging, service descriptions, government-
- * contracting capabilities, and value propositions for Wali Productions LLC are
- * governed by canonical documentation and must be supplied from approved
- * sources. They are intentionally NOT authored here. Replace each `pending()`
- * placeholder with approved copy before this page is published.
- *
- * Do not invent mission, statement-of-faith, governance, capability, or identity
- * claims in this file.
- * ────────────────────────────────────────────────────────────────────────────
+ * This copy must only be changed through the approved documentation process.
+ * Do not author or alter mission, statement-of-faith, governance, identity, or
+ * capability claims here; update the canonical documents first.
  */
-
-/** Wraps a note so unfilled copy is obvious on screen and in code review. */
-const pending = (note: string) => `[ pending approved copy: ${note} ]`;
 
 export type Cta = {
   label: string;
-  /** Placeholder targets ("#") until approved routes exist. */
+  /** Links to built routes within the site. */
   href: string;
 };
 
@@ -31,7 +24,7 @@ export type FeatureItem = {
 
 export type HomeContent = {
   hero: {
-    /** Provided directly in the Phase 3 brief; placed verbatim, not authored. */
+    /** Approved business identity (COMPANY_PROFILE / CORE_MESSAGES). */
     identity: string;
     headline: string;
     subhead: string;
@@ -70,49 +63,91 @@ export type HomeContent = {
 export const homeContent: HomeContent = {
   hero: {
     identity: "Christian Veteran-Owned Technology & Digital Solutions",
-    headline: pending("hero headline"),
-    subhead: pending("hero supporting statement"),
-    primaryCta: { label: pending("primary CTA label"), href: "#" },
-    secondaryCta: { label: pending("secondary CTA label"), href: "#" },
+    headline: "Technology with excellence, integrity, and purpose.",
+    subhead:
+      "Wali Productions LLC is a Christian Veteran-Owned technology and digital solutions company committed to solving real-world problems through engineering excellence, innovation, and faithful service.",
+    primaryCta: { label: "Request a Consultation", href: "/contact" },
+    secondaryCta: { label: "Explore Our Services", href: "/services" },
   },
   mission: {
     eyebrow: "Our Mission",
-    heading: pending("mission heading"),
-    body: pending("approved mission statement"),
+    heading: "Technology is our profession. Service is our calling.",
+    body: "We exist to provide professional technology and digital solutions while honoring King Jesus The Christ through integrity, excellence, faithful stewardship, and service. Technology is the profession through which we serve, and faithfulness to Jesus Christ remains our highest priority.",
   },
   services: {
     eyebrow: "What We Do",
-    heading: pending("services heading"),
-    intro: pending("services introduction"),
+    heading: "Professional technology and digital solutions.",
+    intro:
+      "Wali Productions LLC provides professional technology and digital solutions built on integrity, technical excellence, and long-term client relationships.",
     items: [
-      { title: pending("service 1 title"), description: pending("service 1 description") },
-      { title: pending("service 2 title"), description: pending("service 2 description") },
-      { title: pending("service 3 title"), description: pending("service 3 description") },
+      {
+        title: "Website Design & Development",
+        description:
+          "Modern, accessible websites built for performance, maintainability, and long-term growth.",
+      },
+      {
+        title: "Software Development",
+        description:
+          "Custom software engineered to solve real problems—reliable, secure, scalable, and well-documented.",
+      },
+      {
+        title: "AI Integration & Business Automation",
+        description:
+          "Practical AI and automation that improve productivity while preserving human oversight.",
+      },
     ],
   },
   government: {
     eyebrow: "Government Contracting",
-    heading: pending("government contracting heading"),
-    body: pending("government contracting readiness statement"),
+    heading: "Disciplined, standards-based government technology services.",
+    body: "We provide professional technology services that support federal, state, and local government agencies through ethical, reliable, and standards-based solutions—delivered with disciplined planning, technical excellence, and thorough documentation.",
     items: [
-      { title: pending("readiness point 1 title"), description: pending("readiness point 1 description") },
-      { title: pending("readiness point 2 title"), description: pending("readiness point 2 description") },
-      { title: pending("readiness point 3 title"), description: pending("readiness point 3 description") },
+      {
+        title: "Veteran-Owned Discipline",
+        description:
+          "Military experience contributes to disciplined planning, accountability, and mission-focused execution.",
+      },
+      {
+        title: "Documentation-Driven Delivery",
+        description:
+          "Projects are planned, documented, reviewed, and version controlled to improve quality and long-term maintainability.",
+      },
+      {
+        title: "Standards-Based Solutions",
+        description:
+          "Solutions meet applicable contractual requirements and professional standards, with accountability, transparency, and security awareness.",
+      },
     ],
   },
   whyChoose: {
     eyebrow: "Why Wali Productions",
-    heading: pending("why-choose heading"),
+    heading: "A trusted, long-term technology partner.",
     items: [
-      { title: pending("reason 1 title"), description: pending("reason 1 description") },
-      { title: pending("reason 2 title"), description: pending("reason 2 description") },
-      { title: pending("reason 3 title"), description: pending("reason 3 description") },
-      { title: pending("reason 4 title"), description: pending("reason 4 description") },
+      {
+        title: "Integrity Before Profit",
+        description:
+          "We believe long-term trust is more valuable than short-term financial gain.",
+      },
+      {
+        title: "Engineering Excellence",
+        description:
+          "We pursue continual learning and technical improvement to provide high-quality solutions.",
+      },
+      {
+        title: "Practical Solutions",
+        description:
+          "Technology should solve real business problems rather than introduce unnecessary complexity.",
+      },
+      {
+        title: "Long-Term Relationships",
+        description:
+          "We seek to become trusted partners rather than one-time vendors.",
+      },
     ],
   },
   cta: {
-    heading: pending("final CTA heading"),
-    body: pending("final CTA supporting line"),
-    primaryCta: { label: pending("final CTA label"), href: "#" },
+    heading: "Let's start a conversation.",
+    body: "When you work with Wali Productions LLC, you can expect honesty, professionalism, integrity, and a sincere commitment to serving your best interests.",
+    primaryCta: { label: "Request a Consultation", href: "/contact" },
   },
 };
