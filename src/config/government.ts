@@ -1,34 +1,27 @@
 /**
  * Government Contracting page content model — single source of truth.
  *
- * ────────────────────────────────────────────────────────────────────────────
- * IMPORTANT: The values below are PLACEHOLDERS, not approved or official data.
+ * Populated from approved canonical documentation: GOVERNMENT_CONTRACTING,
+ * CAPABILITY_STATEMENT, CERTIFICATIONS, NAICS_CODES, PAST_PERFORMANCE,
+ * GOVERNMENT_TECHNOLOGY_SERVICES, COMPETITIVE_ADVANTAGES, BUSINESS_CAPABILITIES,
+ * BUSINESS_INFORMATION, COMPANY_PROFILE, and CORE_MESSAGES.
  *
- * Per the Phase 6 brief and standard compliance practice, this file does NOT
- * invent UEI, CAGE codes, NAICS codes, certifications, SAM.gov registration
- * status, or past performance / contract history. Those are official
- * representations and must be populated ONLY from verified canonical
- * documentation under `docs/02-Government` (and the government services doc).
- *
- * Each placeholder names the source it must come from. Replace every value with
- * verified, documented detail before this page is published. Do not author
- * government readiness, capability, certification, or past-performance claims
- * in this file.
- * ────────────────────────────────────────────────────────────────────────────
+ * Per canonical policy and the founder's instructions, official identifiers
+ * (UEI, CAGE, NAICS) and specific past performance are NOT invented; they remain
+ * `pending()` placeholders until issued/documented. Registration items that are
+ * documented as in progress are shown accurately as "in preparation"
+ * (CERTIFICATIONS policy permits describing pending items as in progress when
+ * accurate). This copy must only be changed through the approved documentation
+ * process.
  */
 
-/** Marks unfilled copy and records which approved source it must come from. */
+/** Marks detail that is not yet documented/verified and records its source. */
 const pending = (note: string, source: string) =>
   `[ pending verified detail: ${note} — source: ${source} ]`;
 
-/** Canonical source locations (for placeholder annotations only). */
-const GOV_DIR = "docs/02-Government";
-const GOV_SERVICES = "docs/07-Content/Services/GOVERNMENT_TECHNOLOGY_SERVICES.md";
-const CONTENT_DIR = "docs/07-Content";
-
 export type Cta = {
   label: string;
-  /** Placeholder target ("#") until approved routes exist. */
+  /** Links to built routes within the site. */
   href: string;
 };
 
@@ -37,7 +30,7 @@ export type Capability = {
   description: string;
 };
 
-/** A labeled official-data row (e.g., UEI, CAGE). Values stay unfilled. */
+/** A labeled official-data row (e.g., UEI, CAGE). */
 export type RegistrationItem = {
   label: string;
   value: string;
@@ -45,7 +38,6 @@ export type RegistrationItem = {
 
 export type GovernmentContent = {
   hero: {
-    /** Provided directly in the Phase 6 brief; placed verbatim, not authored. */
     identity: string;
     headline: string;
     subhead: string;
@@ -73,7 +65,6 @@ export type GovernmentContent = {
   registration: {
     eyebrow: string;
     heading: string;
-    /** Visible disclaimer that values are unverified placeholders. */
     note: string;
     items: RegistrationItem[];
   };
@@ -93,63 +84,123 @@ export type GovernmentContent = {
 export const governmentContent: GovernmentContent = {
   hero: {
     identity: "Christian Veteran-Owned Technology & Digital Solutions",
-    headline: pending("government contracting headline", `${CONTENT_DIR}/CORE_MESSAGES.md`),
-    subhead: pending("government contracting supporting statement", GOV_SERVICES),
+    headline: "Government technology services, delivered with discipline.",
+    subhead:
+      "Wali Productions LLC is preparing and positioning itself to pursue government contracting opportunities as a Christian veteran-owned technology and digital solutions company.",
   },
   readiness: {
     eyebrow: "Government Ready",
-    heading: pending("readiness overview heading", `${GOV_DIR}`),
-    paragraphs: [pending("government readiness overview narrative", `${GOV_DIR} / ${GOV_SERVICES}`)],
+    heading: "Positioned and preparing to support government missions.",
+    paragraphs: [
+      "Wali Productions LLC provides professional technology services that support federal, state, and local government agencies through ethical, reliable, and standards-based solutions, delivered with disciplined planning, technical excellence, and thorough documentation.",
+      "The company is actively preparing for government contracting, maintaining its documentation, registrations, certifications, and identifiers accurately and updating them as official information changes.",
+    ],
   },
   competencies: {
     eyebrow: "Core Competencies",
-    heading: pending("core competencies heading", GOV_SERVICES),
+    heading: "Core competencies.",
     items: [
-      { title: pending("competency 1 title", GOV_SERVICES), description: pending("competency 1 description", GOV_SERVICES) },
-      { title: pending("competency 2 title", GOV_SERVICES), description: pending("competency 2 description", GOV_SERVICES) },
-      { title: pending("competency 3 title", GOV_SERVICES), description: pending("competency 3 description", GOV_SERVICES) },
-      { title: pending("competency 4 title", GOV_SERVICES), description: pending("competency 4 description", GOV_SERVICES) },
+      {
+        title: "Website Design & Development",
+        description:
+          "Modern, accessible, maintainable websites and web applications.",
+      },
+      {
+        title: "Software Development",
+        description:
+          "Custom software engineered for reliability, security, and maintainability.",
+      },
+      {
+        title: "Technology & IT Consulting",
+        description:
+          "Practical guidance to plan, implement, and improve technology.",
+      },
+      {
+        title: "AI Solutions & Business Automation",
+        description:
+          "Responsible AI and automation that improve operations while preserving human oversight.",
+      },
+      {
+        title: "Systems Administration",
+        description:
+          "Stable, secure, well-documented Linux and Windows systems and infrastructure.",
+      },
+      {
+        title: "Media Production & Content Creation",
+        description:
+          "Streaming, media production, and content capabilities for organizational communication.",
+      },
     ],
   },
   differentiators: {
     eyebrow: "Differentiators",
-    heading: pending("differentiators heading", `${CONTENT_DIR}/VALUE_PROPOSITIONS.md`),
+    heading: "What sets us apart.",
     items: [
-      { title: pending("differentiator 1 title", `${CONTENT_DIR}/VALUE_PROPOSITIONS.md`), description: pending("differentiator 1 description", `${CONTENT_DIR}/VALUE_PROPOSITIONS.md`) },
-      { title: pending("differentiator 2 title", `${CONTENT_DIR}/VALUE_PROPOSITIONS.md`), description: pending("differentiator 2 description", `${CONTENT_DIR}/VALUE_PROPOSITIONS.md`) },
-      { title: pending("differentiator 3 title", `${CONTENT_DIR}/VALUE_PROPOSITIONS.md`), description: pending("differentiator 3 description", `${CONTENT_DIR}/VALUE_PROPOSITIONS.md`) },
+      {
+        title: "Christian Business Foundation",
+        description:
+          "We operate according to biblical principles of integrity, stewardship, honesty, and faithful service.",
+      },
+      {
+        title: "Veteran-Owned Discipline",
+        description:
+          "Military experience contributes to disciplined planning, accountability, and mission-focused execution.",
+      },
+      {
+        title: "Documentation-Driven Engineering",
+        description:
+          "Projects are planned, documented, reviewed, and version controlled to improve quality and long-term maintainability.",
+      },
+      {
+        title: "Founder-Led Quality Control",
+        description:
+          "Founder-led oversight of quality and engineering standards on every engagement.",
+      },
+      {
+        title: "Broad Technology & Media Capability",
+        description:
+          "The ability to support both technical and creative digital needs across many service areas.",
+      },
+      {
+        title: "Mission-Focused Client Service",
+        description:
+          "Professional, mission-focused service throughout every engagement.",
+      },
     ],
   },
   capabilityStatement: {
     eyebrow: "Capability Statement",
-    heading: pending("capability statement heading", `${GOV_DIR}`),
-    paragraphs: [pending("capability statement summary", `${GOV_DIR}`)],
+    heading: "Our capability statement.",
+    paragraphs: [
+      "Wali Productions LLC is a Christian Veteran-Owned technology and digital solutions company offering website and software development, technology and IT consulting, AI solutions, business automation, digital marketing, media production, and content creation.",
+      "Our one-page capability statement is maintained as a separate business document and updated when government identifiers, certifications, NAICS codes, or past performance information changes.",
+    ],
   },
   registration: {
     eyebrow: "Certifications & Registration",
-    heading: pending("certifications and registration heading", `${GOV_DIR}`),
-    note: "Official registration details are shown only when verified and documented. The values below are unverified placeholders.",
+    heading: "Certifications & registration status.",
+    note: "Official identifiers are published only when verified. Wali Productions LLC is preparing its government registrations; items not yet issued are shown as in preparation or pending.",
     items: [
-      { label: "UEI (Unique Entity ID)", value: pending("verified UEI", `${GOV_DIR}`) },
-      { label: "CAGE Code", value: pending("verified CAGE code", `${GOV_DIR}`) },
-      { label: "SAM.gov Registration", value: pending("verified SAM.gov status", `${GOV_DIR}`) },
-      { label: "NAICS Codes", value: pending("verified NAICS codes", `${GOV_DIR}`) },
-      { label: "Certifications", value: pending("verified certifications", `${GOV_DIR}`) },
-      { label: "Business Type", value: pending("verified business type / set-aside status", `${GOV_DIR}`) },
+      { label: "UEI (Unique Entity ID)", value: pending("verified UEI", "02-Government/BUSINESS_INFORMATION (to be maintained as issued)") },
+      { label: "CAGE Code", value: pending("verified CAGE code", "02-Government (to be maintained as issued)") },
+      { label: "SAM.gov Registration", value: "In preparation" },
+      { label: "NAICS Codes", value: pending("NAICS codes to be confirmed", "02-Government/NAICS_CODES.md (to be maintained per official registration)") },
+      { label: "Certifications", value: "SAM.gov registration and SBA certification in preparation" },
+      { label: "Business Type", value: "Veteran-Owned Limited Liability Company (LLC)" },
     ],
   },
   pastPerformance: {
     eyebrow: "Past Performance",
-    heading: pending("past performance heading", `${GOV_DIR}`),
-    note: "Past performance is listed only when documented and verified. The entries below are placeholders.",
+    heading: "Past performance.",
+    note: "Past performance is published only when documented, verifiable, and authorized. Client names and project details are not shown without authorization.",
     items: [
-      { title: pending("past performance entry 1 title", `${GOV_DIR}`), description: pending("past performance entry 1 summary", `${GOV_DIR}`) },
-      { title: pending("past performance entry 2 title", `${GOV_DIR}`), description: pending("past performance entry 2 summary", `${GOV_DIR}`) },
+      { title: pending("documented past performance entry", "02-Government/PAST_PERFORMANCE.md"), description: pending("entry summary (when authorized)", "02-Government/PAST_PERFORMANCE.md") },
+      { title: pending("documented past performance entry", "02-Government/PAST_PERFORMANCE.md"), description: pending("entry summary (when authorized)", "02-Government/PAST_PERFORMANCE.md") },
     ],
   },
   cta: {
-    heading: pending("government CTA heading", `${CONTENT_DIR}/CORE_MESSAGES.md`),
-    body: pending("government CTA supporting line", `${CONTENT_DIR}/CORE_MESSAGES.md`),
-    primaryCta: { label: pending("government CTA label", `${CONTENT_DIR}/CORE_MESSAGES.md`), href: "#" },
+    heading: "Let's discuss your mission.",
+    body: "We seek long-term partnerships that allow Wali Productions LLC to provide dependable technology services while supporting government missions with integrity and technical excellence.",
+    primaryCta: { label: "Request a Consultation", href: "/contact" },
   },
 };

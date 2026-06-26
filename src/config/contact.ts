@@ -1,35 +1,23 @@
 /**
  * Contact page content model — single source of truth.
  *
- * ────────────────────────────────────────────────────────────────────────────
- * IMPORTANT: The values below are PLACEHOLDERS, not approved copy or real
- * contact details.
+ * Populated from approved canonical documentation: CORE_MESSAGES, CLIENT_PROMISE,
+ * CLIENT_WORKFLOW, SERVICES, SERVICES_LIBRARY, and BUSINESS_INFORMATION.
  *
- * Per the Phase 8 brief, this file does NOT invent phone numbers, addresses,
- * emails, form endpoints, business hours, or contact details. Those must be
- * populated ONLY from verified canonical documentation
- * (`BUSINESS_INFORMATION.md`, `SERVICES_LIBRARY.md`, `CLIENT_PROMISE.md`,
- * `CORE_MESSAGES.md`).
- *
- * The consultation form is intentionally NOT wired to a backend (see the form
- * component). Each placeholder names the source it must come from. Replace every
- * value with verified, documented detail before this page is published.
- * ────────────────────────────────────────────────────────────────────────────
+ * Contact details (email, phone, address, business hours) remain `pending()`
+ * placeholders: BUSINESS_INFORMATION.md records them as "to be maintained," so no
+ * verified values are documented and none are invented. The consultation form is
+ * presentational only (no backend). This copy must only be changed through the
+ * approved documentation process.
  */
 
-/** Marks unfilled copy and records which approved source it must come from. */
+/** Marks detail that is not yet documented/verified and records its source. */
 const pending = (note: string, source: string) =>
   `[ pending verified detail: ${note} — source: ${source} ]`;
 
-/** Canonical source locations (for placeholder annotations only). */
-const BUSINESS_DOC = "docs/01-Business/BUSINESS_INFORMATION.md";
-const SERVICES_LIBRARY = "docs/07-Content/Services/SERVICES_LIBRARY.md";
-const CLIENT_PROMISE_DOC = "docs/07-Content/CLIENT_PROMISE.md";
-const CORE_MESSAGES = "docs/07-Content/CORE_MESSAGES.md";
-
 export type Cta = {
   label: string;
-  /** Placeholder target ("#") until approved routes exist. */
+  /** Links to built routes / on-page anchors within the site. */
   href: string;
 };
 
@@ -38,7 +26,7 @@ export type InquiryCategory = {
   description: string;
 };
 
-/** A labeled contact-detail row (e.g., Email, Phone). Values stay unfilled. */
+/** A labeled contact-detail row (e.g., Email, Phone). */
 export type ContactDetail = {
   label: string;
   value: string;
@@ -46,7 +34,6 @@ export type ContactDetail = {
 
 export type ContactContent = {
   hero: {
-    /** Provided directly in the Phase 8 brief; placed verbatim, not authored. */
     identity: string;
     headline: string;
     subhead: string;
@@ -60,7 +47,6 @@ export type ContactContent = {
     eyebrow: string;
     heading: string;
     intro: string;
-    /** Options for the "service of interest" select; sourced from docs. */
     serviceOptions: string[];
   };
   inquiryCategories: {
@@ -76,7 +62,6 @@ export type ContactContent = {
   contactInfo: {
     eyebrow: string;
     heading: string;
-    /** Visible disclaimer that values are unverified placeholders. */
     note: string;
     items: ContactDetail[];
   };
@@ -90,52 +75,77 @@ export type ContactContent = {
 export const contactContent: ContactContent = {
   hero: {
     identity: "Christian Veteran-Owned Technology & Digital Solutions",
-    headline: pending("contact headline", CORE_MESSAGES),
-    subhead: pending("contact supporting statement", CORE_MESSAGES),
+    headline: "Let's start a conversation.",
+    subhead:
+      "Tell us about your project or inquiry, and we'll respond with honesty, professionalism, and a sincere commitment to serving your best interests.",
   },
   overview: {
     eyebrow: "Get in Touch",
-    heading: pending("contact overview heading", CORE_MESSAGES),
-    paragraphs: [pending("contact overview narrative", CORE_MESSAGES)],
+    heading: "Get in touch.",
+    paragraphs: [
+      "Every engagement begins with an initial inquiry and a discovery conversation to understand your goals.",
+      "We communicate honestly, professionally, and respectfully throughout every project.",
+    ],
   },
   consultation: {
     eyebrow: "Request a Consultation",
-    heading: pending("consultation heading", CORE_MESSAGES),
-    intro: pending("consultation introduction", CORE_MESSAGES),
+    heading: "Request a consultation.",
+    intro:
+      "Share a few details about your needs and the service you're interested in, and we'll follow up to discuss how we can help.",
     serviceOptions: [
-      pending("service option 1", SERVICES_LIBRARY),
-      pending("service option 2", SERVICES_LIBRARY),
-      pending("service option 3", SERVICES_LIBRARY),
+      "Technology Consulting",
+      "Software Development",
+      "Website Design & Development",
+      "AI Integration & Business Automation",
+      "Business Automation",
+      "OBS Studio & Live Streaming",
+      "Government Technology Services",
+      "Technical Training & Mentorship",
+      "Other",
     ],
   },
   inquiryCategories: {
     eyebrow: "Service Inquiries",
-    heading: pending("service inquiry categories heading", SERVICES_LIBRARY),
+    heading: "What can we help with?",
     items: [
-      { title: pending("inquiry category 1 title", SERVICES_LIBRARY), description: pending("inquiry category 1 description", SERVICES_LIBRARY) },
-      { title: pending("inquiry category 2 title", SERVICES_LIBRARY), description: pending("inquiry category 2 description", SERVICES_LIBRARY) },
-      { title: pending("inquiry category 3 title", SERVICES_LIBRARY), description: pending("inquiry category 3 description", SERVICES_LIBRARY) },
+      {
+        title: "Technology & Software",
+        description:
+          "Websites, software, consulting, AI, automation, and systems administration.",
+      },
+      {
+        title: "Digital & Media",
+        description:
+          "Streaming, media production, content, and technical training.",
+      },
+      {
+        title: "Government Services",
+        description:
+          "Government technology services and contracting support.",
+      },
     ],
   },
   clientPromise: {
     eyebrow: "Our Promise",
-    heading: pending("client promise heading", CLIENT_PROMISE_DOC),
-    paragraphs: [pending("client promise summary", CLIENT_PROMISE_DOC)],
+    heading: "Our promise to every client.",
+    paragraphs: [
+      "When you work with Wali Productions LLC, you can expect honesty, professionalism, integrity, and a sincere commitment to serving your best interests.",
+    ],
   },
   contactInfo: {
     eyebrow: "Contact Information",
-    heading: pending("contact information heading", BUSINESS_DOC),
-    note: "Official contact details are shown only when verified and documented. The values below are unverified placeholders.",
+    heading: "Contact information.",
+    note: "Official contact details are published only once finalized. They are maintained as official business information is confirmed.",
     items: [
-      { label: "Email", value: pending("verified email address", BUSINESS_DOC) },
-      { label: "Phone", value: pending("verified phone number", BUSINESS_DOC) },
-      { label: "Address", value: pending("verified business address", BUSINESS_DOC) },
-      { label: "Business Hours", value: pending("verified business hours", BUSINESS_DOC) },
+      { label: "Email", value: pending("verified email address", "01-Business/BUSINESS_INFORMATION.md (to be maintained)") },
+      { label: "Phone", value: pending("verified phone number", "01-Business/BUSINESS_INFORMATION.md (to be maintained)") },
+      { label: "Address", value: pending("verified headquarters / business address", "01-Business/BUSINESS_INFORMATION.md (to be maintained)") },
+      { label: "Business Hours", value: pending("verified business hours", "01-Business/BUSINESS_INFORMATION.md (not yet documented)") },
     ],
   },
   cta: {
-    heading: pending("contact CTA heading", CORE_MESSAGES),
-    body: pending("contact CTA supporting line", CORE_MESSAGES),
-    primaryCta: { label: pending("contact CTA label", CORE_MESSAGES), href: "#" },
+    heading: "Ready to get started?",
+    body: "When you work with Wali Productions LLC, you can expect honesty, professionalism, integrity, and a sincere commitment to serving your best interests.",
+    primaryCta: { label: "Request a Consultation", href: "#consultation" },
   },
 };

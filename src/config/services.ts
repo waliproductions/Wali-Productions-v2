@@ -1,33 +1,16 @@
 /**
  * Services page content model — single source of truth for Services page copy.
  *
- * ────────────────────────────────────────────────────────────────────────────
- * IMPORTANT: The text values below are PLACEHOLDERS, not approved copy.
+ * Populated from approved canonical documentation: SERVICES, SERVICES_LIBRARY,
+ * the individual service definitions under docs/07-Content/Services, CORE_MESSAGES,
+ * VALUE_PROPOSITIONS, BUSINESS_CAPABILITIES, and CLIENT_PROMISE.
  *
- * The service categories, individual service offerings, value propositions, and
- * client promise for Wali Productions LLC are governed by canonical
- * documentation under `docs/07-Content` (including the Services directory).
- * They are intentionally NOT authored here. Each placeholder names the source
- * it must be populated from. Replace every `pending()` value with the approved
- * copy before this page is published.
- *
- * The category/service shape below is a scaffold; populate the real number of
- * categories and services from the Services directory. Do not invent service
- * offerings, capabilities, value claims, or client commitments in this file.
- * ────────────────────────────────────────────────────────────────────────────
+ * This copy must only be changed through the approved documentation process.
  */
-
-/** Marks unfilled copy and records which approved source it must come from. */
-const pending = (note: string, source: string) =>
-  `[ pending approved copy: ${note} — source: ${source} ]`;
-
-/** Canonical source locations (for placeholder annotations only). */
-const SERVICES_DIR = "docs/07-Content/Services";
-const CONTENT_DIR = "docs/07-Content";
 
 export type Cta = {
   label: string;
-  /** Placeholder target ("#") until approved routes exist. */
+  /** Links to built routes within the site. */
   href: string;
 };
 
@@ -44,7 +27,6 @@ export type ServiceCategory = {
 
 export type ServicesContent = {
   hero: {
-    /** Provided directly in the Phase 5 brief; placed verbatim, not authored. */
     identity: string;
     headline: string;
     subhead: string;
@@ -75,59 +57,122 @@ export type ServicesContent = {
 export const servicesContent: ServicesContent = {
   hero: {
     identity: "Christian Veteran-Owned Technology & Digital Solutions",
-    headline: pending("Services headline", `${CONTENT_DIR}/CORE_MESSAGES.md`),
-    subhead: pending("Services supporting statement", `${CONTENT_DIR}/CORE_MESSAGES.md`),
+    headline: "Professional technology and digital solutions.",
+    subhead:
+      "Wali Productions LLC provides professional technology and digital solutions built on integrity, technical excellence, and long-term client relationships.",
   },
   intro: {
     eyebrow: "Our Services",
-    heading: pending("services introduction heading", `${CONTENT_DIR}/CORE_MESSAGES.md`),
+    heading: "Practical solutions, delivered with integrity.",
     paragraphs: [
-      pending(
-        "services introduction narrative",
-        `${CONTENT_DIR}/SERVICE_DEVELOPMENT_GUIDE.md`,
-      ),
+      "We deliver practical solutions that help clients operate more effectively and confidently—focusing on real business problems rather than technology for its own sake.",
+      "Every service provided by Wali Productions LLC reflects professionalism, integrity, technical excellence, and faithful stewardship.",
     ],
   },
-  // Scaffold shape only — replace with the real categories and services from
-  // the Services directory.
   categories: [
     {
-      title: pending("category 1 name", `${SERVICES_DIR}`),
-      description: pending("category 1 description", `${SERVICES_DIR}`),
+      title: "Technology Services",
+      description:
+        "Engineering, consulting, and IT services that solve real business problems.",
       services: [
-        { title: pending("service 1 name", `${SERVICES_DIR}`), description: pending("service 1 summary", `${SERVICES_DIR}`) },
-        { title: pending("service 2 name", `${SERVICES_DIR}`), description: pending("service 2 summary", `${SERVICES_DIR}`) },
-        { title: pending("service 3 name", `${SERVICES_DIR}`), description: pending("service 3 summary", `${SERVICES_DIR}`) },
+        {
+          title: "Website Design & Development",
+          description:
+            "Modern, accessible websites built for performance, maintainability, and long-term growth.",
+        },
+        {
+          title: "Software Development",
+          description:
+            "Custom software engineered to solve real problems—reliable, secure, scalable, and well-documented.",
+        },
+        {
+          title: "Technology Consulting",
+          description:
+            "Strategic guidance to evaluate, plan, implement, and improve technology aligned with your objectives.",
+        },
+        {
+          title: "AI Integration & Business Automation",
+          description:
+            "Practical AI and automation that improve productivity while preserving human oversight.",
+        },
+        {
+          title: "Linux & Systems Administration",
+          description:
+            "Stable, secure, well-documented Linux systems and infrastructure built to support future growth.",
+        },
       ],
     },
     {
-      title: pending("category 2 name", `${SERVICES_DIR}`),
-      description: pending("category 2 description", `${SERVICES_DIR}`),
+      title: "Digital & Media Services",
+      description:
+        "Streaming, media, and training services that help organizations communicate and grow.",
       services: [
-        { title: pending("service 4 name", `${SERVICES_DIR}`), description: pending("service 4 summary", `${SERVICES_DIR}`) },
-        { title: pending("service 5 name", `${SERVICES_DIR}`), description: pending("service 5 summary", `${SERVICES_DIR}`) },
-        { title: pending("service 6 name", `${SERVICES_DIR}`), description: pending("service 6 summary", `${SERVICES_DIR}`) },
+        {
+          title: "OBS Studio & Multi-Platform Streaming",
+          description:
+            "Reliable live streaming workflows designed for stability, maintainability, and ease of operation.",
+        },
+        {
+          title: "Technical Training & Mentorship",
+          description:
+            "Technical education and mentoring that help clients confidently use and maintain their technology.",
+        },
+      ],
+    },
+    {
+      title: "Government Services",
+      description:
+        "Technology services that support government agencies and prime contractors.",
+      services: [
+        {
+          title: "Government Technology Services",
+          description:
+            "Software, websites, consulting, AI, and automation for federal, state, and local agencies—ethical, reliable, and standards-based.",
+        },
+        {
+          title: "Government Contracting Support",
+          description:
+            "Capability statement development and registration support as the company prepares for government contracting.",
+        },
       ],
     },
   ],
   whyWork: {
     eyebrow: "Why Wali Productions",
-    heading: pending("why-work heading", `${CONTENT_DIR}/VALUE_PROPOSITIONS.md`),
+    heading: "Why work with us.",
     items: [
-      { title: pending("reason 1 title", `${CONTENT_DIR}/VALUE_PROPOSITIONS.md`), description: pending("reason 1 description", `${CONTENT_DIR}/VALUE_PROPOSITIONS.md`) },
-      { title: pending("reason 2 title", `${CONTENT_DIR}/VALUE_PROPOSITIONS.md`), description: pending("reason 2 description", `${CONTENT_DIR}/VALUE_PROPOSITIONS.md`) },
-      { title: pending("reason 3 title", `${CONTENT_DIR}/VALUE_PROPOSITIONS.md`), description: pending("reason 3 description", `${CONTENT_DIR}/VALUE_PROPOSITIONS.md`) },
-      { title: pending("reason 4 title", `${CONTENT_DIR}/VALUE_PROPOSITIONS.md`), description: pending("reason 4 description", `${CONTENT_DIR}/VALUE_PROPOSITIONS.md`) },
+      {
+        title: "Integrity Before Profit",
+        description:
+          "We believe long-term trust is more valuable than short-term financial gain.",
+      },
+      {
+        title: "Engineering Excellence",
+        description:
+          "We pursue continual learning and technical improvement to provide high-quality solutions.",
+      },
+      {
+        title: "Practical Solutions",
+        description:
+          "Technology should solve real business problems rather than introduce unnecessary complexity.",
+      },
+      {
+        title: "Long-Term Relationships",
+        description:
+          "We seek to become trusted partners rather than one-time vendors.",
+      },
     ],
   },
   clientPromise: {
     eyebrow: "Our Promise",
-    heading: pending("client promise heading", `${CONTENT_DIR}/CLIENT_PROMISE.md`),
-    paragraphs: [pending("client promise summary", `${CONTENT_DIR}/CLIENT_PROMISE.md`)],
+    heading: "Our promise to every client.",
+    paragraphs: [
+      "When you work with Wali Productions LLC, you can expect honesty, professionalism, integrity, and a sincere commitment to serving your best interests.",
+    ],
   },
   cta: {
-    heading: pending("Services CTA heading", `${CONTENT_DIR}/CORE_MESSAGES.md`),
-    body: pending("Services CTA supporting line", `${CONTENT_DIR}/CORE_MESSAGES.md`),
-    primaryCta: { label: pending("Services CTA label", `${CONTENT_DIR}/CORE_MESSAGES.md`), href: "#" },
+    heading: "Let's discuss your project.",
+    body: "Our objective is not simply to complete projects—it is to build lasting relationships through dependable service, integrity, and consistent results.",
+    primaryCta: { label: "Request a Consultation", href: "/contact" },
   },
 };

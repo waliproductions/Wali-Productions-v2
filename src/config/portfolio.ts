@@ -1,32 +1,23 @@
 /**
  * Portfolio page content model — single source of truth.
  *
- * ────────────────────────────────────────────────────────────────────────────
- * IMPORTANT: The values below are PLACEHOLDERS, not approved copy.
+ * Populated from approved canonical documentation: PORTFOLIO, PAST_PERFORMANCE,
+ * COMPANY_STORY, BUSINESS_CAPABILITIES, COMPETITIVE_ADVANTAGES, VALUE_PROPOSITIONS,
+ * and CLIENT_PROMISE.
  *
- * Per the Phase 7 brief, this file does NOT invent client names, testimonials,
- * project results, or claims. Portfolio entries, project outcomes, and past
- * performance positioning must be populated ONLY from verified canonical
- * documentation (`docs/01-Business/PORTFOLIO.md` and
- * `docs/02-Government/PAST_PERFORMANCE.md`).
- *
- * Each placeholder names the source it must come from. Replace every value with
- * verified, documented detail before this page is published.
- * ────────────────────────────────────────────────────────────────────────────
+ * Specific featured projects remain `pending()` placeholders: per PORTFOLIO and
+ * PAST_PERFORMANCE policy, client projects are published only when documented and
+ * authorized, and no specific projects/clients are documented. This copy must
+ * only be changed through the approved documentation process.
  */
 
-/** Marks unfilled copy and records which approved source it must come from. */
+/** Marks detail that is not yet documented/authorized and records its source. */
 const pending = (note: string, source: string) =>
   `[ pending verified detail: ${note} — source: ${source} ]`;
 
-/** Canonical source locations (for placeholder annotations only). */
-const PORTFOLIO_DOC = "docs/01-Business/PORTFOLIO.md";
-const PAST_PERF_DOC = "docs/02-Government/PAST_PERFORMANCE.md";
-const CONTENT_DIR = "docs/07-Content";
-
 export type Cta = {
   label: string;
-  /** Placeholder target ("#") until approved routes exist. */
+  /** Links to built routes within the site. */
   href: string;
 };
 
@@ -37,7 +28,6 @@ export type PortfolioItem = {
 
 export type PortfolioContent = {
   hero: {
-    /** Provided directly in the Phase 7 brief; placed verbatim, not authored. */
     identity: string;
     headline: string;
     subhead: string;
@@ -55,7 +45,6 @@ export type PortfolioContent = {
   featured: {
     eyebrow: string;
     heading: string;
-    /** Visible disclaimer that entries are placeholders, not real projects. */
     note: string;
     items: PortfolioItem[];
   };
@@ -79,46 +68,61 @@ export type PortfolioContent = {
 export const portfolioContent: PortfolioContent = {
   hero: {
     identity: "Christian Veteran-Owned Technology & Digital Solutions",
-    headline: pending("portfolio headline", `${CONTENT_DIR}/CORE_MESSAGES.md`),
-    subhead: pending("portfolio supporting statement", PORTFOLIO_DOC),
+    headline: "Our work and capabilities.",
+    subhead:
+      "Wali Productions LLC delivers practical technology and digital solutions across a range of categories, approached with integrity and professionalism in every engagement.",
   },
   overview: {
     eyebrow: "Portfolio",
-    heading: pending("portfolio overview heading", PORTFOLIO_DOC),
-    paragraphs: [pending("portfolio overview narrative", PORTFOLIO_DOC)],
+    heading: "The work we do.",
+    paragraphs: [
+      "Our portfolio spans the categories of work we deliver—from websites and software to consulting, AI, and media—each approached with the same commitment to quality and integrity.",
+      "Portfolio entries accurately represent completed work and identify client projects only when appropriate and authorized.",
+    ],
   },
   categories: {
     eyebrow: "Project Categories",
-    heading: pending("project categories heading", PORTFOLIO_DOC),
+    heading: "Categories of work.",
     items: [
-      { title: pending("category 1 title", PORTFOLIO_DOC), description: pending("category 1 description", PORTFOLIO_DOC) },
-      { title: pending("category 2 title", PORTFOLIO_DOC), description: pending("category 2 description", PORTFOLIO_DOC) },
-      { title: pending("category 3 title", PORTFOLIO_DOC), description: pending("category 3 description", PORTFOLIO_DOC) },
+      { title: "Business Websites", description: "Professional, accessible websites for businesses and organizations." },
+      { title: "Software Development", description: "Custom applications and tools built to solve real problems." },
+      { title: "Technology Consulting", description: "Guidance to plan, implement, and improve technology." },
+      { title: "Artificial Intelligence Solutions", description: "Practical AI integration and automation that improve operations." },
+      { title: "Digital Marketing", description: "Digital marketing and social media support for organizations." },
+      { title: "Government Contracting", description: "Technology services and capability development for government clients." },
+      { title: "Media Production", description: "Streaming, live production, and media workflows." },
+      { title: "Content Creation", description: "Content development that helps organizations communicate effectively." },
     ],
   },
   featured: {
     eyebrow: "Featured Work",
-    heading: pending("featured projects heading", PORTFOLIO_DOC),
-    note: "Projects are shown only when documented and approved. The entries below are placeholders — no client names, results, or claims are represented.",
+    heading: "Featured projects.",
+    note: "Projects are shown only when documented and authorized. Specific client work is not published without authorization.",
     items: [
-      { title: pending("featured project 1 title", PORTFOLIO_DOC), description: pending("featured project 1 summary", PORTFOLIO_DOC) },
-      { title: pending("featured project 2 title", PORTFOLIO_DOC), description: pending("featured project 2 summary", PORTFOLIO_DOC) },
-      { title: pending("featured project 3 title", PORTFOLIO_DOC), description: pending("featured project 3 summary", PORTFOLIO_DOC) },
+      { title: pending("featured project", "01-Business/PORTFOLIO.md (authorized entries only)"), description: pending("project summary (when authorized)", "01-Business/PORTFOLIO.md") },
+      { title: pending("featured project", "01-Business/PORTFOLIO.md (authorized entries only)"), description: pending("project summary (when authorized)", "01-Business/PORTFOLIO.md") },
+      { title: pending("featured project", "01-Business/PORTFOLIO.md (authorized entries only)"), description: pending("project summary (when authorized)", "01-Business/PORTFOLIO.md") },
     ],
   },
   pastPerformance: {
     eyebrow: "Past Performance",
-    heading: pending("past performance positioning heading", PAST_PERF_DOC),
-    paragraphs: [pending("past performance positioning narrative", PAST_PERF_DOC)],
+    heading: "Past performance.",
+    paragraphs: [
+      "Past performance may include website, software, technology consulting, digital marketing, social media, media production, business support, and government contracting preparation work.",
+      "Past performance entries are accurate, verifiable, and appropriate for the audience; client names, project details, and private information are not published without authorization.",
+    ],
   },
   documentation: {
     eyebrow: "How We Document Work",
-    heading: pending("portfolio documentation heading", PORTFOLIO_DOC),
-    paragraphs: [pending("how portfolio work is documented", PORTFOLIO_DOC)],
+    heading: "How portfolio work is documented.",
+    paragraphs: [
+      "Projects are planned, documented, reviewed, and version controlled to improve quality and long-term maintainability.",
+      "Portfolio and past performance entries are published only when they accurately represent completed work, and client projects appear only when appropriate and authorized for public display.",
+    ],
   },
   cta: {
-    heading: pending("portfolio CTA heading", `${CONTENT_DIR}/CORE_MESSAGES.md`),
-    body: pending("portfolio CTA supporting line", `${CONTENT_DIR}/CORE_MESSAGES.md`),
-    primaryCta: { label: pending("portfolio CTA label", `${CONTENT_DIR}/CORE_MESSAGES.md`), href: "#" },
+    heading: "Let's build your next project.",
+    body: "We seek to become trusted partners who consistently provide value through dependable service, integrity, and consistent results.",
+    primaryCta: { label: "Request a Consultation", href: "/contact" },
   },
 };
