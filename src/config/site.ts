@@ -30,12 +30,8 @@ export const siteConfig = {
     { label: "Portfolio", href: "/portfolio" },
     { label: "Contact", href: "/contact" },
   ] satisfies NavItem[],
-  /** Legal navigation, rendered in the footer. */
-  legal: [
-    { label: "Privacy", href: "/privacy" },
-    { label: "Terms", href: "/terms" },
-    { label: "Accessibility", href: "/accessibility" },
-  ] satisfies NavItem[],
+  /** Legal navigation, rendered in the footer. Add reviewed legal pages here once approved. */
+  legal: [] as NavItem[],
   /**
    * Routes that exist and should appear in the sitemap. Keep in sync as pages
    * are added.
@@ -47,9 +43,7 @@ export const siteConfig = {
     "/government",
     "/portfolio",
     "/contact",
-    "/privacy",
-    "/terms",
-    "/accessibility",
+    // Legal pages intentionally excluded until reviewed content is approved.
   ],
 } as const;
 
