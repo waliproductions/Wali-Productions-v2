@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -44,9 +45,18 @@ export function Navbar() {
       >
         <Link
           href="/"
-          className="rounded-sm text-lg font-semibold tracking-tight"
+          className="flex items-center gap-3 rounded-sm text-lg font-semibold tracking-tight"
+          aria-label={`${siteConfig.name} home`}
         >
-          {siteConfig.name}
+          <Image
+            src="/branding/logo.png"
+            alt=""
+            aria-hidden="true"
+            width={40}
+            height={40}
+            className="rounded-sm object-contain"
+          />
+          <span>{siteConfig.name}</span>
         </Link>
 
         {/* Desktop navigation */}
