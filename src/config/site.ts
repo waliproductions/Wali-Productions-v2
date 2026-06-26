@@ -1,11 +1,7 @@
 /**
  * Site-wide structural configuration — single source of truth for company
- * metadata and navigation.
- *
- * Phase 2 (layout foundation): values here are intentionally minimal and
- * neutral. Company messaging, branding, mission, and the full navigation
- * sitemap are governed by canonical documentation and are added only once
- * approved. Do not introduce business copy or unapproved routes here.
+ * metadata and navigation. The Navbar and Footer render whatever these arrays
+ * contain. Routes listed here are built, real pages.
  */
 
 export type NavItem = {
@@ -18,16 +14,14 @@ export const siteConfig = {
   name: "Wali Productions",
   /** Legal entity name used for the footer copyright / identity. */
   legalName: "Wali Productions LLC",
+  /** Approved business identity (BRAND_GUIDELINES / BUSINESS_INFORMATION). */
+  identity: "Christian Veteran-Owned Technology & Digital Solutions",
   /**
    * Public site URL, supplied per environment. Used for metadata when present.
    * Configure via NEXT_PUBLIC_SITE_URL (see .env.example).
    */
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "",
-  /**
-   * Primary navigation. Only "Home" is an approved route today. Additional
-   * entries are added here once the sitemap is approved in documentation; the
-   * Navbar and Footer render whatever this array contains.
-   */
+  /** Primary navigation, rendered in the header and footer. */
   nav: [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
@@ -36,11 +30,27 @@ export const siteConfig = {
     { label: "Portfolio", href: "/portfolio" },
     { label: "Contact", href: "/contact" },
   ] satisfies NavItem[],
+  /** Legal navigation, rendered in the footer. */
+  legal: [
+    { label: "Privacy", href: "/privacy" },
+    { label: "Terms", href: "/terms" },
+    { label: "Accessibility", href: "/accessibility" },
+  ] satisfies NavItem[],
   /**
-   * Routes that exist and should appear in the sitemap. These are built,
-   * real pages (not navigation/IA decisions). Keep in sync as pages are added.
+   * Routes that exist and should appear in the sitemap. Keep in sync as pages
+   * are added.
    */
-  routes: ["/", "/about", "/services", "/government", "/portfolio", "/contact"],
+  routes: [
+    "/",
+    "/about",
+    "/services",
+    "/government",
+    "/portfolio",
+    "/contact",
+    "/privacy",
+    "/terms",
+    "/accessibility",
+  ],
 } as const;
 
 export type SiteConfig = typeof siteConfig;

@@ -4,6 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { siteConfig } from "@/config/site";
+import { OG_IMAGE } from "@/lib/seo";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -29,18 +30,25 @@ export const metadata: Metadata = {
     follow: true,
     googleBot: { index: true, follow: true },
   },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
+  },
   openGraph: {
     type: "website",
     siteName: siteConfig.name,
     title: siteConfig.name,
     description: rootDescription,
     locale: "en_US",
+    images: [OG_IMAGE],
     ...(siteConfig.url ? { url: siteConfig.url } : {}),
   },
   twitter: {
     card: "summary_large_image",
     title: siteConfig.name,
     description: rootDescription,
+    images: [OG_IMAGE.url],
   },
 };
 
