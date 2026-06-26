@@ -102,3 +102,14 @@ export async function getContactAuditEvents(): Promise<ContactAuditEvent[]> {
     return [];
   }
 }
+
+export async function getContactDashboardSubmissionById(
+  submissionId: string
+): Promise<ContactDashboardSubmission | null> {
+  const submissions = await getContactDashboardSubmissions();
+
+  return (
+    submissions.find((submission) => submission.submissionId === submissionId) ??
+    null
+  );
+}

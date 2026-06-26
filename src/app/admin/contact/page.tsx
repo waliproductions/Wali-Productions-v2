@@ -118,10 +118,18 @@ export default async function AdminContactPage({
 
         <section className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-800 px-5 py-4">
-            <h2 className="text-xl font-semibold">Inquiry Results</h2>
-            <p className="text-sm text-zinc-400">
-              Showing {filteredSubmissions.length} of {submissions.length}
-            </p>
+            <div>
+              <h2 className="text-xl font-semibold">Inquiry Results</h2>
+              <p className="mt-1 text-sm text-zinc-400">
+                Showing {filteredSubmissions.length} of {submissions.length}
+              </p>
+            </div>
+            <a
+              className="rounded-xl border border-amber-400 px-4 py-2 text-sm font-semibold text-amber-400 transition hover:bg-amber-400 hover:text-zinc-950"
+              href="/admin/contact/export"
+            >
+              Export CSV
+            </a>
           </div>
 
           <div className="overflow-x-auto">
@@ -154,7 +162,12 @@ export default async function AdminContactPage({
                         {submission.submittedAtLocal}
                       </td>
                       <td className="px-5 py-4">
-                        <p className="font-medium">{submission.requester.name}</p>
+                        <Link
+                          className="font-medium text-amber-400 hover:text-amber-300"
+                          href={`/admin/contact/${submission.submissionId}`}
+                        >
+                          {submission.requester.name}
+                        </Link>
                         <p className="text-zinc-400">{submission.requester.email}</p>
                         {submission.requester.company ? (
                           <p className="text-zinc-500">
