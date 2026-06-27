@@ -1,47 +1,92 @@
 import Link from "next/link";
 import { homeContent } from "@/config/home";
 
-/**
- * Hero section. Provides the page's single <h1>. Copy is sourced from
- * `homeContent.hero` (currently placeholders pending approved messaging).
- */
+const TRUST_LABELS = [
+  "Christian Veteran-Owned",
+  "Small Business & Government",
+  "Excellence & Integrity",
+];
+
 export function Hero() {
   const { identity, headline, subhead, primaryCta, secondaryCta } =
     homeContent.hero;
 
   return (
-    <section
-      aria-labelledby="hero-heading"
-      className="border-b border-black/10 dark:border-white/10"
-    >
-      <div className="mx-auto max-w-content px-4 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-32">
-        <p className="text-sm font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
+    <section aria-labelledby="hero-heading" className="relative overflow-hidden bg-[#0A0A0A]">
+      {/* Radial gold glow — top right */}
+      <div
+        className="pointer-events-none absolute -right-40 -top-40 h-[560px] w-[560px] rounded-full bg-gold/[0.07] blur-3xl"
+        aria-hidden="true"
+      />
+
+      <div className="relative mx-auto max-w-content px-4 py-24 sm:px-6 sm:py-32 lg:px-8 lg:py-40">
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gold">
           {identity}
         </p>
         <h1
           id="hero-heading"
-          className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl"
+          className="mt-6 max-w-4xl font-display text-5xl font-bold leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl"
         >
           {headline}
         </h1>
-        <p className="mt-6 max-w-2xl text-lg text-neutral-600 dark:text-neutral-300">
+        <p className="mt-8 max-w-2xl text-lg leading-relaxed text-neutral-400">
           {subhead}
         </p>
-        <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
+
+        <div className="mt-12 flex flex-col gap-4 sm:flex-row sm:items-center">
           <Link
             href={primaryCta.href}
-            className="inline-flex items-center justify-center rounded-md bg-foreground px-6 py-3 text-base font-medium text-background transition-opacity hover:opacity-90"
+            className="inline-flex items-center justify-center rounded-lg bg-gold px-7 py-3.5 text-base font-semibold text-white transition-all hover:bg-gold/90 focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A]"
           >
             {primaryCta.label}
           </Link>
           {secondaryCta && (
             <Link
               href={secondaryCta.href}
-              className="inline-flex items-center justify-center rounded-md border border-black/15 px-6 py-3 text-base font-medium transition-colors hover:bg-black/5 dark:border-white/20 dark:hover:bg-white/10"
+              className="inline-flex items-center justify-center gap-2 rounded-lg border border-white/20 px-7 py-3.5 text-base font-semibold text-white transition-all hover:bg-white/10"
             >
               {secondaryCta.label}
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M3 8h10M8 3l5 5-5 5" />
+              </svg>
             </Link>
           )}
+        </div>
+
+        {/* Trust indicators */}
+        <div className="mt-16 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-white/10 pt-8">
+          {TRUST_LABELS.map((label) => (
+            <div key={label} className="flex items-center gap-2">
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 14 14"
+                fill="none"
+                aria-hidden="true"
+              >
+                <circle cx="7" cy="7" r="6.5" stroke="#B8831A" strokeOpacity="0.6" strokeWidth="1" />
+                <path
+                  d="M4 7l2 2 4-4"
+                  stroke="#B8831A"
+                  strokeOpacity="0.6"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              <span className="text-xs text-neutral-500">{label}</span>
+            </div>
+          ))}
         </div>
       </div>
     </section>
