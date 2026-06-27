@@ -1,3 +1,59 @@
+# Batch 2 Implementation Manifest
+
+## Scope
+
+Government Operations Center expansion. All Batch 2 pages are read-only operational views. No public pages modified. No contact pipeline modified. No authentication changed. `src/config/government.ts` not modified.
+
+---
+
+## Files
+
+### New Files
+
+| File | Purpose |
+|------|---------|
+| `src/config/government-center.ts` | New config for Batch 2. Defines `CapabilityDomain`, `CapabilitySkill`, `PastPerformanceCategory`, `GovDocument`, and `GovernmentCenterContent` types. Provides the capability inventory (8 current domains, 10 future domains) sourced from `docs/01-Business/BUSINESS_CAPABILITIES.md`, past performance categories from `docs/02-Government/PAST_PERFORMANCE.md`, and the document registry for the document browser. Does not modify or re-export anything from `government.ts`. |
+| `src/app/admin/government/capability-statement/page.tsx` | Read-only preview of the capability statement, core competencies, and differentiators from `governmentContent`. Includes a registration status summary and source reference card. |
+| `src/app/admin/government/registration/page.tsx` | Registration tracker. AdminTable showing all registration items with pending/confirmed status badges. Includes update guidance card with links to policy documents. |
+| `src/app/admin/government/naics/page.tsx` | NAICS code viewer. Shows AdminEmptyState (no confirmed codes) with policy card and link to NAICS_CODES.md. |
+| `src/app/admin/government/psc/page.tsx` | PSC code viewer. Shows AdminEmptyState (no confirmed codes) with policy card and link to government contracting document. |
+| `src/app/admin/government/capabilities/page.tsx` | Technical capability browser. Shows the 6 public competencies cross-referenced with the full 8-domain capability inventory from `government-center.ts`. Includes future capabilities section. |
+| `src/app/admin/government/past-performance/page.tsx` | Past performance viewer. Shows AdminEmptyState (all entries pending), performance categories from `government-center.ts`, and policy card. |
+| `src/app/admin/government/documents/page.tsx` | Government document browser. Server-reads `docs/02-Government/*.md` with `node:fs`. URL param `?doc=<id>` selects the active document. Rendered as preformatted text. `dynamic = "force-dynamic"`. |
+
+### Modified
+
+| File | Change |
+|------|--------|
+| `src/app/admin/government/page.tsx` | Transformed into Government Operations Center hub. Retains stat cards, readiness narrative, and registration overview. Adds: Internal Readiness Estimate progress bar, 7 navigation stat cards linking to all sub-pages, quick action buttons on existing cards. Removes: inline competencies, differentiators, capability statement, and past performance grids (now on dedicated sub-pages). Imports `governmentCenterContent` for domain/document counts. |
+
+### Reused Without Modification
+
+| File | Used by |
+|------|---------|
+| `src/config/government.ts` | All Batch 2 pages — `governmentContent`, `RegistrationItem`, `Capability` types |
+| `src/components/admin/AdminCard.tsx` + `AdminStatCard` | All Batch 2 pages |
+| `src/components/admin/AdminTable.tsx` | Registration page |
+| `src/components/admin/AdminButton.tsx` | All Batch 2 pages |
+| `src/components/admin/AdminBadge.tsx` | Hub, capability statement, registration, past performance pages |
+| `src/components/admin/AdminPageHeader.tsx` | All Batch 2 pages |
+| `src/components/admin/AdminEmptyState.tsx` | NAICS, PSC, past performance, documents pages |
+| `src/lib/admin/types.ts` | Registration page (`AdminTableColumn`) |
+
+### Not Modified (Protected)
+
+`src/config/government.ts`, contact pipeline, contact API route, SMTP logic, audit logging, CSV export, JSON download, runtime contact storage, existing analytics/portfolio/settings pages, `next.config.mjs`, `tsconfig.json`, `tailwind.config.ts`, `package.json`, `package-lock.json`, environment files.
+
+---
+
+## No New Dependencies
+
+Zero new packages installed. All Batch 2 code uses only existing project dependencies, Node.js built-ins (`node:fs`, `node:path`), and the existing admin component library.
+
+
+---
+
+
 # Batch 1 Implementation Manifest
 
 ## Scope
