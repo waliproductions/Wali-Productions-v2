@@ -8,11 +8,6 @@ type PortfolioNarrativeProps = {
   tone?: "default" | "muted";
 };
 
-/**
- * Shared narrative layout for the text-heavy Portfolio sections (overview, past
- * performance positioning, and how work is documented). Reuses the homepage
- * Section primitive for aligned spacing/width. Authors no content.
- */
 export function PortfolioNarrative({
   id,
   eyebrow,
@@ -22,20 +17,20 @@ export function PortfolioNarrative({
 }: PortfolioNarrativeProps) {
   const toneClass =
     tone === "muted"
-      ? "border-t border-black/10 bg-black/[0.02] dark:border-white/10 dark:bg-white/[0.03]"
+      ? "border-t border-black/10 bg-gold-subtle dark:border-white/10 dark:bg-gold-subtle"
       : "border-t border-black/10 dark:border-white/10";
 
   return (
     <Section id={id} labelledById={`${id}-heading`} className={toneClass}>
       <div className="max-w-3xl">
-        <SectionEyebrow>{eyebrow}</SectionEyebrow>
+        <SectionEyebrow variant="gold">{eyebrow}</SectionEyebrow>
         <h2
           id={`${id}-heading`}
-          className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl"
+          className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-4xl"
         >
           {heading}
         </h2>
-        <div className="mt-6 space-y-4 text-lg leading-relaxed text-neutral-600 dark:text-neutral-300">
+        <div className="mt-6 space-y-4 text-base leading-relaxed text-neutral-600 dark:text-neutral-400">
           {paragraphs.map((paragraph, index) => (
             <p key={index}>{paragraph}</p>
           ))}
