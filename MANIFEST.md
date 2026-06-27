@@ -29,7 +29,7 @@ Production authentication and session management for the admin portal. All `/adm
 | `src/components/admin/AdminHeader.tsx` | Added `username?: string` prop. Displays "Signed in as `<username>`" when present. Added `<form action={logoutAction}>` Sign out button. |
 | `src/app/admin/settings/page.tsx` | Replaced `ADMIN_PASSWORD` with `ADMIN_PASSWORD_HASH` + `SESSION_SECRET` in the Authentication card. Updated auth-configured check to require all three: `ADMIN_USERNAME`, `ADMIN_PASSWORD_HASH`, `SESSION_SECRET`. Updated card description and status message. |
 | `.env.example` | Added `ADMIN_USERNAME`, `ADMIN_PASSWORD_HASH` (with bcrypt hash generation note), `SESSION_SECRET` (with `openssl rand -base64 32` note). |
-| `package.json` | Added `iron-session@^8.0.4`, `bcryptjs@^2.4.3`, `@types/bcryptjs`. |
+| `package.json` | Added `iron-session@^8.0.4`, `bcryptjs@^3.0.3` to `dependencies`; `@types/bcryptjs@^2.4.6` to `devDependencies`. |
 | `MANIFEST.md` | This section. |
 | `VERIFY.md` | Batch 3 checklist. |
 
@@ -164,7 +164,7 @@ Admin Portal expansion. No public pages redesigned. No contact pipeline modified
 
 ### Not Modified (Protected)
 
-Contact pipeline, contact API route, SMTP logic, audit logging, CSV export, JSON download, runtime contact storage, existing dashboard, governmentContent schema, next.config.mjs, tsconfig.json, tailwind.config.ts, package.json, package-lock.json, middleware (none exists), environment files.
+Contact pipeline, contact API route, SMTP logic, audit logging, CSV export, JSON download, runtime contact storage, existing dashboard, governmentContent schema, next.config.mjs, tsconfig.json, tailwind.config.ts, package.json, package-lock.json, src/proxy.ts (no proxy existed at Batch 1; added in Batch 3), environment files.
 
 ---
 

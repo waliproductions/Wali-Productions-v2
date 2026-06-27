@@ -314,7 +314,7 @@ Both must complete with zero errors before manual testing.
 
 - [ ] Page renders all cards: Company Information, Authentication, Email/SMTP, Runtime Storage, Contact Pipeline Health, Government Readiness, System Information
 - [ ] Company Information shows correct name ("Wali Productions"), legal name, identity, and site URL
-- [ ] Authentication card shows ADMIN_USERNAME and ADMIN_PASSWORD rows — each shows configured/not configured badge, NO values
+- [ ] Authentication card shows 3 rows: ADMIN_USERNAME, ADMIN_PASSWORD_HASH, SESSION_SECRET — each shows configured/not configured badge, NO values
 - [ ] Email card shows all 6 env vars — each shows configured/not configured badge, NO values
 - [ ] SMTP delivery status line reflects actual env var presence
 - [ ] Runtime Storage card shows 5 health checks (queue, processed, failed, archive, events.jsonl)
