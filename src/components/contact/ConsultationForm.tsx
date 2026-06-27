@@ -79,13 +79,13 @@ export function ConsultationForm() {
   };
 
   const fieldClass =
-    "mt-1 w-full rounded-md border border-black/15 bg-background px-3 py-2 text-base focus:outline-none focus-visible:ring-2 focus-visible:ring-current dark:border-white/20";
-  const labelClass = "block text-sm font-medium";
+    "mt-1.5 w-full rounded-lg border border-black/15 bg-background px-4 py-2.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-gold dark:border-white/20";
+  const labelClass = "block text-sm font-medium text-neutral-700 dark:text-neutral-300";
 
   const statusClass =
     submitState.status === "error"
       ? "text-sm text-red-700 dark:text-red-300"
-      : "text-sm text-neutral-600 dark:text-neutral-300";
+      : "text-sm text-neutral-600 dark:text-neutral-400";
 
   return (
     <form onSubmit={handleSubmit} className="max-w-2xl space-y-5">
@@ -180,7 +180,7 @@ export function ConsultationForm() {
       <button
         type="submit"
         disabled={submitState.status === "submitting"}
-        className="inline-flex items-center justify-center rounded-md bg-foreground px-6 py-3 text-base font-medium text-background transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+        className="inline-flex items-center justify-center rounded-lg bg-gold px-7 py-3 text-sm font-semibold text-white transition-all hover:bg-gold/90 focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
       >
         {submitState.status === "submitting"
           ? "Submitting..."
