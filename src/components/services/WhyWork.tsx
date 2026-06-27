@@ -1,11 +1,6 @@
 import { servicesContent } from "@/config/services";
 import { Section, SectionEyebrow } from "@/components/home/Section";
-import { FeatureGrid } from "@/components/home/FeatureGrid";
 
-/**
- * "Why Work With Wali Productions LLC" — value propositions are placeholders
- * pending approved messaging.
- */
 export function WhyWork() {
   const { eyebrow, heading, items } = servicesContent.whyWork;
 
@@ -16,16 +11,27 @@ export function WhyWork() {
       className="border-t border-black/10 dark:border-white/10"
     >
       <div className="max-w-3xl">
-        <SectionEyebrow>{eyebrow}</SectionEyebrow>
+        <SectionEyebrow variant="gold">{eyebrow}</SectionEyebrow>
         <h2
           id="why-work-heading"
-          className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl"
+          className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-4xl"
         >
           {heading}
         </h2>
       </div>
-      <div className="mt-12">
-        <FeatureGrid items={items} mdColumnsClass="md:grid-cols-2" />
+
+      <div className="mt-14 grid grid-cols-1 gap-x-12 gap-y-10 sm:grid-cols-2">
+        {items.map((item, i) => (
+          <div key={i}>
+            <div className="h-0.5 w-8 bg-gold" />
+            <h3 className="mt-4 font-display text-lg font-semibold tracking-tight">
+              {item.title}
+            </h3>
+            <p className="mt-2.5 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+              {item.description}
+            </p>
+          </div>
+        ))}
       </div>
     </Section>
   );

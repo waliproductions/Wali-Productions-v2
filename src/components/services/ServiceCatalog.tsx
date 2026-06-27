@@ -2,10 +2,6 @@ import { servicesContent } from "@/config/services";
 import { Section, SectionEyebrow } from "@/components/home/Section";
 import { FeatureGrid } from "@/components/home/FeatureGrid";
 
-/**
- * Individual service cards, grouped under each category. Service names and
- * summaries are placeholders pending the approved Services directory.
- */
 export function ServiceCatalog() {
   const { categories } = servicesContent;
 
@@ -13,28 +9,27 @@ export function ServiceCatalog() {
     <Section
       id="service-catalog"
       labelledById="service-catalog-heading"
-      className="border-t border-black/10 bg-black/[0.02] dark:border-white/10 dark:bg-white/[0.03]"
+      className="border-t border-black/10 dark:border-white/10"
     >
-      <div className="max-w-3xl">
-        <SectionEyebrow>Services</SectionEyebrow>
-        <h2
-          id="service-catalog-heading"
-          className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl"
-        >
-          Explore our services
-        </h2>
-      </div>
+      <SectionEyebrow variant="gold">Services</SectionEyebrow>
+      <h2
+        id="service-catalog-heading"
+        className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-4xl"
+      >
+        Explore our services
+      </h2>
 
-      <div className="mt-12 space-y-14">
+      <div className="mt-14 space-y-16">
         {categories.map((category, index) => (
           <div key={index}>
-            <h3 className="text-xl font-semibold tracking-tight">
+            <div className="mb-5 h-0.5 w-10 bg-gold" />
+            <h3 className="font-display text-2xl font-bold tracking-tight">
               {category.title}
             </h3>
-            <p className="mt-2 max-w-2xl text-neutral-600 dark:text-neutral-300">
+            <p className="mt-2 max-w-2xl text-base text-neutral-600 dark:text-neutral-400">
               {category.description}
             </p>
-            <div className="mt-6">
+            <div className="mt-8">
               <FeatureGrid items={category.services} headingLevel="h4" />
             </div>
           </div>
