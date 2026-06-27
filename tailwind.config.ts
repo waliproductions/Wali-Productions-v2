@@ -19,6 +19,8 @@ const config: Config = {
         "gov-slate": "rgb(var(--gov-slate) / <alpha-value>)",
         // Government light — cool tinted government page backgrounds.
         "gov-light": "rgb(var(--gov-light) / <alpha-value>)",
+        // Steel blue — interactive accents, icons, accent bars.
+        steel: "rgb(var(--steel) / <alpha-value>)",
       },
       fontFamily: {
         sans: ["var(--font-sans)", "ui-sans-serif", "system-ui", "sans-serif"],

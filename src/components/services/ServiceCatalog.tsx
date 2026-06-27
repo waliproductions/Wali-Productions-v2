@@ -9,7 +9,7 @@ export function ServiceCatalog() {
     <Section
       id="service-catalog"
       labelledById="service-catalog-heading"
-      className="border-t border-black/10 dark:border-white/10"
+      className="border-t border-black/10 bg-[#F8FAFC] dark:border-white/10"
     >
       <SectionEyebrow variant="gold">Services</SectionEyebrow>
       <h2
@@ -22,7 +22,7 @@ export function ServiceCatalog() {
       <div className="mt-14 space-y-16">
         {categories.map((category, index) => (
           <div key={index}>
-            <div className="mb-5 h-0.5 w-10 bg-gold" />
+            <div className="mb-5 h-0.5 w-10 bg-[#4A7DB5]" />
             <h3 className="font-display text-2xl font-bold tracking-tight">
               {category.title}
             </h3>

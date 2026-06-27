@@ -79,7 +79,7 @@ export function ConsultationForm() {
   };
 
   const fieldClass =
-    "mt-1.5 w-full rounded-lg border border-black/15 bg-background px-4 py-2.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-gold dark:border-white/20";
+    "mt-1.5 w-full rounded-lg border border-black/15 bg-background px-4 py-2.5 text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-[#1E3A5F] dark:border-white/20";
   const labelClass = "block text-sm font-medium text-neutral-700 dark:text-neutral-300";
 
   const statusClass =
@@ -180,7 +180,7 @@ export function ConsultationForm() {
       <button
         type="submit"
         disabled={submitState.status === "submitting"}
-        className="inline-flex items-center justify-center rounded-lg bg-gold px-7 py-3 text-sm font-semibold text-white transition-all hover:bg-gold/90 focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+        className="inline-flex items-center justify-center rounded-lg bg-[#0D1B2A] px-7 py-3 text-sm font-semibold text-white transition-all hover:bg-[#1E3A5F] focus-visible:ring-2 focus-visible:ring-[#0D1B2A] focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
       >
         {submitState.status === "submitting"
           ? "Submitting..."

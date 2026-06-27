@@ -22,7 +22,7 @@ export function ServiceCategories() {
         {categories.map((category, i) => (
           <div key={i}>
             <span
-              className="select-none font-display text-5xl font-bold leading-none text-gold/20"
+              className="select-none font-display text-5xl font-bold leading-none text-[#4A7DB5]/25"
               aria-hidden="true"
             >
               {String(i + 1).padStart(2, "0")}

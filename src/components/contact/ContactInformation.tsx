@@ -12,7 +12,7 @@ export function ContactInformation() {
     <Section
       id="contact-information"
       labelledById="contact-information-heading"
-      className="border-t border-black/10 bg-gold-subtle dark:border-white/10 dark:bg-gold-subtle"
+      className="border-t border-black/10 bg-[#F8FAFC] dark:border-white/10"
     >
       <div className="max-w-3xl">
         <SectionEyebrow variant="gold">{eyebrow}</SectionEyebrow>

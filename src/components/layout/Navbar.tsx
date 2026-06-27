@@ -66,7 +66,7 @@ export function Navbar() {
                 className={
                   "text-sm transition-colors " +
                   (isActive(item.href)
-                    ? "font-semibold text-gold"
+                    ? "font-semibold text-[#1E3A5F]"
                     : "font-medium text-neutral-600 hover:text-foreground dark:text-neutral-300 dark:hover:text-white")
                 }
               >
@@ -81,7 +81,7 @@ export function Navbar() {
           <Link
             href={CONTACT_HREF}
             aria-current={isActive(CONTACT_HREF) ? "page" : undefined}
-            className="inline-flex items-center rounded-lg bg-gold px-4 py-1.5 text-sm font-semibold text-white transition-all hover:bg-gold/90 focus-visible:ring-2 focus-visible:ring-gold focus-visible:ring-offset-2"
+            className="inline-flex items-center rounded-lg bg-[#0D1B2A] px-4 py-1.5 text-sm font-semibold text-white transition-all hover:bg-[#1E3A5F] focus-visible:ring-2 focus-visible:ring-[#0D1B2A] focus-visible:ring-offset-2"
           >
             Contact
           </Link>
@@ -141,7 +141,7 @@ export function Navbar() {
                   className={
                     "block rounded-md px-3 py-2.5 text-sm font-medium transition-colors " +
                     (isActive(item.href)
-                      ? "text-gold"
+                      ? "text-[#1E3A5F] font-semibold"
                       : "text-neutral-700 hover:bg-black/5 dark:text-neutral-200 dark:hover:bg-white/10")
                   }
                 >
@@ -153,7 +153,7 @@ export function Navbar() {
           <div className="mx-auto max-w-content border-t border-black/10 px-4 py-4 sm:px-6 dark:border-white/10">
             <Link
               href={CONTACT_HREF}
-              className="block w-full rounded-lg bg-gold px-4 py-2.5 text-center text-sm font-semibold text-white transition-all hover:bg-gold/90"
+              className="block w-full rounded-lg bg-[#0D1B2A] px-4 py-2.5 text-center text-sm font-semibold text-white transition-all hover:bg-[#1E3A5F]"
             >
               Start a conversation
             </Link>

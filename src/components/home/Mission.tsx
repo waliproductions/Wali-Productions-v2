@@ -17,7 +17,7 @@ export function Mission() {
         {heading}
       </h2>
       <div className="mt-8 max-w-2xl">
-        <p className="border-l-2 border-gold pl-5 text-base leading-relaxed text-neutral-600 dark:text-neutral-400">
+        <p className="border-l-2 border-[#4A7DB5] pl-5 text-base leading-relaxed text-neutral-600 dark:text-neutral-400">
           {body}
         </p>
       </div>

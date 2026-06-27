@@ -21,7 +21,7 @@ export function ServiceInquiryCategories() {
       <ul className="mt-12 grid grid-cols-1 gap-x-12 gap-y-8 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((item, i) => (
           <li key={i}>
-            <div className="h-0.5 w-8 bg-gold" />
+            <div className="h-0.5 w-8 bg-[#4A7DB5]" />
             <h3 className="mt-4 font-display text-base font-semibold tracking-tight">
               {item.title}
             </h3>

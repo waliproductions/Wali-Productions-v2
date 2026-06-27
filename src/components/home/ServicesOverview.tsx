@@ -62,7 +62,7 @@ export function ServicesOverview() {
   return (
     <Section
       labelledById="services-heading"
-      className="border-t border-black/10 dark:border-white/10"
+      className="border-t border-black/10 bg-[#F8FAFC] dark:border-white/10"
     >
       <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
         <div className="max-w-2xl">
@@ -79,7 +79,7 @@ export function ServicesOverview() {
         </div>
         <Link
           href="/services"
-          className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-gold transition-colors hover:text-gold/80"
+          className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-[#1E3A5F] transition-colors hover:text-[#2B4C7E]"
         >
           View all services
           <svg

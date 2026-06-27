@@ -21,7 +21,7 @@ export function Footer() {
                 height={36}
                 className="rounded-sm object-contain opacity-90"
               />
-              <span className="text-base font-semibold tracking-tight text-gold">
+              <span className="text-base font-semibold tracking-tight text-white">
                 {siteConfig.name}
               </span>
             </Link>
@@ -61,7 +61,7 @@ export function Footer() {
             </p>
             <Link
               href="/contact"
-              className="mt-6 inline-flex items-center gap-2 rounded-lg bg-gold px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-gold/90"
+              className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[#1E3A5F] px-5 py-2.5 text-sm font-semibold text-white transition-all hover:bg-[#2B4C7E]"
             >
               Get in touch
               <svg

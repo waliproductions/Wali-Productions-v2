@@ -23,7 +23,7 @@ export function CoreValues() {
       <div className="mt-14 grid grid-cols-1 gap-x-12 gap-y-10 sm:grid-cols-2">
         {items.map((item, i) => (
           <div key={i}>
-            <div className="h-0.5 w-8 bg-gold" />
+            <div className="h-0.5 w-8 bg-[#4A7DB5]" />
             <h3 className="mt-4 font-display text-lg font-semibold tracking-tight">
               {item.title}
             </h3>

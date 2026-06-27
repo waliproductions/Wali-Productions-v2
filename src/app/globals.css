@@ -6,16 +6,18 @@
    <alpha-value> placeholder (enables bg-background/75, etc.). */
 :root {
   --background: 255 255 255;
-  --foreground: 10 10 10;
+  /* Dark navy-tinted foreground (#0F172A) — cohesive with blue palette. */
+  --foreground: 15 23 42;
 
-  /* Brand gold (#B8831A) — primary accent: CTAs, eyebrows, active states. */
+  /* Brand gold (#B8831A) — subtle identity accent only. */
   --gold: 184 131 26;
-  /* Warm parchment (#FDF6E9) — subtle tinted section backgrounds. */
   --gold-subtle: 253 246 233;
-  /* Government slate (#1B2A3B) — authoritative dark navy sections. */
-  --gov-slate: 27 42 59;
-  /* Government light (#F0F4F8) — cool tinted government page backgrounds. */
+  /* Deep navy (#0D1B2A) — dark section backgrounds. */
+  --gov-slate: 13 27 42;
+  /* Light blue-grey (#F0F4F8) — cool tinted government page backgrounds. */
   --gov-light: 240 244 248;
+  /* Steel blue (#4A7DB5) — interactive accents, icons, accent bars. */
+  --steel: 74 125 181;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,12 +25,10 @@
     --background: 10 10 10;
     --foreground: 237 237 237;
 
-    /* Gold brightens slightly in dark mode for legibility. */
     --gold: 212 160 42;
-    /* Warm parchment inverts to a dark amber tone in dark mode. */
     --gold-subtle: 42 31 8;
-    /* Government light inverts to a dark blue-gray in dark mode. */
     --gov-light: 20 28 40;
+    --steel: 100 149 205;
   }
 }
 

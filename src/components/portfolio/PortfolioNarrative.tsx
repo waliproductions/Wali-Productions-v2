@@ -17,7 +17,7 @@ export function PortfolioNarrative({
 }: PortfolioNarrativeProps) {
   const toneClass =
     tone === "muted"
-      ? "border-t border-black/10 bg-gold-subtle dark:border-white/10 dark:bg-gold-subtle"
+      ? "border-t border-black/10 bg-[#F8FAFC] dark:border-white/10"
       : "border-t border-black/10 dark:border-white/10";
 
   return (
