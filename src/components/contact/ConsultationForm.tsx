@@ -26,6 +26,7 @@ export function ConsultationForm() {
       name: String(formData.get("name") ?? ""),
       email: String(formData.get("email") ?? ""),
       company: String(formData.get("company") ?? ""),
+      phone: String(formData.get("phone") ?? ""),
       service: String(formData.get("service") ?? ""),
       message: String(formData.get("message") ?? ""),
     };
@@ -125,6 +126,19 @@ export function ConsultationForm() {
           name="company"
           type="text"
           autoComplete="organization"
+          className={fieldClass}
+        />
+      </div>
+
+      <div>
+        <label htmlFor="contact-phone" className={labelClass}>
+          Phone <span className="text-neutral-500">(optional)</span>
+        </label>
+        <input
+          id="contact-phone"
+          name="phone"
+          type="tel"
+          autoComplete="tel"
           className={fieldClass}
         />
       </div>
