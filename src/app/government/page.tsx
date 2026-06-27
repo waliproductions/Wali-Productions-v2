@@ -46,6 +46,7 @@ export default function GovernmentPage() {
         eyebrow={differentiators.eyebrow}
         heading={differentiators.heading}
         items={differentiators.items}
+        layout="list"
       />
       <GovNarrative
         id="capability-statement"

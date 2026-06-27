@@ -1,14 +1,10 @@
 import { governmentContent } from "@/config/government";
 import { Section, SectionEyebrow } from "@/components/home/Section";
 
-/**
- * Certifications & registration status.
- *
- * Renders official-data rows (UEI, CAGE, SAM.gov, NAICS, certifications) as a
- * description list. Values are intentionally unverified placeholders and a
- * visible disclaimer makes that explicit, so placeholders are never mistaken
- * for official registration data. No identifiers are authored here.
- */
+function isPending(value: string): boolean {
+  return value.toLowerCase().includes("pending verified detail");
+}
+
 export function RegistrationStatus() {
   const { eyebrow, heading, note, items } = governmentContent.registration;
 
@@ -16,31 +12,39 @@ export function RegistrationStatus() {
     <Section
       id="registration"
       labelledById="registration-heading"
-      className="border-t border-black/10 bg-black/[0.02] dark:border-white/10 dark:bg-white/[0.03]"
+      className="border-t border-black/10 bg-gov-light dark:border-white/10 dark:bg-gov-light"
     >
       <div className="max-w-3xl">
-        <SectionEyebrow>{eyebrow}</SectionEyebrow>
+        <SectionEyebrow variant="gold">{eyebrow}</SectionEyebrow>
         <h2
           id="registration-heading"
-          className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl"
+          className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-4xl"
         >
           {heading}
         </h2>
-        <p
-          role="note"
-          className="mt-4 text-sm text-neutral-500 dark:text-neutral-400"
-        >
+        <p role="note" className="mt-4 text-sm text-neutral-500 dark:text-neutral-400">
           {note}
         </p>
       </div>
 
-      <dl className="mt-10 grid grid-cols-1 gap-px overflow-hidden rounded-lg border border-black/10 bg-black/10 sm:grid-cols-2 dark:border-white/10 dark:bg-white/10">
+      <dl className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
         {items.map((item) => (
-          <div key={item.label} className="bg-background p-5">
-            <dt className="text-sm font-medium text-neutral-500 dark:text-neutral-400">
+          <div
+            key={item.label}
+            className="rounded-xl border border-black/10 bg-white p-5 dark:border-white/10 dark:bg-white/[0.03]"
+          >
+            <dt className="text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
               {item.label}
             </dt>
-            <dd className="mt-1 text-base">{item.value}</dd>
+            <dd className="mt-2">
+              {isPending(item.value) ? (
+                <span className="inline-flex items-center rounded-md bg-neutral-100 px-2.5 py-1 text-xs font-medium text-neutral-500 dark:bg-white/10 dark:text-neutral-400">
+                  In preparation
+                </span>
+              ) : (
+                <span className="text-sm font-medium">{item.value}</span>
+              )}
+            </dd>
           </div>
         ))}
       </dl>
