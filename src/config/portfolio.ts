@@ -26,6 +26,21 @@ export type PortfolioItem = {
   description: string;
 };
 
+export type PortfolioProjectStatus = "published" | "draft" | "pending";
+
+export type PortfolioProject = {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  status: PortfolioProjectStatus;
+  technologies: string[];
+  featured: boolean;
+  year?: number;
+  client?: string;
+  url?: string;
+};
+
 export type PortfolioContent = {
   hero: {
     identity: string;
@@ -63,6 +78,7 @@ export type PortfolioContent = {
     body: string;
     primaryCta: Cta;
   };
+  projects: PortfolioProject[];
 };
 
 export const portfolioContent: PortfolioContent = {
@@ -125,4 +141,19 @@ export const portfolioContent: PortfolioContent = {
     body: "We seek to become trusted partners who consistently provide value through dependable service, integrity, and consistent results.",
     primaryCta: { label: "Request a Consultation", href: "/contact" },
   },
+  projects: [
+    {
+      id: "wali-productions-website",
+      title: "Wali Productions LLC — Business Website",
+      description:
+        "Production business website for Wali Productions LLC. A Next.js 16 application with contact form pipeline, admin portal, SEO optimization, and Hostinger Node.js hosting.",
+      category: "Business Websites",
+      status: "published",
+      technologies: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Nodemailer"],
+      featured: false,
+      year: 2025,
+      client: "Wali Productions LLC (internal)",
+      url: "https://waliproductions.com",
+    },
+  ],
 };
