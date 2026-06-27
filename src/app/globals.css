@@ -7,12 +7,28 @@
 :root {
   --background: 255 255 255;
   --foreground: 10 10 10;
+
+  /* Brand gold (#B8831A) — primary accent: CTAs, eyebrows, active states. */
+  --gold: 184 131 26;
+  /* Warm parchment (#FDF6E9) — subtle tinted section backgrounds. */
+  --gold-subtle: 253 246 233;
+  /* Government slate (#1B2A3B) — authoritative dark navy sections. */
+  --gov-slate: 27 42 59;
+  /* Government light (#F0F4F8) — cool tinted government page backgrounds. */
+  --gov-light: 240 244 248;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: 10 10 10;
     --foreground: 237 237 237;
+
+    /* Gold brightens slightly in dark mode for legibility. */
+    --gold: 212 160 42;
+    /* Warm parchment inverts to a dark amber tone in dark mode. */
+    --gold-subtle: 42 31 8;
+    /* Government light inverts to a dark blue-gray in dark mode. */
+    --gov-light: 20 28 40;
   }
 }
 
