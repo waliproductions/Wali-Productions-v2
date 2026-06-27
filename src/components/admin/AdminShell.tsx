@@ -7,7 +7,13 @@ import { usePathname } from "next/navigation";
 import { AdminHeader } from "@/components/admin/AdminHeader";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 
-export function AdminShell({ children }: { children: ReactNode }) {
+export function AdminShell({
+  children,
+  username,
+}: {
+  children: ReactNode;
+  username?: string;
+}) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
 
@@ -24,7 +30,7 @@ export function AdminShell({ children }: { children: ReactNode }) {
       />
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <AdminHeader onMenuClick={() => setSidebarOpen(true)} />
+        <AdminHeader onMenuClick={() => setSidebarOpen(true)} username={username} />
 
         <main className="flex-1 overflow-x-hidden px-4 py-6 sm:px-6 lg:px-8">
           <div className="mx-auto w-full max-w-7xl">

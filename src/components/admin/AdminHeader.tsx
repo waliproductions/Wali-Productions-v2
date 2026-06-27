@@ -7,6 +7,7 @@ import type { SVGProps } from "react";
 import { AdminButton } from "@/components/admin/AdminButton";
 import { ADMIN_NAV } from "@/components/admin/AdminSidebar";
 import { humanizeSegment } from "@/lib/admin/utils";
+import { logoutAction } from "@/lib/auth/actions";
 
 function MenuIcon(props: SVGProps<SVGSVGElement>) {
   return (
@@ -51,9 +52,10 @@ function buildCrumbs(pathname: string): Crumb[] {
 
 type AdminHeaderProps = {
   onMenuClick: () => void;
+  username?: string;
 };
 
-export function AdminHeader({ onMenuClick }: AdminHeaderProps) {
+export function AdminHeader({ onMenuClick, username }: AdminHeaderProps) {
   const pathname = usePathname() ?? "/admin";
   const crumbs = buildCrumbs(pathname);
   const exactNav = ADMIN_NAV.find((item) => item.href === pathname);
@@ -104,9 +106,25 @@ export function AdminHeader({ onMenuClick }: AdminHeaderProps) {
           Live
         </span>
 
+        {username ? (
+          <span className="hidden text-xs text-zinc-500 sm:block">
+            Signed in as{" "}
+            <span className="text-zinc-300">{username}</span>
+          </span>
+        ) : null}
+
         <AdminButton href="/" external variant="ghost" size="sm">
           View site
         </AdminButton>
+
+        <form action={logoutAction}>
+          <button
+            type="submit"
+            className="rounded-md px-3 py-1.5 text-xs font-medium text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-zinc-100"
+          >
+            Sign out
+          </button>
+        </form>
       </div>
     </header>
   );

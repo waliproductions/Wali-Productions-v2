@@ -1,3 +1,105 @@
+# Batch 3 Verification Checklist
+
+## Build Verification
+
+Run in order:
+
+```bash
+npm run typecheck
+npm run build
+```
+
+Both must complete with zero errors. Expected: 32 routes + `ƒ Proxy (Middleware)` in build output. No deprecation warnings.
+
+---
+
+## Environment Setup
+
+Before testing, ensure `.env.local` contains:
+
+```bash
+ADMIN_USERNAME=admin
+# Generate hash:
+# node -e "require('bcryptjs').hash('your-password', 12).then(h => console.log(h))"
+ADMIN_PASSWORD_HASH=<bcrypt-hash>
+# Generate secret:
+# openssl rand -base64 32
+SESSION_SECRET=<min-32-char-secret>
+```
+
+---
+
+## Manual Verification Checklist
+
+### Login Page (`/login`)
+
+- [ ] `/login` renders without crashing even when env vars are absent
+- [ ] Page shows "Wali Productions / Admin Portal" branding with amber "W" logo
+- [ ] Username and password fields render with accessible labels
+- [ ] Form is functional: submitting with wrong credentials shows "Invalid username or password."
+- [ ] Form is functional: submitting with correct credentials redirects to `/admin`
+- [ ] While submitting, button text changes to "Signing in…" and fields are disabled
+- [ ] Error message has `role="alert"` and renders in red
+- [ ] Already-authenticated users visiting `/login` are immediately redirected to `/admin`
+
+### Admin Protection (`/admin` redirect)
+
+- [ ] Visiting `/admin` without a session cookie redirects to `/login?from=/admin`
+- [ ] Visiting `/admin/government` without a session redirects to `/login?from=/admin/government`
+- [ ] After logging in from `/admin/government`, the `from` redirect returns to `/admin/government`
+- [ ] All other `/admin/*` routes redirect to login when unauthenticated
+- [ ] Public routes (`/`, `/contact`, `/government`, `/portfolio`) are accessible without auth
+
+### Admin Header
+
+- [ ] After login, "Signed in as `<username>`" appears in the header (hidden on mobile, visible sm+)
+- [ ] "Sign out" button is visible in the header
+- [ ] Clicking "Sign out" submits the logout form, destroys the session, and redirects to `/login`
+- [ ] After signing out, visiting `/admin` redirects to `/login`
+
+### Settings Page (`/admin/settings`)
+
+- [ ] Authentication card shows 3 rows: `ADMIN_USERNAME`, `ADMIN_PASSWORD_HASH`, `SESSION_SECRET`
+- [ ] Each row shows "Configured" (green) or "Not configured" (amber) based on env var presence
+- [ ] Card description reads "iron-session credentials" (not "HTTP Basic Auth credentials")
+- [ ] No values are displayed — only presence/absence badges
+- [ ] Status line reads "all credentials present" when all 3 are set, otherwise "incomplete — /admin routes are inaccessible until configured"
+
+### Security Properties
+
+- [ ] Browser DevTools → Application → Cookies shows `__admin_session` cookie after login
+- [ ] Cookie has `HttpOnly` flag (not readable from JavaScript)
+- [ ] Cookie has `SameSite=Lax`
+- [ ] Cookie has `Path=/`
+- [ ] In production (`NODE_ENV=production`), cookie has `Secure` flag
+- [ ] Deleting the cookie and refreshing `/admin` redirects to `/login`
+- [ ] Tampered cookie value (edit one character) redirects to `/login`
+
+---
+
+## Regression Check
+
+After verifying all Batch 3 behavior, confirm that all prior functionality still works:
+
+- [ ] All Batch 2 government sub-pages load and render correctly after login
+- [ ] All Batch 1 admin pages (portfolio, analytics, contact, audit, settings) load correctly
+- [ ] Public pages (`/`, `/portfolio`, `/government`, `/contact`) load without auth and without redirect
+- [ ] Contact form submission works end-to-end (public API route is not behind auth)
+- [ ] `npm run typecheck` exits clean
+- [ ] `npm run build` exits clean with 32 routes + Proxy
+
+---
+
+## Notes
+
+- `src/proxy.ts` is the Next.js 16 convention for what was previously `src/middleware.ts`. The function is named `proxy` (not `middleware`).
+- The proxy uses `unsealData` (iron-session read-only API) rather than `getIronSession`, avoiding the `RequestCookies` / `CookieStore` type incompatibility in the proxy runtime.
+- `requireAdmin()` in `src/lib/auth/permissions.ts` provides a defense-in-depth second layer for server components that need to verify auth independently of the proxy.
+- Generating a bcrypt hash: `node -e "require('bcryptjs').hash('your-password', 12).then(h => console.log(h))"`
+- Generating a session secret: `openssl rand -base64 32`
+
+---
+
 # Batch 2 Verification Checklist
 
 ## Build Verification

@@ -58,7 +58,9 @@ function StatusBadge({ ok, okLabel = "Configured", failLabel = "Not configured" 
 export default async function AdminSettingsPage() {
   // Env var presence checks — values are never read or displayed
   const authConfigured =
-    hasEnv("ADMIN_USERNAME") && hasEnv("ADMIN_PASSWORD");
+    hasEnv("ADMIN_USERNAME") &&
+    hasEnv("ADMIN_PASSWORD_HASH") &&
+    hasEnv("SESSION_SECRET");
   const smtpConfigured =
     hasEnv("SMTP_HOST") &&
     hasEnv("SMTP_PORT") &&
@@ -129,11 +131,12 @@ export default async function AdminSettingsPage() {
 
       {/* Configuration status */}
       <div className="grid gap-6 sm:grid-cols-2">
-        <AdminCard title="Authentication" description="HTTP Basic Auth credentials">
+        <AdminCard title="Authentication" description="iron-session credentials">
           <ul className="divide-y divide-zinc-800/60">
             {[
-              { label: "ADMIN_USERNAME", hint: "Basic Auth username for /admin" },
-              { label: "ADMIN_PASSWORD", hint: "Basic Auth password for /admin" },
+              { label: "ADMIN_USERNAME", hint: "Admin portal login username" },
+              { label: "ADMIN_PASSWORD_HASH", hint: "bcryptjs hash of admin password" },
+              { label: "SESSION_SECRET", hint: "iron-session encryption key (min 32 chars)" },
             ].map((row) => (
               <li
                 key={row.label}
@@ -152,7 +155,7 @@ export default async function AdminSettingsPage() {
           <p className="mt-4 text-xs text-zinc-600">
             Overall auth config:{" "}
             <span className={authConfigured ? "text-emerald-400" : "text-amber-400"}>
-              {authConfigured ? "both credentials present" : "incomplete — middleware not enforcing auth yet"}
+              {authConfigured ? "all credentials present" : "incomplete — /admin routes are inaccessible until configured"}
             </span>
           </p>
         </AdminCard>
