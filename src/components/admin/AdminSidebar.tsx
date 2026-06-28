@@ -141,6 +141,31 @@ const ReportsIcon: AdminIcon = (props) => (
   </BaseIcon>
 );
 
+const UsersIcon: AdminIcon = (props) => (
+  <BaseIcon {...props}>
+    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+    <circle cx="9" cy="7" r="4" />
+    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+  </BaseIcon>
+);
+
+const SecurityIcon: AdminIcon = (props) => (
+  <BaseIcon {...props}>
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+  </BaseIcon>
+);
+
+const IntegrationsIcon: AdminIcon = (props) => (
+  <BaseIcon {...props}>
+    <circle cx="5" cy="6" r="2" />
+    <circle cx="19" cy="6" r="2" />
+    <circle cx="5" cy="18" r="2" />
+    <circle cx="19" cy="18" r="2" />
+    <path d="M7 6h10M7 18h10M5 8v8M19 8v8" />
+  </BaseIcon>
+);
+
 const CloseIcon = (props: SVGProps<SVGSVGElement>) => (
   <BaseIcon {...props}>
     <path d="M6 6l12 12M18 6 6 18" />
@@ -186,6 +211,12 @@ export const ADMIN_NAV_SECTIONS: AdminNavSection[] = [
     ],
   },
   {
+    title: "People",
+    items: [
+      { label: "Users", href: "/admin/users", icon: UsersIcon, matchPrefix: true },
+    ],
+  },
+  {
     title: "Knowledge",
     items: [
       { label: "Knowledge Base", href: "/admin/knowledge", icon: KnowledgeIcon, matchPrefix: true },
@@ -196,6 +227,8 @@ export const ADMIN_NAV_SECTIONS: AdminNavSection[] = [
     items: [
       { label: "Reports", href: "/admin/reports", icon: ReportsIcon, matchPrefix: true },
       { label: "Analytics", href: "/admin/analytics", icon: AnalyticsIcon, matchPrefix: true },
+      { label: "Security", href: "/admin/security", icon: SecurityIcon, matchPrefix: true },
+      { label: "Integrations", href: "/admin/integrations", icon: IntegrationsIcon, matchPrefix: true },
       { label: "Contact Inquiries", href: "/admin/contact", icon: InboxIcon, matchPrefix: true },
       { label: "Audit Log", href: "/admin/audit", icon: AuditIcon, matchPrefix: true },
       { label: "Settings", href: "/admin/settings", icon: SettingsIcon, matchPrefix: true },
@@ -334,7 +367,7 @@ export function AdminSidebar({
         </nav>
 
         <div className="border-t border-zinc-800 px-4 py-3">
-          <p className="text-xs text-zinc-600">Admin Portal · v0.8.0</p>
+          <p className="text-xs text-zinc-600">Admin Portal · v0.9.0</p>
         </div>
       </aside>
     </>

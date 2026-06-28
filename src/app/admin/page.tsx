@@ -19,6 +19,9 @@ const PLATFORM_MODULES = [
   { label: "Government", description: "Public government contracting profile", href: "/admin/government" },
   { label: "Reports", description: "Business intelligence across all domains", href: "/admin/reports" },
   { label: "Analytics", description: "Website traffic and engagement", href: "/admin/analytics" },
+  { label: "Users", description: "Employee, contractor, and client account management", href: "/admin/users" },
+  { label: "Security", description: "Security events, sessions, and controls", href: "/admin/security" },
+  { label: "Integrations", description: "Third-party integration adapters", href: "/admin/integrations" },
 ] as const;
 
 export default async function AdminDashboardPage() {
