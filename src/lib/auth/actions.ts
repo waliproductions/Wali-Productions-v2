@@ -65,6 +65,14 @@ export async function loginAction(
   );
 
   if (!usernameMatch || !passwordMatch) {
+    console.log({
+      usernameEntered: username.trim(),
+      expectedUsername,
+      usernameMatch,
+      passwordMatch,
+      hasHash: !!passwordHash,
+    });
+
     return { error: "Invalid username or password." };
   }
 
