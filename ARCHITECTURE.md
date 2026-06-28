@@ -1,7 +1,7 @@
 # Architecture — Wali Productions v2
 
 Technical reference for the codebase structure, conventions, and key decisions.
-Updated through v0.8.
+Updated through v0.9.
 
 ---
 
@@ -230,11 +230,61 @@ table, calendar, activity-feed) with configurable size, dataSource, and refresh 
 prototyping → beta → active → deprecated). `AiRequestRecord` provides audit trails
 with `humanOverrideApplied` tracking. `AiKnowledgeChunk` scaffolds future RAG/embedding.
 
-### Service Layer (v0.8)
+### Identity (v0.9)
+
+`UserAccount` is the system identity record — distinct from business roles. Covers
+`AccountStatus` (6 states), `AuthProvider` (local + 4 SSO methods), `MfaConfig`
+(5 methods), `SessionRecord`, `PasswordResetToken`, `PasswordPolicy`, `AccountLockout`,
+`LockoutPolicy`, `LoginAuditEvent`, and `PermissionGroup` with time-limited
+`UserPermissionAssignment`. Authentication and authorization are kept cleanly separated.
+
+### User Management (v0.9)
+
+`UserProfile` (display name, timezone, locale), `EmployeeAccount` (employment type,
+department, clearance level), `ContractorAccount` (scoped access, expiry, NDA tracking),
+`ClientAccountAccess` (portal role, per-feature permission flags), `GovContact`
+(agency, role, linked contracts/opportunities), `OrgMembership`, and `InvitationRecord`
+with full lifecycle (pending → accepted/expired/cancelled, resend tracking).
+
+### Security (v0.9)
+
+`SecurityEvent` covers 24 event types with 5 severity levels. `RateLimitPolicy`
+supports fixed-window, sliding-window, and token-bucket strategies. `CsrfConfig`,
+`SecureHeadersConfig` (CSP directives, HSTS, X-Frame), `ValidationSchema`
+(13 rule types), `SecurityAlert` with status lifecycle, `SecretRotationPolicy`,
+and `AuditRecord` with before/after state capture.
+
+### Notification Platform (v0.9)
+
+`DeliveryChannel` (6 channels: email, in-app, SMS, Slack, Teams, webhook).
+Provider configs for SMTP, SendGrid, Twilio, Slack webhooks, Teams webhooks,
+and custom webhooks. `NotificationTemplate` with typed variable placeholders and
+per-channel body content. `NotificationPreference` per user per template.
+`NotificationQueueEntry` + `NotificationDeliveryRecord` for delivery tracking.
+14 `WebhookEventType` values covering the full business lifecycle.
+
+### Integration Layer (v0.9)
+
+36 `IntegrationProviderType` values across 12 categories (identity, productivity,
+government, CRM, accounting, storage, calendar, e-sign, payment, AI, communication,
+analytics). `IntegrationAdapter` with health check, sync direction, and event log.
+Provider-specific config types for MS365, Google Workspace, SAM.gov, QuickBooks,
+DocuSign, Stripe, and Anthropic.
+
+### Document Platform (v0.9)
+
+`DocumentTemplate` with 23 type values and typed variable placeholders.
+`DocumentRelationship` (9 relationship types). `VersionComparison` with diff chunks.
+`DocumentApprovalHistoryEntry` for full approval chains. `ArchivalPolicy` with
+configurable triggers and retention periods. `SemanticChunk` for future RAG/embedding
+pipeline. `DocumentSearchIndex` for full-text and semantic search preparation.
+
+### Service Layer (v0.8 + v0.9)
 
 `src/lib/services/` defines TypeScript interfaces for all major domains:
-`ICrmService`, `IContractService`, `IProposalService`, `IProjectService`. The
-`ServiceResult<T>` = `{ ok: true; data: T } | { ok: false; error: string; code? }` pattern
+`ICrmService`, `IContractService`, `IProposalService`, `IProjectService` (v0.8),
+`IIdentityService`, `INotificationService`, `IDocumentService`, `IIntegrationService` (v0.9).
+The `ServiceResult<T>` = `{ ok: true; data: T } | { ok: false; error: string; code? }` pattern
 standardizes all service responses. `ok()` and `err()` helpers simplify construction.
 These are interface definitions only — no implementation yet.
 
@@ -273,12 +323,26 @@ All sections share the dark-theme admin UI component library (`src/components/ad
 |---------|-------|---------|
 | Knowledge Base | `/admin/knowledge` | SOPs, policies, standards, templates |
 
+**People**
+
+| Section | Route | Purpose |
+|---------|-------|---------|
+| Users | `/admin/users` | Employee, contractor, and client access management |
+
+**Knowledge**
+
+| Section | Route | Purpose |
+|---------|-------|---------|
+| Knowledge Base | `/admin/knowledge` | SOPs, policies, standards, templates |
+
 **System**
 
 | Section | Route | Purpose |
 |---------|-------|---------|
 | Reports | `/admin/reports` | Business intelligence hub — 10 reporting domains |
 | Analytics | `/admin/analytics` | Website traffic and engagement metrics |
+| Security | `/admin/security` | Security events, active sessions, control status |
+| Integrations | `/admin/integrations` | Third-party integration adapter management |
 | Contact Inquiries | `/admin/contact` | Incoming form submissions |
 | Audit Log | `/admin/audit` | Admin action history |
 | Settings | `/admin/settings` | System configuration |
@@ -289,6 +353,8 @@ All sections share the dark-theme admin UI component library (`src/components/ad
 - `/admin/contracts` — pre-award contracting workspace (opportunities, proposals, certifications, teaming). Internal only.
 - `/admin/contract-records` — post-award performance management (active contracts, task orders, deliverables, invoices). Distinct from pre-award ops.
 - `/admin/crm` — business development relationship tracking. `Organization` records link to `Client` records only when work is awarded.
+- `/admin/users` — internal and client identity management. Authentication (who) is separate from authorization (what).
+- `/admin/security` — security posture and event monitoring. Alert-driven, not polling-driven.
 
 ---
 
