@@ -172,6 +172,13 @@ const HealthIcon: AdminIcon = (props) => (
   </BaseIcon>
 );
 
+const SearchIcon: AdminIcon = (props) => (
+  <BaseIcon {...props}>
+    <circle cx="11" cy="11" r="8" />
+    <path d="M21 21l-4.35-4.35" />
+  </BaseIcon>
+);
+
 const CloseIcon = (props: SVGProps<SVGSVGElement>) => (
   <BaseIcon {...props}>
     <path d="M6 6l12 12M18 6 6 18" />
@@ -226,6 +233,7 @@ export const ADMIN_NAV_SECTIONS: AdminNavSection[] = [
     title: "Knowledge",
     items: [
       { label: "Knowledge Base", href: "/admin/knowledge", icon: KnowledgeIcon, matchPrefix: true },
+      { label: "Search", href: "/admin/search", icon: SearchIcon, matchPrefix: false },
     ],
   },
   {
