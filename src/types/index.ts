@@ -62,3 +62,43 @@ export type {
   CapabilityStatementSnapshot,
   ClearanceLevel,
 } from "./government";
+export type { UserRole, Permission, SystemPermissions } from "./roles";
+export { ROLE_PERMISSIONS } from "./roles";
+export type {
+  Task,
+  TaskPriority,
+  TaskStatus,
+  TaskCategory,
+  Notification,
+  NotificationType,
+  NotificationChannel,
+  BusinessMetric,
+  MetricPeriod,
+  MetricTrend,
+  PipelineEntry,
+  PipelineStage,
+} from "./operations";
+export type {
+  GovOpportunity,
+  OpportunityStatus,
+  SetAsideCategory,
+  CaptureStage,
+  Solicitation,
+  SolicitationType,
+  SolicitationAmendment,
+  TeamingPartner,
+  TeamingRole,
+  AgencyContact,
+  AgencyContactRole,
+} from "./opportunity";
+export type {
+  KnowledgeEntry,
+  KnowledgeCategory,
+  KnowledgeStatus,
+  SopEntry,
+  SopStep,
+  PolicyRecord,
+  EnforcementLevel,
+  DocumentRecord,
+  DocumentVersion,
+} from "./knowledge";
