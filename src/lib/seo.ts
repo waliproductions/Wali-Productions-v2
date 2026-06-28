@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { siteConfig } from "@/config/site";
+import { siteConfig, getBaseUrl } from "@/config/site";
 
 /**
  * SEO helpers — centralizes per-page metadata so canonical URLs, OpenGraph, and
@@ -32,6 +32,49 @@ type BuildMetadataArgs = {
   /** Canonical path for the page, e.g. "/about" (use "/" for home). */
   path: string;
 };
+
+/**
+ * JSON-LD Organization schema for the root layout.
+ * Only structural identity fields — no certifications, identifiers, or claims
+ * that haven't been verified in official documentation.
+ */
+export function buildOrganizationJsonLd() {
+  const baseUrl = getBaseUrl() || "https://waliproductions.com";
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: siteConfig.legalName,
+    alternateName: siteConfig.name,
+    description: siteConfig.identity,
+    url: baseUrl,
+    logo: `${baseUrl}/opengraph/og-image.png`,
+    foundingDate: "2024",
+    sameAs: [] as string[],
+  };
+}
+
+/**
+ * JSON-LD WebPage schema for individual pages.
+ */
+export function buildWebPageJsonLd({
+  name,
+  description,
+  path,
+}: {
+  name: string;
+  description: string;
+  path: string;
+}) {
+  const baseUrl = getBaseUrl() || "https://waliproductions.com";
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name,
+    description,
+    url: `${baseUrl}${path}`,
+    isPartOf: { "@type": "WebSite", name: siteConfig.name, url: baseUrl },
+  };
+}
 
 export function buildMetadata({
   title,

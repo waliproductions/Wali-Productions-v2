@@ -8,7 +8,7 @@ import { PortfolioCallToAction } from "@/components/portfolio/PortfolioCallToAct
 
 export const metadata = buildMetadata({
   title: "Portfolio",
-  description: "Portfolio of Wali Productions LLC — Christian Veteran-Owned Technology & Digital Solutions.",
+  description: "Work and capabilities of Wali Productions LLC — websites, software, AI integration, consulting, and media production. Christian Veteran-Owned technology firm.",
   path: "/portfolio",
 });
 

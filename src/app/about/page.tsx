@@ -7,7 +7,7 @@ import { AboutCallToAction } from "@/components/about/AboutCallToAction";
 
 export const metadata = buildMetadata({
   title: "About",
-  description: "About Wali Productions LLC — Christian Veteran-Owned Technology & Digital Solutions.",
+  description: "Learn about Wali Productions LLC — a Christian Veteran-Owned technology firm founded on integrity, engineering excellence, and faithful service to clients and community.",
   path: "/about",
 });
 

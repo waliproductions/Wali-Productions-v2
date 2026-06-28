@@ -9,7 +9,7 @@ import { GovernmentCallToAction } from "@/components/government/GovernmentCallTo
 
 export const metadata = buildMetadata({
   title: "Government Contracting",
-  description: "Government contracting readiness for Wali Productions LLC — Christian Veteran-Owned Technology & Digital Solutions.",
+  description: "Wali Productions LLC is a Veteran-Owned small business preparing for federal government contracting. Technology services for agencies and prime contractors — software, consulting, AI, and more.",
   path: "/government",
 });
 

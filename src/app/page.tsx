@@ -11,7 +11,7 @@ export const metadata = buildMetadata({
   absoluteTitle:
     "Wali Productions — Christian Veteran-Owned Technology & Digital Solutions",
   description:
-    "Wali Productions LLC — Christian Veteran-Owned Technology & Digital Solutions.",
+    "Wali Productions LLC delivers professional technology and digital solutions — website development, software engineering, AI integration, IT consulting, and media production. Christian Veteran-Owned.",
   path: "/",
 });
 
