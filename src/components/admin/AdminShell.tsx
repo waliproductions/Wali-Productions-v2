@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 
 import { AdminHeader } from "@/components/admin/AdminHeader";
-import { AdminSidebar } from "@/components/admin/AdminSidebar";
+import { AdminSidebar, ADMIN_NAV_SECTIONS } from "@/components/admin/AdminSidebar";
 
 export function AdminShell({
   children,
@@ -27,6 +27,7 @@ export function AdminShell({
       <AdminSidebar
         open={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
+        navSections={ADMIN_NAV_SECTIONS}
       />
 
       <div className="flex min-w-0 flex-1 flex-col">

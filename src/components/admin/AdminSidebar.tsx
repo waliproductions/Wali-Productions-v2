@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode, SVGProps } from "react";
 
-import type { AdminIcon, AdminNavItem } from "@/lib/admin/types";
+import type { AdminIcon, AdminNavItem, AdminNavSection } from "@/lib/admin/types";
 import { cn, isActiveNav } from "@/lib/admin/utils";
 
 function BaseIcon({
@@ -86,6 +86,28 @@ const SettingsIcon: AdminIcon = (props) => (
   </BaseIcon>
 );
 
+const OperationsIcon: AdminIcon = (props) => (
+  <BaseIcon {...props}>
+    <path d="M9 11l3 3L22 4" />
+    <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+  </BaseIcon>
+);
+
+const ContractsIcon: AdminIcon = (props) => (
+  <BaseIcon {...props}>
+    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+    <polyline points="14 2 14 8 20 8" />
+    <path d="M16 13H8M16 17H8M10 9H8" />
+  </BaseIcon>
+);
+
+const KnowledgeIcon: AdminIcon = (props) => (
+  <BaseIcon {...props}>
+    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+  </BaseIcon>
+);
+
 const CloseIcon = (props: SVGProps<SVGSVGElement>) => (
   <BaseIcon {...props}>
     <path d="M6 6l12 12M18 6 6 18" />
@@ -102,16 +124,90 @@ export const ADMIN_NAV: AdminNavItem[] = [
   { label: "Settings", href: "/admin/settings", icon: SettingsIcon, matchPrefix: true },
 ];
 
+export const ADMIN_NAV_SECTIONS: AdminNavSection[] = [
+  {
+    items: [
+      { label: "Dashboard", href: "/admin", icon: DashboardIcon },
+    ],
+  },
+  {
+    title: "Work",
+    items: [
+      { label: "Operations", href: "/admin/operations", icon: OperationsIcon, matchPrefix: true },
+      { label: "Gov Contracts", href: "/admin/contracts", icon: ContractsIcon, matchPrefix: true },
+    ],
+  },
+  {
+    title: "Content",
+    items: [
+      { label: "Portfolio", href: "/admin/portfolio", icon: PortfolioIcon, matchPrefix: true },
+      { label: "Government", href: "/admin/government", icon: GovernmentIcon, matchPrefix: true },
+    ],
+  },
+  {
+    title: "Knowledge",
+    items: [
+      { label: "Knowledge Base", href: "/admin/knowledge", icon: KnowledgeIcon, matchPrefix: true },
+    ],
+  },
+  {
+    title: "System",
+    items: [
+      { label: "Analytics", href: "/admin/analytics", icon: AnalyticsIcon, matchPrefix: true },
+      { label: "Contact Inquiries", href: "/admin/contact", icon: InboxIcon, matchPrefix: true },
+      { label: "Audit Log", href: "/admin/audit", icon: AuditIcon, matchPrefix: true },
+      { label: "Settings", href: "/admin/settings", icon: SettingsIcon, matchPrefix: true },
+    ],
+  },
+];
+
 type AdminSidebarProps = {
   open: boolean;
   onClose: () => void;
   navItems?: AdminNavItem[];
+  navSections?: AdminNavSection[];
 };
+
+function NavLink({
+  item,
+  pathname,
+  onClose,
+}: {
+  item: AdminNavItem;
+  pathname: string;
+  onClose: () => void;
+}) {
+  const active = isActiveNav(pathname, item.href, item.matchPrefix ?? false);
+  const Icon = item.icon;
+
+  return (
+    <Link
+      href={item.href}
+      onClick={onClose}
+      aria-current={active ? "page" : undefined}
+      className={cn(
+        "flex items-center gap-3 rounded-md border-l-2 px-3 py-2 text-sm font-medium transition-colors",
+        active
+          ? "border-amber-400 bg-amber-500/10 text-amber-300"
+          : "border-transparent text-zinc-400 hover:bg-zinc-800/60 hover:text-zinc-200"
+      )}
+    >
+      <Icon className="h-5 w-5 shrink-0" />
+      <span className="truncate">{item.label}</span>
+      {item.badge !== undefined ? (
+        <span className="ml-auto rounded-full bg-zinc-800 px-2 py-0.5 text-xs text-zinc-300">
+          {item.badge}
+        </span>
+      ) : null}
+    </Link>
+  );
+}
 
 export function AdminSidebar({
   open,
   onClose,
   navItems = ADMIN_NAV,
+  navSections,
 }: AdminSidebarProps) {
   const pathname = usePathname() ?? "";
 
@@ -158,42 +254,45 @@ export function AdminSidebar({
           </button>
         </div>
 
-        <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4">
-          {navItems.map((item) => {
-            const active = isActiveNav(
-              pathname,
-              item.href,
-              item.matchPrefix ?? false
-            );
-            const Icon = item.icon;
-
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={onClose}
-                aria-current={active ? "page" : undefined}
-                className={cn(
-                  "flex items-center gap-3 rounded-md border-l-2 px-3 py-2 text-sm font-medium transition-colors",
-                  active
-                    ? "border-amber-400 bg-amber-500/10 text-amber-300"
-                    : "border-transparent text-zinc-400 hover:bg-zinc-800/60 hover:text-zinc-200"
-                )}
-              >
-                <Icon className="h-5 w-5 shrink-0" />
-                <span className="truncate">{item.label}</span>
-                {item.badge !== undefined ? (
-                  <span className="ml-auto rounded-full bg-zinc-800 px-2 py-0.5 text-xs text-zinc-300">
-                    {item.badge}
-                  </span>
-                ) : null}
-              </Link>
-            );
-          })}
+        <nav className="flex-1 overflow-y-auto px-3 py-4">
+          {navSections ? (
+            <div className="space-y-5">
+              {navSections.map((section, idx) => (
+                <div key={section.title ?? idx}>
+                  {section.title ? (
+                    <p className="mb-1.5 px-3 text-[10px] font-semibold uppercase tracking-widest text-zinc-600">
+                      {section.title}
+                    </p>
+                  ) : null}
+                  <div className="space-y-0.5">
+                    {section.items.map((item) => (
+                      <NavLink
+                        key={item.href}
+                        item={item}
+                        pathname={pathname}
+                        onClose={onClose}
+                      />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="space-y-0.5">
+              {navItems.map((item) => (
+                <NavLink
+                  key={item.href}
+                  item={item}
+                  pathname={pathname}
+                  onClose={onClose}
+                />
+              ))}
+            </div>
+          )}
         </nav>
 
         <div className="border-t border-zinc-800 px-4 py-3">
-          <p className="text-xs text-zinc-600">Admin Portal · v0.3.0</p>
+          <p className="text-xs text-zinc-600">Admin Portal · v0.7.0</p>
         </div>
       </aside>
     </>

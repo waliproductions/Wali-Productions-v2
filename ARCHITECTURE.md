@@ -1,7 +1,7 @@
 # Architecture — Wali Productions v2
 
 Technical reference for the codebase structure, conventions, and key decisions.
-Updated through v0.6.
+Updated through v0.7.
 
 ---
 
@@ -49,7 +49,10 @@ src/
 │   │       ├── messages/     Team communication
 │   │       └── support/      Ticket submission and tracking
 │   ├── admin/                Admin portal (protected by middleware.ts)
-│   │   └── government/       Government readiness hub + 7 sub-pages
+│   │   ├── operations/       Operations hub: tasks, proposals, clients, reports
+│   │   ├── contracts/        Gov contracting: opportunities, proposals, past perf, certs, teaming
+│   │   ├── government/       Public government page admin + 7 sub-pages
+│   │   └── knowledge/        Knowledge base: SOPs, policies, standards, templates
 │   ├── api/contact/          Contact form API route
 │   ├── login/                Admin login (iron-session)
 │   └── [public pages]/       /, about, services, government, portfolio, contact
@@ -66,6 +69,9 @@ src/
 │   │   ├── EmptyState.tsx    Empty state with icon, description, actions
 │   │   ├── Skeleton.tsx      Loading placeholders
 │   │   ├── MetricCard.tsx    KPI card with trend indicator
+│   │   ├── Timeline.tsx      Timeline/milestone display with status states
+│   │   ├── Callout.tsx       Contextual callout blocks (info/tip/warning/note)
+│   │   ├── ProgressBar.tsx   Accessible progress bar with variant colors
 │   │   └── forms/
 │   │       ├── Field.tsx     Label + error wrapper
 │   │       ├── Input.tsx     Styled <input>
@@ -104,8 +110,12 @@ src/
     ├── client.ts             Client, ClientContact, ClientStatus, ClientType
     ├── project.ts            Project, Milestone, Deliverable, TeamMember
     ├── proposal.ts           Proposal, ProposalSection, ProposalMilestone
-    └── government.ts         NaicsCode, PscCode, Certification, ContractVehicle,
-                              PastPerformanceRecord, CapabilityStatementSnapshot
+    ├── government.ts         NaicsCode, PscCode, Certification, ContractVehicle,
+    │                         PastPerformanceRecord, CapabilityStatementSnapshot
+    ├── roles.ts              UserRole, Permission, SystemPermissions, ROLE_PERMISSIONS
+    ├── operations.ts         Task, Notification, BusinessMetric, PipelineEntry
+    ├── opportunity.ts        GovOpportunity, Solicitation, TeamingPartner, AgencyContact
+    └── knowledge.ts          KnowledgeEntry, SopEntry, PolicyRecord, DocumentRecord
 
 middleware.ts                 Admin route protection (/admin/:path*)
 next.config.mjs               Security headers + image optimization
@@ -146,6 +156,57 @@ Types for the full contracting data lifecycle: `NaicsCode`, `PscCode`,
 
 **Safety rule:** `PastPerformanceRecord.authorized` must be explicitly `true`
 before any record appears in a proposal or public document.
+
+### Roles (v0.7)
+
+`UserRole` defines 6 access tiers: `founder`, `admin`, `operations`, `contracts`,
+`knowledge`, `viewer`. `ROLE_PERMISSIONS` maps each role to its allowed `Permission`
+set. These are type definitions only — no auth enforcement is wired yet.
+
+### Operations (v0.7)
+
+`Task` covers the full work-item lifecycle with priority, status, and category.
+`Notification` handles in-app and email alert records. `BusinessMetric` captures
+KPIs with trend data. `PipelineEntry` tracks commercial proposal pipeline stages.
+
+### Opportunity (v0.7)
+
+`GovOpportunity` tracks contracting opportunities from identification through award.
+`Solicitation` captures RFP/RFQ details and amendments. `TeamingPartner` manages
+subcontractor and prime relationships. `AgencyContact` tracks government POCs.
+
+### Knowledge (v0.7)
+
+`KnowledgeEntry` is the base type for all knowledge base entries. `SopEntry`
+extends it with step-by-step procedures and role assignments. `PolicyRecord` adds
+enforcement level and effective dates. `DocumentRecord` handles file-based documents
+with versioning and retention rules.
+
+---
+
+## Admin Portal Sections
+
+The admin portal uses grouped sidebar navigation organized by functional domain.
+All sections share the dark-theme admin UI component library (`src/components/admin/`).
+
+| Section | Route | Purpose |
+|---------|-------|---------|
+| Dashboard | `/admin` | Platform overview and quick metrics |
+| Operations | `/admin/operations` | Tasks, proposals pipeline, clients CRM, reports |
+| Gov Contracts | `/admin/contracts` | Internal contracting workspace (opportunities, proposals, past perf, certs, teaming) |
+| Portfolio | `/admin/portfolio` | Portfolio entry management |
+| Government | `/admin/government` | Public `/government` page admin + capability center |
+| Knowledge Base | `/admin/knowledge` | SOPs, policies, standards, templates |
+| Analytics | `/admin/analytics` | Traffic and engagement metrics |
+| Contact Inquiries | `/admin/contact` | Incoming form submissions |
+| Audit Log | `/admin/audit` | Admin action history |
+| Settings | `/admin/settings` | System configuration |
+
+**Key distinction — Government vs. Contracts:**
+`/admin/government` manages public-facing marketing content (the `/government` page).
+`/admin/contracts` is an internal workspace for actual contracting operations and is
+never exposed publicly. They share `src/types/government.ts` types but serve completely
+different purposes.
 
 ---
 
