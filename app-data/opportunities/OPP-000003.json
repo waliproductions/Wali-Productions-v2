@@ -1,0 +1,28 @@
+{
+  "id": "OPP-000003",
+  "createdAt": "2026-06-28T16:44:57.598Z",
+  "updatedAt": "2026-06-28T16:44:57.598Z",
+  "createdBy": "seed",
+  "updatedBy": "seed",
+  "version": 1,
+  "archived": false,
+  "deleted": false,
+  "title": "VA IT Modernization — Veteran Portal Enhancement",
+  "agency": "Department of Veterans Affairs",
+  "track": "government-federal",
+  "stage": "lead",
+  "status": "tracking",
+  "organizationId": "ORG-000002",
+  "estimatedValue": 500000,
+  "currency": "USD",
+  "winProbability": 15,
+  "responseDeadline": "2026-08-12",
+  "solicitationNumber": "VA-2026-IT-0047",
+  "description": "VA seeking vendors to modernize the veteran-facing portal. Multiple task areas.",
+  "notes": "Pre-RFP phase. Attending industry day next month. Need SAM.gov registration first.",
+  "tags": [
+    "va",
+    "portal",
+    "it-modernization"
+  ]
+}

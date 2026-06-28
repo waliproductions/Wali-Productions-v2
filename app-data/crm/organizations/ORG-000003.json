@@ -1,0 +1,27 @@
+{
+  "id": "ORG-000003",
+  "createdAt": "2026-06-28T16:44:57.598Z",
+  "updatedAt": "2026-06-28T16:44:57.598Z",
+  "createdBy": "seed",
+  "updatedBy": "seed",
+  "version": 1,
+  "archived": false,
+  "deleted": false,
+  "name": "Nexus Media Group",
+  "legalName": "Nexus Media Group LLC",
+  "status": "qualified",
+  "sector": "media",
+  "size": "mid-market",
+  "hqCity": "Atlanta",
+  "hqState": "GA",
+  "hqCountry": "US",
+  "description": "Regional media production company seeking digital transformation.",
+  "internalNotes": "Warm intro from network contact. Need full website rebuild + streaming infrastructure.",
+  "tags": [
+    "media",
+    "streaming",
+    "website"
+  ],
+  "relationshipScore": 70,
+  "lastActivityAt": "2026-06-28T16:44:57.598Z"
+}

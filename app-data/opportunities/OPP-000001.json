@@ -1,0 +1,31 @@
+{
+  "id": "OPP-000001",
+  "createdAt": "2026-06-28T16:44:57.598Z",
+  "updatedAt": "2026-06-28T16:44:57.598Z",
+  "createdBy": "seed",
+  "updatedBy": "seed",
+  "version": 1,
+  "archived": false,
+  "deleted": false,
+  "title": "DIU Commercial Technology Accelerator — AI Workflow Tools",
+  "agency": "Defense Innovation Unit",
+  "track": "government-federal",
+  "stage": "qualified",
+  "status": "pursuing",
+  "organizationId": "ORG-000001",
+  "contactIds": [
+    "CNT-000001"
+  ],
+  "naicsCode": "541511",
+  "estimatedValue": 250000,
+  "currency": "USD",
+  "winProbability": 35,
+  "responseDeadline": "2026-07-26",
+  "description": "SBIR-like solicitation for AI-powered workflow automation in defense operations.",
+  "notes": "SDVOSB set-aside. Strong fit for our AI capabilities. Need to finalize capability statement and past performance.",
+  "tags": [
+    "ai",
+    "dod",
+    "sdvosb"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "id": "CNT-000002",
+  "createdAt": "2026-06-28T16:44:57.598Z",
+  "updatedAt": "2026-06-28T16:44:57.598Z",
+  "createdBy": "seed",
+  "updatedBy": "seed",
+  "version": 1,
+  "archived": false,
+  "deleted": false,
+  "organizationId": "ORG-000003",
+  "firstName": "Angela",
+  "lastName": "Torres",
+  "title": "Chief Executive Officer",
+  "email": "angela@nexusmediagroup.com",
+  "phone": "404-555-0192",
+  "role": "executive",
+  "decisionAuthority": true,
+  "isPrimary": true,
+  "notes": "Primary decision maker. Wants to modernize all digital operations.",
+  "lastContactedAt": "2026-06-25T16:44:57.599Z"
+}

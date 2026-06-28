@@ -1,0 +1,30 @@
+{
+  "id": "OPP-000004",
+  "createdAt": "2026-06-28T16:44:57.598Z",
+  "updatedAt": "2026-06-28T16:44:57.598Z",
+  "createdBy": "seed",
+  "updatedBy": "seed",
+  "version": 1,
+  "archived": false,
+  "deleted": false,
+  "title": "Covenant Church — Audio Equipment Upgrade Package",
+  "agency": "",
+  "track": "commercial",
+  "stage": "lead",
+  "status": "identified",
+  "organizationId": "ORG-000004",
+  "contactIds": [
+    "CNT-000003"
+  ],
+  "estimatedValue": 8000,
+  "currency": "USD",
+  "winProbability": 85,
+  "expectedCloseDate": "2026-07-19",
+  "description": "Audio system upgrade for main sanctuary. Mixers, mics, monitors, and installation.",
+  "notes": "Active client — near certain close. Pricing research underway.",
+  "tags": [
+    "audio",
+    "church",
+    "existing-client"
+  ]
+}

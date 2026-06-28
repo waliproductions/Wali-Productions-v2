@@ -1,0 +1,20 @@
+{
+  "id": "CNT-000004",
+  "createdAt": "2026-06-28T16:44:57.598Z",
+  "updatedAt": "2026-06-28T16:44:57.598Z",
+  "createdBy": "seed",
+  "updatedBy": "seed",
+  "version": 1,
+  "archived": false,
+  "deleted": false,
+  "organizationId": "ORG-000005",
+  "firstName": "Jordan",
+  "lastName": "Lee",
+  "title": "Business Development Director",
+  "email": "jlee@techforcesolutions.com",
+  "role": "champion",
+  "decisionAuthority": false,
+  "isPrimary": true,
+  "notes": "Teaming contact. Has introduced us to two federal procurement officers.",
+  "lastContactedAt": "2026-06-21T16:44:57.599Z"
+}

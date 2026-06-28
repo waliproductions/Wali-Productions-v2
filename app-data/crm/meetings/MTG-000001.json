@@ -1,0 +1,27 @@
+{
+  "id": "MTG-000001",
+  "createdAt": "2026-06-28T16:44:57.598Z",
+  "updatedAt": "2026-06-28T16:44:57.598Z",
+  "createdBy": "seed",
+  "updatedBy": "seed",
+  "version": 1,
+  "archived": false,
+  "deleted": false,
+  "title": "Nexus Media — Discovery Call",
+  "type": "discovery",
+  "status": "completed",
+  "organizationId": "ORG-000003",
+  "contactIds": [
+    "CNT-000002"
+  ],
+  "scheduledAt": "2026-06-25T16:44:57.599Z",
+  "durationMinutes": 60,
+  "location": "Zoom",
+  "notes": "Discussed full digital transformation: website, streaming platform, social media management. Budget range $25k–$50k.",
+  "actionItems": [
+    "Send capability statement",
+    "Draft preliminary proposal",
+    "Follow up with streaming platform demo"
+  ],
+  "followUpDate": "2026-07-05"
+}

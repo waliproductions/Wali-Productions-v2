@@ -1,0 +1,28 @@
+{
+  "id": "ORG-000004",
+  "createdAt": "2026-06-28T16:44:57.598Z",
+  "updatedAt": "2026-06-28T16:44:57.598Z",
+  "createdBy": "seed",
+  "updatedBy": "seed",
+  "version": 1,
+  "archived": false,
+  "deleted": false,
+  "name": "Covenant Community Church",
+  "legalName": "Covenant Community Church Inc.",
+  "status": "active-client",
+  "sector": "nonprofit",
+  "size": "small",
+  "hqCity": "Nashville",
+  "hqState": "TN",
+  "hqCountry": "US",
+  "description": "Growing faith community requiring digital presence and audio/media support.",
+  "internalNotes": "Long-term relationship. Website and audio production retainer.",
+  "tags": [
+    "nonprofit",
+    "faith",
+    "audio",
+    "retainer"
+  ],
+  "relationshipScore": 90,
+  "lastActivityAt": "2026-06-28T16:44:57.598Z"
+}

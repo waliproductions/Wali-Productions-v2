@@ -1,0 +1,21 @@
+{
+  "id": "MTG-000003",
+  "createdAt": "2026-06-28T16:44:57.598Z",
+  "updatedAt": "2026-06-28T16:44:57.598Z",
+  "createdBy": "seed",
+  "updatedBy": "seed",
+  "version": 1,
+  "archived": false,
+  "deleted": false,
+  "title": "TechForce — Teaming Alignment",
+  "type": "networking",
+  "status": "scheduled",
+  "organizationId": "ORG-000005",
+  "contactIds": [
+    "CNT-000004"
+  ],
+  "scheduledAt": "2026-07-03T16:44:57.599Z",
+  "durationMinutes": 45,
+  "videoUrl": "https://zoom.us/j/example",
+  "agenda": "Review joint teaming agreement. Discuss VA IT modernization RFP due next month."
+}

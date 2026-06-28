@@ -1,0 +1,30 @@
+{
+  "id": "DOC-000001",
+  "createdAt": "2026-06-28T16:44:57.598Z",
+  "updatedAt": "2026-06-28T16:44:57.598Z",
+  "createdBy": "seed",
+  "updatedBy": "seed",
+  "version": 1,
+  "archived": false,
+  "deleted": false,
+  "title": "Client Onboarding SOP",
+  "category": "sop",
+  "status": "approved",
+  "description": "Standard process for onboarding new commercial and government clients.",
+  "ownerRole": "Founder",
+  "reviewCycleMonths": 6,
+  "lastReviewedAt": "2026-05-29",
+  "nextReviewAt": "2026-11-25",
+  "tags": [
+    "onboarding",
+    "client",
+    "operations"
+  ],
+  "versions": [
+    {
+      "version": "1.0",
+      "summary": "Initial approved version",
+      "createdAt": "2026-06-28T16:44:57.598Z"
+    }
+  ]
+}

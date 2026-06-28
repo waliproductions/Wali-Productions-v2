@@ -1,0 +1,27 @@
+{
+  "id": "ORG-000005",
+  "createdAt": "2026-06-28T16:44:57.598Z",
+  "updatedAt": "2026-06-28T16:44:57.598Z",
+  "createdBy": "seed",
+  "updatedBy": "seed",
+  "version": 1,
+  "archived": false,
+  "deleted": false,
+  "name": "TechForce Solutions",
+  "legalName": "TechForce Solutions Inc.",
+  "status": "partner",
+  "sector": "technology",
+  "size": "small",
+  "hqCity": "Dallas",
+  "hqState": "TX",
+  "hqCountry": "US",
+  "description": "IT staffing and solutions partner for teaming on federal contracts.",
+  "internalNotes": "Potential teaming partner on DoD opportunities. Has TS/SCI cleared staff.",
+  "tags": [
+    "teaming",
+    "cleared",
+    "staffing"
+  ],
+  "relationshipScore": 65,
+  "lastActivityAt": "2026-06-28T16:44:57.598Z"
+}

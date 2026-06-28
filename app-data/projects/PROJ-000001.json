@@ -1,0 +1,50 @@
+{
+  "id": "PROJ-000001",
+  "createdAt": "2026-06-28T16:44:57.598Z",
+  "updatedAt": "2026-06-28T16:44:57.598Z",
+  "createdBy": "seed",
+  "updatedBy": "seed",
+  "version": 1,
+  "archived": false,
+  "deleted": false,
+  "title": "Covenant Community Church — Website & Audio Support",
+  "description": "Ongoing retainer engagement covering website maintenance, content updates, and audio production support.",
+  "status": "active",
+  "health": "on-track",
+  "servicesPerformed": [
+    "Website Design",
+    "Audio Engineering",
+    "Content Management"
+  ],
+  "technologies": [
+    "Next.js",
+    "Tailwind CSS"
+  ],
+  "startDate": "2026-03-30",
+  "targetDate": "2027-03-30",
+  "estimatedBudget": 12000,
+  "actualSpend": 3200,
+  "currency": "USD",
+  "milestones": [
+    {
+      "id": "MLS-001",
+      "title": "Website launch",
+      "status": "completed",
+      "completedDate": "2026-04-29",
+      "paymentPercentage": 50
+    },
+    {
+      "id": "MLS-002",
+      "title": "Q3 audio upgrade",
+      "status": "pending",
+      "dueDate": "2026-08-12",
+      "paymentPercentage": 25
+    }
+  ],
+  "risks": [],
+  "govPerformanceEligible": false,
+  "tags": [
+    "retainer",
+    "active"
+  ]
+}

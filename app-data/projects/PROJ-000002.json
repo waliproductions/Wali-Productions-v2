@@ -1,0 +1,56 @@
+{
+  "id": "PROJ-000002",
+  "createdAt": "2026-06-28T16:44:57.598Z",
+  "updatedAt": "2026-06-28T16:44:57.598Z",
+  "createdBy": "seed",
+  "updatedBy": "seed",
+  "version": 1,
+  "archived": false,
+  "deleted": false,
+  "title": "Wali Productions — Enterprise Platform v2 (Internal)",
+  "description": "Internal development of the enterprise admin platform, public website, and government contracting workspace.",
+  "status": "active",
+  "health": "on-track",
+  "servicesPerformed": [
+    "Software Development",
+    "Systems Administration"
+  ],
+  "technologies": [
+    "Next.js",
+    "TypeScript",
+    "Tailwind CSS",
+    "iron-session",
+    "bcryptjs"
+  ],
+  "startDate": "2025-12-30",
+  "milestones": [
+    {
+      "id": "MLS-003",
+      "title": "v1.0 — Production launch",
+      "status": "completed",
+      "completedDate": "2026-05-29"
+    },
+    {
+      "id": "MLS-004",
+      "title": "v1.1 — Enterprise platform",
+      "status": "in-progress",
+      "dueDate": "2026-07-28"
+    }
+  ],
+  "risks": [
+    {
+      "id": "RSK-001",
+      "title": "No database — file-based storage constraints",
+      "probability": "medium",
+      "impact": "medium",
+      "status": "open",
+      "mitigationPlan": "Repository pattern abstracts storage. Postgres migration is a single implementation swap.",
+      "identifiedAt": "2026-04-29T16:44:57.599Z"
+    }
+  ],
+  "govPerformanceEligible": false,
+  "tags": [
+    "internal",
+    "platform"
+  ]
+}

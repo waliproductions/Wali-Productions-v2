@@ -1,0 +1,30 @@
+{
+  "id": "DOC-000002",
+  "createdAt": "2026-06-28T16:44:57.598Z",
+  "updatedAt": "2026-06-28T16:44:57.598Z",
+  "createdBy": "seed",
+  "updatedBy": "seed",
+  "version": 1,
+  "archived": false,
+  "deleted": false,
+  "title": "Government Contracting Readiness Policy",
+  "category": "policy",
+  "status": "approved",
+  "description": "Policy governing how Wali Productions pursues and manages federal contracts.",
+  "ownerRole": "Founder",
+  "reviewCycleMonths": 12,
+  "lastReviewedAt": "2026-06-18",
+  "nextReviewAt": "2027-06-18",
+  "tags": [
+    "government",
+    "policy",
+    "contracting"
+  ],
+  "versions": [
+    {
+      "version": "1.0",
+      "summary": "Initial version",
+      "createdAt": "2026-06-28T16:44:57.598Z"
+    }
+  ]
+}

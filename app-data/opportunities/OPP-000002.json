@@ -1,0 +1,30 @@
+{
+  "id": "OPP-000002",
+  "createdAt": "2026-06-28T16:44:57.598Z",
+  "updatedAt": "2026-06-28T16:44:57.598Z",
+  "createdBy": "seed",
+  "updatedBy": "seed",
+  "version": 1,
+  "archived": false,
+  "deleted": false,
+  "title": "Nexus Media Group — Digital Transformation Engagement",
+  "agency": "",
+  "track": "commercial",
+  "stage": "proposal",
+  "status": "pursuing",
+  "organizationId": "ORG-000003",
+  "contactIds": [
+    "CNT-000002"
+  ],
+  "estimatedValue": 38500,
+  "currency": "USD",
+  "winProbability": 75,
+  "expectedCloseDate": "2026-07-12",
+  "description": "Full digital transformation: website redesign, streaming platform, social media management.",
+  "notes": "Strong discovery session. Angela is ready to move forward pending proposal review.",
+  "tags": [
+    "media",
+    "website",
+    "streaming"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "id": "CNT-000003",
+  "createdAt": "2026-06-28T16:44:57.598Z",
+  "updatedAt": "2026-06-28T16:44:57.598Z",
+  "createdBy": "seed",
+  "updatedBy": "seed",
+  "version": 1,
+  "archived": false,
+  "deleted": false,
+  "organizationId": "ORG-000004",
+  "firstName": "Pastor David",
+  "lastName": "Freeman",
+  "title": "Senior Pastor",
+  "email": "pastor@covenantcc.org",
+  "phone": "615-555-0147",
+  "role": "decision-maker",
+  "decisionAuthority": true,
+  "isPrimary": true,
+  "notes": "Primary contact and champion. Has full authority on technology decisions.",
+  "lastContactedAt": "2026-06-27T16:44:57.599Z"
+}

@@ -1,0 +1,30 @@
+{
+  "id": "DOC-000004",
+  "createdAt": "2026-06-28T16:44:57.598Z",
+  "updatedAt": "2026-06-28T16:44:57.598Z",
+  "createdBy": "seed",
+  "updatedBy": "seed",
+  "version": 1,
+  "archived": false,
+  "deleted": false,
+  "title": "Proposal Template — Commercial",
+  "category": "template",
+  "status": "approved",
+  "description": "Standard commercial proposal template with pricing, scope, and terms sections.",
+  "ownerRole": "Founder",
+  "reviewCycleMonths": 12,
+  "lastReviewedAt": "2026-04-29",
+  "nextReviewAt": "2027-04-29",
+  "tags": [
+    "proposal",
+    "template",
+    "commercial"
+  ],
+  "versions": [
+    {
+      "version": "1.0",
+      "summary": "Initial version",
+      "createdAt": "2026-06-28T16:44:57.598Z"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "id": "CNT-000001",
+  "createdAt": "2026-06-28T16:44:57.598Z",
+  "updatedAt": "2026-06-28T16:44:57.598Z",
+  "createdBy": "seed",
+  "updatedBy": "seed",
+  "version": 1,
+  "archived": false,
+  "deleted": false,
+  "organizationId": "ORG-000001",
+  "firstName": "Marcus",
+  "lastName": "Webb",
+  "title": "Director of Commercial Technology",
+  "email": "m.webb@diu.mil",
+  "role": "contracting-officer",
+  "decisionAuthority": true,
+  "isPrimary": true,
+  "notes": "Met at AFCEA symposium. Interested in AI-assisted workflow tools.",
+  "lastContactedAt": "2026-06-14T16:44:57.599Z"
+}

@@ -1,0 +1,24 @@
+{
+  "id": "MTG-000002",
+  "createdAt": "2026-06-28T16:44:57.598Z",
+  "updatedAt": "2026-06-28T16:44:57.598Z",
+  "createdBy": "seed",
+  "updatedBy": "seed",
+  "version": 1,
+  "archived": false,
+  "deleted": false,
+  "title": "Covenant Church — Monthly Check-in",
+  "type": "check-in",
+  "status": "completed",
+  "organizationId": "ORG-000004",
+  "contactIds": [
+    "CNT-000003"
+  ],
+  "scheduledAt": "2026-06-27T16:44:57.599Z",
+  "durationMinutes": 30,
+  "notes": "Website performing well. Discussed adding online giving integration. Audio equipment upgrade planned for Q3.",
+  "actionItems": [
+    "Research online giving integrations",
+    "Quote audio equipment package"
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "ORG-000001",
+  "createdAt": "2026-06-28T16:44:57.598Z",
+  "updatedAt": "2026-06-28T16:44:57.598Z",
+  "createdBy": "seed",
+  "updatedBy": "seed",
+  "version": 1,
+  "archived": false,
+  "deleted": false,
+  "name": "Defense Innovation Unit",
+  "legalName": "Defense Innovation Unit",
+  "status": "prospect",
+  "sector": "defense",
+  "size": "large",
+  "website": "https://www.diu.mil",
+  "hqCity": "Mountain View",
+  "hqState": "CA",
+  "hqCountry": "US",
+  "description": "DoD unit accelerating adoption of commercial technology for national security.",
+  "internalNotes": "Excellent fit for AI and software development capabilities. Active solicitations on beta.SAM.gov.",
+  "tags": [
+    "dod",
+    "ai",
+    "high-priority"
+  ],
+  "relationshipScore": 45,
+  "lastActivityAt": "2026-06-28T16:44:57.598Z"
+}

@@ -1,0 +1,28 @@
+{
+  "id": "ORG-000002",
+  "createdAt": "2026-06-28T16:44:57.598Z",
+  "updatedAt": "2026-06-28T16:44:57.598Z",
+  "createdBy": "seed",
+  "updatedBy": "seed",
+  "version": 1,
+  "archived": false,
+  "deleted": false,
+  "name": "Department of Veterans Affairs",
+  "legalName": "U.S. Department of Veterans Affairs",
+  "status": "prospect",
+  "sector": "federal-government",
+  "size": "large",
+  "website": "https://www.va.gov",
+  "hqCity": "Washington",
+  "hqState": "DC",
+  "hqCountry": "US",
+  "description": "Federal agency serving veterans with healthcare, benefits, and services.",
+  "internalNotes": "SDVOSB set-asides available. IT modernization is a major initiative.",
+  "tags": [
+    "va",
+    "sdvosb",
+    "it-modernization"
+  ],
+  "relationshipScore": 30,
+  "lastActivityAt": "2026-06-28T16:44:57.598Z"
+}

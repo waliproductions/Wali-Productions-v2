@@ -1,0 +1,22 @@
+{
+  "id": "DOC-000003",
+  "createdAt": "2026-06-28T16:44:57.598Z",
+  "updatedAt": "2026-06-28T16:44:57.598Z",
+  "createdBy": "seed",
+  "updatedBy": "seed",
+  "version": 1,
+  "archived": false,
+  "deleted": false,
+  "title": "Project Delivery Standard",
+  "category": "standard",
+  "status": "draft",
+  "description": "Defines quality gates, milestone criteria, and delivery standards for all engagements.",
+  "ownerRole": "Founder",
+  "reviewCycleMonths": 6,
+  "tags": [
+    "delivery",
+    "quality",
+    "standards"
+  ],
+  "versions": []
+}
