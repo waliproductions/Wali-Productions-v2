@@ -1,6 +1,7 @@
 # Architecture — Wali Productions v2
 
 Technical reference for the codebase structure, conventions, and key decisions.
+Updated through v0.6.
 
 ---
 
@@ -18,49 +19,133 @@ Technical reference for the codebase structure, conventions, and key decisions.
 
 ---
 
+## Platform Vision
+
+This project is evolving from a marketing site into a full business platform serving:
+
+- **Commercial clients** — project tracking, proposals, file exchange, invoicing
+- **Enterprise clients** — account management, multi-user access, reporting
+- **Government agencies** — capability statements, past performance, compliance
+- **State and local governments** — same as federal with different contracting mechanisms
+
+Every architectural decision should support this trajectory. Prefer configuration over hardcoded values, shared types over one-off shapes, and composition over repetition.
+
+---
+
 ## Directory Map
 
 ```
 src/
 ├── app/                      Next.js App Router pages
-│   ├── (portal)/             Route group — future client portal (isolated)
-│   ├── admin/                Admin portal (protected by middleware)
+│   ├── (portal)/             Route group — client portal (noindex, isolated layout)
+│   │   └── portal/
+│   │       ├── layout.tsx    PortalShell wrapper for all module pages
+│   │       ├── page.tsx      Redirect → /portal/dashboard
+│   │       ├── dashboard/    Overview, metrics, module nav
+│   │       ├── projects/     Project milestones and deliverables
+│   │       ├── proposals/    Proposal review and signature
+│   │       ├── files/        Secure document exchange
+│   │       ├── invoices/     Billing and payment history
+│   │       ├── messages/     Team communication
+│   │       └── support/      Ticket submission and tracking
+│   ├── admin/                Admin portal (protected by middleware.ts)
+│   │   └── government/       Government readiness hub + 7 sub-pages
 │   ├── api/contact/          Contact form API route
-│   ├── login/                Admin login page
-│   └── [public pages]/       about, services, government, portfolio, contact
+│   ├── login/                Admin login (iron-session)
+│   └── [public pages]/       /, about, services, government, portfolio, contact
 ├── components/
-│   ├── ui/                   Shared primitives (Section, PageHero, GradientCTA,
-│   │                         NarrativeBlock, Button)
-│   ├── home/                 Homepage section components
+│   ├── ui/                   Shared UI primitives
+│   │   ├── Section.tsx       Page section with consistent vertical rhythm
+│   │   ├── PageHero.tsx      Gradient hero for inner pages
+│   │   ├── GradientCTA.tsx   Full-width gradient CTA section
+│   │   ├── NarrativeBlock.tsx Two-column editorial text section
+│   │   ├── Button.tsx        Link/button with variant support
+│   │   ├── Card.tsx          Card/CardHeader/CardBody/CardFooter
+│   │   ├── Badge.tsx         Status badges (7 variants, optional dot)
+│   │   ├── Alert.tsx         info/success/warning/error alerts
+│   │   ├── EmptyState.tsx    Empty state with icon, description, actions
+│   │   ├── Skeleton.tsx      Loading placeholders
+│   │   ├── MetricCard.tsx    KPI card with trend indicator
+│   │   └── forms/
+│   │       ├── Field.tsx     Label + error wrapper
+│   │       ├── Input.tsx     Styled <input>
+│   │       ├── Textarea.tsx  Styled <textarea>
+│   │       ├── Select.tsx    Styled <select> with options prop
+│   │       └── FormFeedback.tsx  Error/success/info banner
+│   ├── portal/               Client portal layout components
+│   │   ├── PortalShell.tsx   Fixed sidebar + scrollable content
+│   │   └── PortalSidebar.tsx Nav with active-link detection
+│   ├── home/                 Homepage section components (re-export ui/ primitives)
 │   ├── services/             Services page components
 │   ├── government/           Government page components
 │   ├── portfolio/            Portfolio page components
 │   ├── about/                About page components
-│   ├── contact/              Contact page components
-│   ├── admin/                Admin UI component library
+│   ├── contact/              Contact page + ConsultationForm
+│   ├── admin/                Admin UI component library (dark theme)
 │   └── layout/               Navbar, Footer
-├── config/                   All content and site data
-│   ├── site.ts               Nav, routes, base URL
-│   ├── home.ts               Homepage content
+├── config/                   All content and site data (single source of truth)
+│   ├── site.ts               Nav, routes, base URL, identity
+│   ├── home.ts               Homepage copy
 │   ├── services.ts           Services content + ServiceCard type
 │   ├── portfolio.ts          Portfolio content + PortfolioProject type
 │   ├── government.ts         Government page content (public)
-│   ├── government-center.ts  Extended gov data for admin portal
+│   ├── government-center.ts  Extended gov data for admin (capabilities, NAICS, PSC)
 │   ├── about.ts              About page content
-│   └── contact.ts            Contact page content
+│   └── contact.ts            Contact page content + service options
 ├── lib/
-│   ├── auth/                 Session helpers + server actions
+│   ├── utils.ts              Shared cn() class-merger
+│   ├── auth/
 │   │   ├── session.ts        iron-session config + getSession()
-│   │   └── actions.ts        loginAction + logoutAction
-│   ├── admin/                Admin utilities (cn, truncate, formatDate, types)
+│   │   └── actions.ts        loginAction + logoutAction (server actions)
+│   ├── admin/                Admin utilities (cn, formatDate, truncate, types)
 │   └── seo.ts                buildMetadata, buildOrganizationJsonLd, OG_IMAGE
-├── types/
-│   └── index.ts              Shared utility types (Cta, CodeEntry, etc.)
-└── proxy.ts                  (legacy — removed; see middleware.ts)
+└── types/
+    ├── index.ts              Re-exports all types + utility types
+    ├── client.ts             Client, ClientContact, ClientStatus, ClientType
+    ├── project.ts            Project, Milestone, Deliverable, TeamMember
+    ├── proposal.ts           Proposal, ProposalSection, ProposalMilestone
+    └── government.ts         NaicsCode, PscCode, Certification, ContractVehicle,
+                              PastPerformanceRecord, CapabilityStatementSnapshot
 
 middleware.ts                 Admin route protection (/admin/:path*)
 next.config.mjs               Security headers + image optimization
+tailwind.config.ts            Custom tokens (gold, steel, gov-slate, shadow-card)
 ```
+
+---
+
+## Business Data Models
+
+All business types live in `src/types/`. Config-specific types (ServiceCard,
+PortfolioProject, etc.) remain co-located with their config file.
+
+### Client
+
+Supports commercial, enterprise, and government clients. Government-specific
+fields (UEI, CAGE) are present but only populated for government accounts.
+`ClientContact` supports multiple contacts per account with role typing.
+
+### Project
+
+Tracks engagements from proposal through delivery. Supports milestones,
+deliverables, team assignments, documents, and budget visibility.
+`govPerformanceEligible` flags projects that can be cited as past performance.
+
+### Proposal
+
+Covers the full lifecycle from draft through acceptance. Supports revision
+history, line items, milestone billing, and government-specific fields
+(NAICS, PSC, set-aside category). `authorized` fields prevent accidental
+publication of unverified data.
+
+### Government
+
+Types for the full contracting data lifecycle: `NaicsCode`, `PscCode`,
+`Certification`, `ContractVehicle`, `PastPerformanceRecord`,
+`TeamQualification`, and `CapabilityStatementSnapshot`.
+
+**Safety rule:** `PastPerformanceRecord.authorized` must be explicitly `true`
+before any record appears in a proposal or public document.
 
 ---
 
@@ -70,34 +155,41 @@ next.config.mjs               Security headers + image optimization
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| `--gov-slate` / `#0D1B2A` | Deep navy | Dark section base |
-| `#1E3A5F` | Slate blue | Gradient mid + nav hover |
+| `--gov-slate` / `#0D1B2A` | Deep navy | Dark section base, headings |
+| `#1E3A5F` | Slate blue | Gradient mid, hover states |
 | `#2B4C7E` | Slate | Gradient end |
-| `--steel` / `#4A7DB5` | Steel blue | Accent bars, links, glow |
-| `--gold` / `#B8831A` | Warm gold | Eyebrow labels (brand identity only) |
-| `#94A3B8` | Cool grey | Subhead text on dark |
+| `--steel` / `#4A7DB5` | Steel blue | Accent bars, links, icons, glow |
+| `--gold` / `#B8831A` | Warm gold | Eyebrow labels (identity only) |
+| `#94A3B8` | Cool grey | Subhead text on dark sections |
 | `#F8FAFC` | Off-white | Muted section backgrounds |
-| `#F0F4F8` | Light blue-grey | Icon containers |
+| `#F0F4F8` | Light blue-grey | Icon containers, badge backgrounds |
 
 ### Dark Section Pattern
 
-All gradient dark sections (heroes, CTAs) use this consistent pattern:
+All gradient dark sections (heroes, CTAs) use:
 
 ```tsx
-// Background gradient
 <div className="absolute inset-0 bg-gradient-to-br from-[#0D1B2A] via-[#1E3A5F] to-[#2B4C7E]" />
-// Dot texture
 <div className="absolute inset-0" style={{ backgroundImage: DOT_BG }} />
-// Steel glow orb
 <div className="pointer-events-none absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-[#4A7DB5] opacity-10 blur-3xl" />
 ```
 
-The `DOT_BG` constant is the inline SVG data URI for the 40×40 dot pattern.
+`DOT_BG` is the inline SVG data URI for the 40×40 dot texture.
 
 ### Typography
 
 - Display: `Space Grotesk` → `--font-display` → `font-display`
 - Body: `Inter` → `--font-sans` → `font-sans`
+
+### Tailwind Tokens
+
+```ts
+boxShadow: {
+  card:       "0 1px 4px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04)",
+  card-hover: "0 4px 16px rgba(0,0,0,0.10), 0 1px 4px rgba(0,0,0,0.06)",
+}
+maxWidth: { content: "72rem" }
+```
 
 ---
 
@@ -105,25 +197,17 @@ The `DOT_BG` constant is the inline SVG data URI for the 40×40 dot pattern.
 
 **All page copy lives in `src/config/*.ts` — never in components.**
 
-Components receive data from config files and render it. No component should hardcode business copy. This enables a single file to serve as the source of truth for content changes.
+Components receive data from config files and render it. This enables a single
+file to serve as the source of truth for content changes.
 
-### Adding or changing copy
-
-1. Edit the relevant `src/config/*.ts` file
-2. TypeScript will surface any shape mismatches
-3. The component renders the change automatically
-
-### Pending content placeholders
-
-Config files use a `pending()` helper for unverified data:
+### Pending content pattern
 
 ```ts
 const pending = (note: string, source: string) =>
   `[ pending verified detail: ${note} — source: ${source} ]`;
 ```
 
-Admin components detect these with:
-
+Admin components detect pending values with:
 ```ts
 value.toLowerCase().includes("pending verified detail")
 ```
@@ -136,26 +220,41 @@ value.toLowerCase().includes("pending verified detail")
 |-----------|--------|
 | Route protection | `middleware.ts` — matches `/admin/:path*` |
 | Session store | iron-session sealed cookie (`__admin_session`, 7-day TTL) |
-| Login | Server Action (`loginAction`) + `useActionState` on client |
+| Login | Server Action (`loginAction`) + `useActionState` |
 | Logout | Server Action (`logoutAction`) via HTML form |
 | Password hashing | bcryptjs v3 (pure JS — no native bindings) |
 | Secret | `SESSION_SECRET` env var ≥ 32 chars |
 
 ---
 
-## SEO
+## Route Groups
 
-- **JSON-LD**: Organization schema injected in root `<head>` via `buildOrganizationJsonLd()`
-- **Metadata**: `buildMetadata()` in `src/lib/seo.ts` provides consistent OG/Twitter cards
-- **Robots**: `/admin`, `/login`, `/api/` disallowed; public routes allowed
-- **Sitemap**: Per-route priorities (`/` = 1.0, `/services` = 0.9, etc.)
+### `admin/` — Internal admin portal (dark theme)
+Protected by `middleware.ts`. Server components only (except `AdminShell`,
+`LoginForm`). Uses `src/components/admin/` component library.
+
+### `(portal)/` — Client portal (light theme, noindex)
+Not yet authenticated. Isolated from admin and public layout. Uses
+`src/components/portal/` and `src/components/ui/` primitives. Future auth
+will be implemented via middleware extending the current `admin/:path*` matcher.
+
+### Public routes
+`/`, `/about`, `/services`, `/government`, `/portfolio`, `/contact`
 
 ---
 
-## Security Headers
+## SEO
 
-Applied globally via `next.config.mjs`:
+- **JSON-LD**: Organization schema in root `<head>` via `buildOrganizationJsonLd()`
+- **Metadata**: `buildMetadata()` handles OG/Twitter cards per page
+- **Robots**: `/admin`, `/login`, `/api/` disallowed; portal noindex via metadata
+- **Sitemap**: Per-route priorities (home=1.0, services/gov=0.9, contact=0.85, etc.)
 
+---
+
+## Security
+
+Headers applied globally in `next.config.mjs`:
 - `X-Content-Type-Options: nosniff`
 - `X-Frame-Options: DENY`
 - `X-XSS-Protection: 1; mode=block`
@@ -169,22 +268,26 @@ Applied globally via `next.config.mjs`:
 
 ### Shared UI Primitives (`src/components/ui/`)
 
-| Component | Purpose |
-|-----------|---------|
-| `Section` | Page section wrapper with consistent vertical rhythm |
-| `SectionEyebrow` | Small uppercase label above headings |
-| `PageHero` | Gradient hero for all inner pages |
-| `GradientCTA` | Full-width gradient call-to-action section |
-| `NarrativeBlock` | Two-column editorial text section |
-| `Button` | Link/button primitive with variant support |
+These are the public/portal side component library. Use these instead of
+writing one-off inline styles.
 
-Page-specific components (e.g. `ServicesHero`, `GovernmentCallToAction`) are thin
-wrappers that pull from config and delegate rendering to these primitives.
+**Layout:** `Section`, `SectionEyebrow`, `PageHero`, `GradientCTA`, `NarrativeBlock`
 
-### Route Groups
+**Content:** `Card` (+ `CardHeader`, `CardBody`, `CardFooter`), `MetricCard`, `EmptyState`, `Skeleton` (+ `SkeletonCard`, `SkeletonRows`)
 
-- `(portal)/` — Client portal. Isolated layout, `robots: noindex`. No auth yet.
-- `admin/` — Admin portal. Protected by `middleware.ts`.
+**Feedback:** `Alert`, `Badge`, `FormFeedback`
+
+**Interactive:** `Button`, `forms/Field`, `forms/Input`, `forms/Textarea`, `forms/Select`
+
+### Admin UI Library (`src/components/admin/`)
+
+Dark-themed components for the admin portal only.
+`AdminCard`, `AdminTable`, `AdminBadge`, `AdminButton`, `AdminEmptyState`, `AdminPageHeader`
+
+### Page-specific components
+
+Components under `home/`, `services/`, `government/`, etc. are thin wrappers
+that pull data from config and delegate rendering to `ui/` primitives.
 
 ---
 
@@ -192,7 +295,7 @@ wrappers that pull from config and delegate rendering to these primitives.
 
 | Variable | Required | Purpose |
 |----------|----------|---------|
-| `NEXT_PUBLIC_SITE_URL` | Prod only | Canonical URL for SEO (sitemap, OpenGraph, JSON-LD) |
+| `NEXT_PUBLIC_SITE_URL` | Prod only | Canonical URL for SEO |
 | `SESSION_SECRET` | Yes | iron-session encryption key (≥ 32 chars) |
 | `ADMIN_USERNAME` | Yes | Admin login username |
 | `ADMIN_PASSWORD_HASH` | Yes | bcryptjs hash of admin password |
@@ -200,9 +303,38 @@ wrappers that pull from config and delegate rendering to these primitives.
 | `SMTP_PORT` | Yes | Email delivery port |
 | `SMTP_USER` | Yes | SMTP username |
 | `SMTP_PASS` | Yes | SMTP password |
-| `CONTACT_EMAIL_TO` | Yes | Destination email for contact form |
+| `CONTACT_EMAIL_TO` | Yes | Destination for contact form |
 | `CONTACT_EMAIL_FROM` | Yes | Sender address for contact form |
 
-Generate `SESSION_SECRET`: `openssl rand -base64 32`
+Generate `SESSION_SECRET`:
+```bash
+openssl rand -base64 32
+```
 
-Generate `ADMIN_PASSWORD_HASH`: `node -e "const b=require('bcryptjs');b.hash('yourpassword',12).then(console.log)"`
+Generate `ADMIN_PASSWORD_HASH`:
+```bash
+node -e "const b=require('bcryptjs');b.hash('yourpassword',12).then(console.log)"
+```
+
+---
+
+## Extension Points
+
+### Adding a portal module
+
+1. Create `src/app/(portal)/portal/<module>/page.tsx`
+2. Add a nav entry to `src/components/portal/PortalSidebar.tsx` `NAV_ITEMS`
+3. Use `Card`, `EmptyState`, `MetricCard`, and `Badge` from `src/components/ui/`
+4. Export metadata with `title: "<Module Name>"`
+
+### Adding a service or portfolio entry
+
+Edit `src/config/services.ts` or `src/config/portfolio.ts`. All optional
+fields on `ServiceCard` and `PortfolioProject` are safe to omit.
+
+### Adding a public page
+
+1. Create `src/app/<route>/page.tsx`
+2. Export metadata via `buildMetadata()` from `src/lib/seo.ts`
+3. Add the route to `siteConfig.routes` in `src/config/site.ts`
+4. Add to `NAV_ITEMS` in `siteConfig.nav` if it should appear in the header
