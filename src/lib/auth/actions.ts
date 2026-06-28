@@ -45,7 +45,8 @@ export async function loginAction(
   }
 
   const expectedUsername = process.env.ADMIN_USERNAME?.trim();
-  const passwordHash = process.env.ADMIN_PASSWORD_HASH?.trim();
+  // Hostinger escapes $ → \$ in env var values; undo that before comparing.
+  const passwordHash = process.env.ADMIN_PASSWORD_HASH?.trim().replace(/\\\$/g, "$");
 
   if (!expectedUsername || !passwordHash) {
     console.error(
@@ -63,14 +64,6 @@ export async function loginAction(
     username.trim(),
     expectedUsername.trim()
   );
-
-  console.log("[auth:diag]", {
-    hashLen: passwordHash.length,
-    hashPrefix: passwordHash.slice(0, 7),
-    usernameLen: expectedUsername.length,
-    passwordMatch,
-    usernameMatch,
-  });
 
   if (!usernameMatch || !passwordMatch) {
     return { error: "Invalid username or password." };
