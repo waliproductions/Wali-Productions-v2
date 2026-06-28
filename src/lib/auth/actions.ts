@@ -44,8 +44,8 @@ export async function loginAction(
     return { error: "Invalid input." };
   }
 
-  const expectedUsername = process.env.ADMIN_USERNAME;
-  const passwordHash = process.env.ADMIN_PASSWORD_HASH;
+  const expectedUsername = process.env.ADMIN_USERNAME?.trim();
+  const passwordHash = process.env.ADMIN_PASSWORD_HASH?.trim();
 
   if (!expectedUsername || !passwordHash) {
     console.error(
