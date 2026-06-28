@@ -72,6 +72,104 @@ export type ProjectDocument = {
   uploadedAt: string;
 };
 
+export type RiskProbability = "low" | "medium" | "high";
+export type RiskImpact = "low" | "medium" | "high" | "critical";
+export type RiskStatus = "open" | "mitigated" | "accepted" | "closed" | "realized";
+
+export type Risk = {
+  id: string;
+  title: string;
+  description?: string;
+  probability: RiskProbability;
+  impact: RiskImpact;
+  status: RiskStatus;
+  owner?: string;
+  mitigationPlan?: string;
+  contingencyPlan?: string;
+  identifiedAt: string;
+  reviewDate?: string;
+  closedAt?: string;
+};
+
+export type IssueSeverity = "low" | "medium" | "high" | "critical";
+export type IssueStatus = "open" | "in-progress" | "resolved" | "closed" | "wont-fix";
+
+export type ProjectIssue = {
+  id: string;
+  title: string;
+  description?: string;
+  severity: IssueSeverity;
+  status: IssueStatus;
+  owner?: string;
+  relatedRiskId?: string;
+  resolution?: string;
+  identifiedAt: string;
+  resolvedAt?: string;
+};
+
+export type ChangeRequestStatus =
+  | "pending"
+  | "under-review"
+  | "approved"
+  | "rejected"
+  | "implemented"
+  | "withdrawn";
+
+export type ChangeRequest = {
+  id: string;
+  title: string;
+  description: string;
+  requestedBy?: string;
+  status: ChangeRequestStatus;
+  impact?: string;
+  scheduledImpactDays?: number;
+  costImpact?: number;
+  currency?: string;
+  submittedAt: string;
+  decisionAt?: string;
+  implementedAt?: string;
+  approvedBy?: string;
+  rejectedReason?: string;
+};
+
+export type WBSNode = {
+  id: string;
+  code: string;
+  title: string;
+  description?: string;
+  parentId?: string;
+  level: number;
+  estimatedHours?: number;
+  actualHours?: number;
+  assignedTo?: string;
+  completionPct?: number;
+};
+
+export type LessonsLearnedRecord = {
+  id: string;
+  title: string;
+  category: "process" | "technical" | "client" | "team" | "risk" | "communication" | "other";
+  what: string;
+  impact?: string;
+  recommendation?: string;
+  recordedBy?: string;
+  recordedAt: string;
+};
+
+export type CustomerApproval = {
+  id: string;
+  title: string;
+  deliverableId?: string;
+  milestoneId?: string;
+  status: "pending" | "approved" | "rejected" | "revision-requested";
+  requestedAt: string;
+  respondedAt?: string;
+  approverName?: string;
+  approverTitle?: string;
+  comments?: string;
+  signedDocumentUrl?: string;
+};
+
 export type Project = {
   id: string;
   title: string;
@@ -79,6 +177,8 @@ export type Project = {
   clientId?: string;
   /** Reference to associated Proposal. */
   proposalId?: string;
+  contractId?: string;
+  taskOrderId?: string;
   status: ProjectStatus;
   health: ProjectHealth;
   /** Service lines being performed. */
@@ -91,6 +191,12 @@ export type Project = {
   milestones?: Milestone[];
   deliverables?: Deliverable[];
   documents?: ProjectDocument[];
+  wbs?: WBSNode[];
+  risks?: Risk[];
+  issues?: ProjectIssue[];
+  changeRequests?: ChangeRequest[];
+  customerApprovals?: CustomerApproval[];
+  lessonsLearned?: LessonsLearnedRecord[];
   /** Estimated total budget in the project currency. */
   estimatedBudget?: number;
   /** Actual spend to date. */
