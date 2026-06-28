@@ -101,6 +101,18 @@ export function AdminHeader({ onMenuClick, username }: AdminHeaderProps) {
       </div>
 
       <div className="flex shrink-0 items-center gap-3">
+        <Link
+          href="/admin/search"
+          className="flex items-center gap-1.5 rounded-md border border-zinc-700 bg-zinc-900 px-3 py-1.5 text-xs text-zinc-500 transition-colors hover:border-zinc-600 hover:text-zinc-300"
+          aria-label="Search"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5" aria-hidden="true">
+            <circle cx="11" cy="11" r="8" />
+            <path d="M21 21l-4.35-4.35" />
+          </svg>
+          <span className="hidden sm:inline">Search</span>
+        </Link>
+
         <span className="hidden items-center gap-1.5 text-xs text-zinc-500 sm:flex">
           <span className="h-2 w-2 rounded-full bg-emerald-400" />
           Live
