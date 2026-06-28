@@ -1,108 +1,162 @@
-import { AdminBadge } from "@/components/admin/AdminBadge";
+import { projectRepository } from "@/lib/repositories/project.repository";
+import type { Risk } from "@/types/project";
 import { AdminButton } from "@/components/admin/AdminButton";
 import { AdminCard, AdminStatCard } from "@/components/admin/AdminCard";
-import { AdminEmptyState } from "@/components/admin/AdminEmptyState";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { AdminBadge } from "@/components/admin/AdminBadge";
+import { formatDate } from "@/lib/admin/utils";
 
+export const dynamic = "force-dynamic";
 export const metadata = { title: "Risk Register — Projects" };
 
-const RISK_MATRIX = [
-  { probability: "High", critical: 0, high: 0, medium: 0, low: 0 },
-  { probability: "Medium", critical: 0, high: 0, medium: 0, low: 0 },
-  { probability: "Low", critical: 0, high: 0, medium: 0, low: 0 },
-] as const;
+type Props = { searchParams?: Promise<{ status?: string }> };
 
-const ISSUE_SEVERITIES = [
-  { severity: "Critical", description: "Project cannot proceed", count: 0 },
-  { severity: "High", description: "Significant impact on delivery", count: 0 },
-  { severity: "Medium", description: "Manageable with active attention", count: 0 },
-  { severity: "Low", description: "Minor impact", count: 0 },
-] as const;
+type RiskWithProject = Risk & { projectId: string; projectTitle: string };
 
-export default function AdminRiskRegisterPage() {
+const IMPACT_VARIANT = {
+  critical: "danger" as const,
+  high: "danger" as const,
+  medium: "warning" as const,
+  low: "neutral" as const,
+};
+
+const PROBABILITY_VARIANT = {
+  high: "danger" as const,
+  medium: "warning" as const,
+  low: "neutral" as const,
+};
+
+const STATUS_VARIANT = {
+  open: "warning" as const,
+  mitigated: "success" as const,
+  accepted: "neutral" as const,
+  closed: "neutral" as const,
+  realized: "danger" as const,
+};
+
+export default async function AdminRisksPage({ searchParams }: Props) {
+  const params = await searchParams;
+  const statusFilter = params?.status ?? "open";
+
+  const result = await projectRepository.findAll({ perPage: 100 });
+
+  const allRisks: RiskWithProject[] = result.items.flatMap((p) =>
+    (p.risks ?? []).map((r) => ({
+      ...r,
+      projectId: p.id,
+      projectTitle: p.title,
+    })),
+  );
+
+  const filtered = statusFilter
+    ? allRisks.filter((r) => statusFilter === "all" ? true : r.status === statusFilter)
+    : allRisks;
+
+  const stats = {
+    total: allRisks.length,
+    open: allRisks.filter((r) => r.status === "open").length,
+    mitigated: allRisks.filter((r) => r.status === "mitigated").length,
+    critical: allRisks.filter((r) => r.impact === "critical" && r.status === "open").length,
+  };
+
   return (
     <div className="space-y-8">
       <AdminPageHeader
         title="Risk Register"
-        description="Cross-project risks and issues — identification, mitigation, and resolution tracking."
+        description="All project risks — open, mitigated, and accepted."
         actions={
           <AdminButton href="/admin/projects" variant="ghost" size="md">
-            Back to projects
+            Back to Projects
           </AdminButton>
         }
       />
 
-      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <AdminStatCard label="Open risks" value="0" hint="Requires attention" />
-        <AdminStatCard label="Open issues" value="0" hint="Active problems" />
-        <AdminStatCard label="Mitigated risks" value="0" hint="Under control" />
-        <AdminStatCard label="Realized risks" value="0" hint="Became issues" />
+      <section className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+        <AdminStatCard label="Total risks" value={stats.total} />
+        <AdminStatCard
+          label="Open"
+          value={stats.open}
+          trend={stats.open > 0 ? { value: "Active", direction: "down" } : undefined}
+        />
+        <AdminStatCard label="Mitigated" value={stats.mitigated} />
+        <AdminStatCard
+          label="Critical/Open"
+          value={stats.critical}
+          trend={stats.critical > 0 ? { value: "Immediate attention", direction: "down" } : undefined}
+        />
       </section>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <AdminCard
-          title="Risk Register"
-          description="Identified project risks by probability and impact"
-          actions={<AdminBadge variant="neutral">Coming soon</AdminBadge>}
-        >
-          <AdminEmptyState
-            title="No risks identified"
-            description="Risks are identified at the project level and aggregated here. Each risk has a probability, impact, mitigation plan, and owner."
-          />
-        </AdminCard>
+      {/* Status filter */}
+      <form className="flex flex-wrap gap-2" method="GET">
+        {[
+          { label: "Open", value: "open" },
+          { label: "All", value: "all" },
+          { label: "Mitigated", value: "mitigated" },
+          { label: "Accepted", value: "accepted" },
+          { label: "Closed", value: "closed" },
+        ].map(({ label, value }) => (
+          <button
+            key={value}
+            type="submit"
+            name="status"
+            value={value}
+            className={`rounded-lg border px-3 py-2 text-xs font-medium transition-colors ${
+              statusFilter === value
+                ? "border-amber-400 bg-amber-500/10 text-amber-300"
+                : "border-zinc-700 text-zinc-400 hover:border-zinc-600 hover:text-zinc-200"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </form>
 
-        <AdminCard
-          title="Issue Log"
-          description="Active project issues requiring resolution"
-          actions={<AdminBadge variant="neutral">Coming soon</AdminBadge>}
-        >
-          <AdminEmptyState
-            title="No open issues"
-            description="Issues are logged when a risk is realized or a new problem is identified. Issues have severity, status, and resolution tracking."
-          />
-        </AdminCard>
-      </div>
+      <AdminCard title={`${filtered.length} risk${filtered.length !== 1 ? "s" : ""}`}>
+        {filtered.length === 0 ? (
+          <p className="text-sm text-zinc-600">No risks match this filter.</p>
+        ) : (
+          <ul className="divide-y divide-zinc-800/60">
+            {filtered.map((r) => (
+              <li key={`${r.projectId}-${r.id}`} className="py-4 first:pt-0 last:pb-0">
+                <div className="flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="font-medium text-zinc-100">{r.title}</p>
+                    <p className="mt-0.5 text-xs text-zinc-500">{r.projectTitle}</p>
+                    {r.description && (
+                      <p className="mt-1 text-sm text-zinc-400">{r.description}</p>
+                    )}
+                  </div>
+                  <div className="flex shrink-0 flex-col items-end gap-1">
+                    <AdminBadge variant={STATUS_VARIANT[r.status] ?? "neutral"}>
+                      {r.status}
+                    </AdminBadge>
+                  </div>
+                </div>
 
-      <AdminCard title="Risk Impact Matrix" description="Risks by probability vs. impact">
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr>
-                <th className="pb-3 pr-4 text-left text-xs font-medium text-zinc-500">Probability ↓ / Impact →</th>
-                <th className="pb-3 px-3 text-center text-xs font-medium text-red-400">Critical</th>
-                <th className="pb-3 px-3 text-center text-xs font-medium text-amber-400">High</th>
-                <th className="pb-3 px-3 text-center text-xs font-medium text-yellow-400">Medium</th>
-                <th className="pb-3 px-3 text-center text-xs font-medium text-zinc-400">Low</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-zinc-800">
-              {RISK_MATRIX.map(({ probability, critical, high, medium, low }) => (
-                <tr key={probability}>
-                  <td className="py-3 pr-4 text-xs font-medium text-zinc-400">{probability}</td>
-                  <td className="px-3 py-3 text-center text-zinc-500">{critical}</td>
-                  <td className="px-3 py-3 text-center text-zinc-500">{high}</td>
-                  <td className="px-3 py-3 text-center text-zinc-500">{medium}</td>
-                  <td className="px-3 py-3 text-center text-zinc-500">{low}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </AdminCard>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <AdminBadge variant={PROBABILITY_VARIANT[r.probability]}>
+                    {r.probability} probability
+                  </AdminBadge>
+                  <AdminBadge variant={IMPACT_VARIANT[r.impact]}>
+                    {r.impact} impact
+                  </AdminBadge>
+                </div>
 
-      <AdminCard title="Issue Severity Breakdown">
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {ISSUE_SEVERITIES.map(({ severity, description, count }) => (
-            <div
-              key={severity}
-              className="rounded-lg border border-zinc-800 bg-zinc-950/60 p-4"
-            >
-              <p className="text-sm font-bold text-zinc-100">{severity}</p>
-              <p className="mt-1 text-xs text-zinc-500">{description}</p>
-              <p className="mt-3 text-2xl font-bold text-zinc-400">{count}</p>
-            </div>
-          ))}
-        </div>
+                {r.mitigationPlan && (
+                  <div className="mt-2 rounded-md bg-zinc-800/40 px-3 py-2">
+                    <p className="text-xs font-medium text-zinc-400">Mitigation</p>
+                    <p className="mt-0.5 text-sm text-zinc-300">{r.mitigationPlan}</p>
+                  </div>
+                )}
+
+                <div className="mt-2 text-xs text-zinc-500">
+                  Identified {formatDate(r.identifiedAt)}
+                  {r.owner && ` · Owner: ${r.owner}`}
+                </div>
+              </li>
+            ))}
+          </ul>
+        )}
       </AdminCard>
     </div>
   );

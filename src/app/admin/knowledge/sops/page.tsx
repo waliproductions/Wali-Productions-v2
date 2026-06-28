@@ -1,22 +1,83 @@
-import { AdminBadge } from "@/components/admin/AdminBadge";
+import { knowledgeRepository } from "@/lib/repositories/knowledge.repository";
+import type { StoredKnowledgeEntry } from "@/lib/repositories/knowledge.repository";
 import { AdminButton } from "@/components/admin/AdminButton";
 import { AdminCard, AdminStatCard } from "@/components/admin/AdminCard";
-import { AdminEmptyState } from "@/components/admin/AdminEmptyState";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { AdminBadge } from "@/components/admin/AdminBadge";
+import { AdminTable } from "@/components/admin/AdminTable";
+import type { AdminTableColumn } from "@/lib/admin/types";
+import { formatDate } from "@/lib/admin/utils";
 
+export const dynamic = "force-dynamic";
 export const metadata = { title: "SOPs — Knowledge Base" };
 
-const SOP_CATEGORIES = [
-  { name: "Client Onboarding", description: "From signed proposal to kickoff call", count: 0 },
-  { name: "Proposal Development", description: "Scope, pricing, review, delivery", count: 0 },
-  { name: "Project Delivery", description: "Setup, milestone tracking, handoff", count: 0 },
-  { name: "Invoicing and Billing", description: "Invoice creation, follow-up, collection", count: 0 },
-  { name: "Government Contracting", description: "Opportunity identification to submission", count: 0 },
-  { name: "Content and Media", description: "Production workflows and asset management", count: 0 },
-  { name: "Administrative", description: "Internal operations and record-keeping", count: 0 },
-] as const;
+const STATUS_VARIANT: Record<string, "success" | "info" | "neutral" | "warning"> = {
+  approved: "success",
+  review: "warning",
+  draft: "neutral",
+  archived: "neutral",
+  superseded: "neutral",
+};
 
-export default function AdminSOPsPage() {
+const COLS: AdminTableColumn<StoredKnowledgeEntry>[] = [
+  {
+    key: "title",
+    header: "SOP",
+    render: (e) => (
+      <div>
+        <p className="font-medium text-zinc-100">{e.title}</p>
+        {e.description && (
+          <p className="mt-0.5 text-xs text-zinc-500 truncate max-w-xs">{e.description}</p>
+        )}
+      </div>
+    ),
+  },
+  {
+    key: "status",
+    header: "Status",
+    render: (e) => (
+      <AdminBadge variant={STATUS_VARIANT[e.status] ?? "neutral"}>{e.status}</AdminBadge>
+    ),
+  },
+  {
+    key: "owner",
+    header: "Owner",
+    render: (e) => <span className="text-sm text-zinc-400">{e.ownerRole ?? "—"}</span>,
+    hideOnMobile: true,
+  },
+  {
+    key: "review",
+    header: "Next Review",
+    render: (e) => {
+      if (!e.nextReviewAt) return <span className="text-zinc-600">—</span>;
+      const overdue = e.nextReviewAt < new Date().toISOString().slice(0, 10);
+      return (
+        <span className={`text-sm ${overdue ? "font-medium text-amber-300" : "text-zinc-400"}`}>
+          {formatDate(e.nextReviewAt)}
+        </span>
+      );
+    },
+    hideOnMobile: true,
+  },
+  {
+    key: "updated",
+    header: "Updated",
+    render: (e) => <span className="text-sm text-zinc-500">{formatDate(e.updatedAt)}</span>,
+    hideOnMobile: true,
+  },
+];
+
+export default async function AdminSOPsPage() {
+  const sops = await knowledgeRepository.findByCategory("sop");
+  const today = new Date().toISOString().slice(0, 10);
+
+  const stats = {
+    total: sops.length,
+    approved: sops.filter((e) => e.status === "approved").length,
+    draft: sops.filter((e) => e.status === "draft").length,
+    dueForReview: sops.filter((e) => e.nextReviewAt && e.nextReviewAt <= today).length,
+  };
+
   return (
     <div className="space-y-8">
       <AdminPageHeader
@@ -24,64 +85,33 @@ export default function AdminSOPsPage() {
         description="Step-by-step operational playbooks for all core business functions."
         actions={
           <AdminButton href="/admin/knowledge" variant="ghost" size="md">
-            Back to knowledge base
+            Knowledge Base
           </AdminButton>
         }
       />
 
-      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <AdminStatCard label="Total SOPs" value="0" />
-        <AdminStatCard label="Approved" value="0" hint="Active and in use" />
-        <AdminStatCard label="In review" value="0" hint="Pending approval" />
-        <AdminStatCard label="Due for review" value="0" hint="Past review cycle" />
+      <section className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+        <AdminStatCard label="Total SOPs" value={stats.total} />
+        <AdminStatCard label="Approved" value={stats.approved} />
+        <AdminStatCard label="Drafts" value={stats.draft} />
+        <AdminStatCard
+          label="Due for review"
+          value={stats.dueForReview}
+          trend={stats.dueForReview > 0 ? { value: "Review needed", direction: "down" } : undefined}
+        />
       </section>
 
-      <AdminCard
-        title="SOP Library"
-        description="All standard operating procedures"
-        actions={<AdminBadge variant="neutral">Coming soon</AdminBadge>}
-      >
-        <AdminEmptyState
-          title="No SOPs documented"
-          description="Standard operating procedures will be created and maintained here. SOPs include step-by-step instructions, applicable roles, and estimated completion times."
-        />
-      </AdminCard>
-
-      <AdminCard title="SOP Categories" description="Operational areas with documented procedures">
-        <div className="divide-y divide-zinc-800">
-          {SOP_CATEGORIES.map(({ name, description, count }) => (
-            <div
-              key={name}
-              className="flex items-center justify-between py-3 first:pt-0 last:pb-0"
-            >
-              <div>
-                <p className="text-sm font-medium text-zinc-200">{name}</p>
-                <p className="mt-0.5 text-xs text-zinc-500">{description}</p>
-              </div>
-              <span className="text-sm text-zinc-600">{count} SOPs</span>
-            </div>
-          ))}
-        </div>
-      </AdminCard>
-
-      <AdminCard title="What this module will include">
-        <ul className="grid grid-cols-1 gap-2 text-sm text-zinc-400 sm:grid-cols-2">
-          {[
-            "Step-by-step numbered procedure format",
-            "Applicable role assignments per SOP",
-            "Estimated duration per procedure",
-            "Related SOP cross-referencing",
-            "Review cycle tracking (monthly, quarterly, annual)",
-            "Version history with change summaries",
-            "Status lifecycle: draft → review → approved",
-            "Category-based organization and search",
-          ].map((item) => (
-            <li key={item} className="flex items-start gap-2">
-              <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-700" />
-              {item}
-            </li>
-          ))}
-        </ul>
+      <AdminCard title={`${sops.length} SOP${sops.length !== 1 ? "s" : ""}`} padded={false}>
+        {sops.length === 0 ? (
+          <div className="px-6 py-10 text-center">
+            <p className="text-sm text-zinc-500">No SOPs documented yet.</p>
+            <p className="mt-1 text-xs text-zinc-600">
+              Add knowledge entries with category &ldquo;sop&rdquo; to see them here.
+            </p>
+          </div>
+        ) : (
+          <AdminTable columns={COLS} rows={sops} getRowKey={(e) => e.id} />
+        )}
       </AdminCard>
     </div>
   );

@@ -1,28 +1,120 @@
-import { AdminBadge } from "@/components/admin/AdminBadge";
+import { contactRepository } from "@/lib/repositories/contact.repository";
+import { organizationRepository } from "@/lib/repositories/organization.repository";
+import type { StoredContact } from "@/lib/repositories/contact.repository";
+import type { StoredOrganization } from "@/lib/repositories/organization.repository";
 import { AdminButton } from "@/components/admin/AdminButton";
 import { AdminCard, AdminStatCard } from "@/components/admin/AdminCard";
-import { AdminEmptyState } from "@/components/admin/AdminEmptyState";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { AdminBadge } from "@/components/admin/AdminBadge";
+import { AdminTable } from "@/components/admin/AdminTable";
+import type { AdminTableColumn } from "@/lib/admin/types";
+import { formatDate } from "@/lib/admin/utils";
 
+export const dynamic = "force-dynamic";
 export const metadata = { title: "Contacts — CRM" };
 
-const ROLE_TYPES = [
-  { role: "Executive", description: "C-suite and senior leadership", count: 0 },
-  { role: "Decision Maker", description: "Contract and budget authority", count: 0 },
-  { role: "Influencer", description: "Shapes decisions without final authority", count: 0 },
-  { role: "Champion", description: "Internal advocate for our work", count: 0 },
-  { role: "Gatekeeper", description: "Controls access to decision makers", count: 0 },
-  { role: "Technical", description: "Technical evaluators and SMEs", count: 0 },
-  { role: "Contracting Officer", description: "Federal CO, PCO, or ACO", count: 0 },
-  { role: "Program Manager", description: "Government COR or PM", count: 0 },
-] as const;
+type Props = { searchParams?: Promise<{ role?: string; q?: string }> };
 
-export default function AdminContactsPage() {
+const ROLE_VARIANT: Record<string, "success" | "info" | "neutral" | "warning"> = {
+  executive: "warning",
+  "decision-maker": "info",
+  champion: "success",
+  "contracting-officer": "info",
+  "program-manager": "neutral",
+  influencer: "neutral",
+  gatekeeper: "neutral",
+  technical: "neutral",
+  other: "neutral",
+};
+
+function buildCols(orgMap: Map<string, StoredOrganization>): AdminTableColumn<StoredContact>[] {
+  return [
+    {
+      key: "name",
+      header: "Contact",
+      render: (c) => (
+        <div>
+          <p className="font-medium text-zinc-100">
+            {c.firstName} {c.lastName}
+          </p>
+          {c.title && <p className="text-xs text-zinc-500">{c.title}</p>}
+        </div>
+      ),
+    },
+    {
+      key: "organization",
+      header: "Organization",
+      render: (c) => {
+        const org = c.organizationId ? orgMap.get(c.organizationId) : undefined;
+        return (
+          <span className="text-sm text-zinc-400">{org?.name ?? "—"}</span>
+        );
+      },
+      hideOnMobile: true,
+    },
+    {
+      key: "role",
+      header: "Role",
+      render: (c) => c.role ? (
+        <AdminBadge variant={ROLE_VARIANT[c.role] ?? "neutral"}>
+          {c.role.replace(/-/g, " ")}
+        </AdminBadge>
+      ) : <span className="text-zinc-600">—</span>,
+    },
+    {
+      key: "authority",
+      header: "Authority",
+      render: (c) => c.decisionAuthority ? (
+        <AdminBadge variant="info">Decision</AdminBadge>
+      ) : <span className="text-zinc-600">—</span>,
+      align: "center",
+      hideOnMobile: true,
+    },
+    {
+      key: "email",
+      header: "Email",
+      render: (c) => (
+        <span className="text-sm text-zinc-400">{c.email ?? "—"}</span>
+      ),
+      hideOnMobile: true,
+    },
+    {
+      key: "lastContacted",
+      header: "Last Contact",
+      render: (c) => (
+        <span className="text-sm text-zinc-500">{formatDate(c.lastContactedAt)}</span>
+      ),
+      hideOnMobile: true,
+    },
+  ];
+}
+
+export default async function AdminContactsPage({ searchParams }: Props) {
+  const params = await searchParams;
+  const roleFilter = params?.role;
+  const q = params?.q;
+
+  const [stats, orgsResult, contactsResult] = await Promise.all([
+    contactRepository.getStats(),
+    organizationRepository.findAll({ perPage: 200 }),
+    contactRepository.findAll({
+      search: q,
+      filters: roleFilter
+        ? [{ field: "role", operator: "eq", value: roleFilter }]
+        : undefined,
+      sort: { field: "updatedAt", order: "desc" },
+      perPage: 100,
+    }),
+  ]);
+
+  const orgMap = new Map(orgsResult.items.map((o) => [o.id, o]));
+  const COLS = buildCols(orgMap);
+
   return (
     <div className="space-y-8">
       <AdminPageHeader
         title="Contacts"
-        description="Individual people across all organizations — decision makers, influencers, champions, and technical evaluators."
+        description="People across all organizations — decision makers, champions, and technical contacts."
         actions={
           <AdminButton href="/admin/crm" variant="ghost" size="md">
             Back to CRM
@@ -31,58 +123,57 @@ export default function AdminContactsPage() {
       />
 
       <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <AdminStatCard label="Total contacts" value="0" />
-        <AdminStatCard label="Decision makers" value="0" hint="Budget authority" />
-        <AdminStatCard label="Champions" value="0" hint="Internal advocates" />
-        <AdminStatCard label="Follow-ups due" value="0" hint="Overdue contact" />
+        <AdminStatCard label="Total contacts" value={stats.total} />
+        <AdminStatCard label="Decision makers" value={stats.decisionMakers} hint="Budget authority" />
+        <AdminStatCard label="Champions" value={stats.champions} hint="Internal advocates" />
+        <AdminStatCard
+          label="Follow-ups due"
+          value={stats.followUpsDue}
+          hint="Overdue outreach"
+          trend={stats.followUpsDue > 0 ? { value: "Action needed", direction: "down" } : undefined}
+        />
       </section>
 
-      <AdminCard
-        title="Contact Directory"
-        description="All tracked individuals"
-        actions={<AdminBadge variant="neutral">Coming soon</AdminBadge>}
-      >
-        <AdminEmptyState
-          title="No contacts added"
-          description="Add individuals from your organization network. Each contact is linked to an organization and tracks role, communication history, and relationship depth."
+      {/* Role filter */}
+      <form className="flex flex-wrap gap-2" method="GET">
+        <input
+          name="q"
+          defaultValue={q}
+          placeholder="Search contacts…"
+          className="min-w-48 flex-1 rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-200 placeholder-zinc-500 outline-none focus:border-amber-400"
         />
-      </AdminCard>
+        {[
+          { label: "All", value: "" },
+          { label: "Decision Makers", value: "decision-maker" },
+          { label: "Champions", value: "champion" },
+          { label: "Executives", value: "executive" },
+          { label: "Contracting Officers", value: "contracting-officer" },
+        ].map(({ label, value }) => (
+          <button
+            key={value}
+            type="submit"
+            name="role"
+            value={value}
+            className={`rounded-lg border px-3 py-2 text-xs font-medium transition-colors ${
+              (roleFilter ?? "") === value
+                ? "border-amber-400 bg-amber-500/10 text-amber-300"
+                : "border-zinc-700 text-zinc-400 hover:border-zinc-600 hover:text-zinc-200"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </form>
 
-      <AdminCard title="Contact Roles" description="People by role and influence type">
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {ROLE_TYPES.map(({ role, description, count }) => (
-            <div
-              key={role}
-              className="flex items-start justify-between gap-3 rounded-lg border border-zinc-800 bg-zinc-950/60 px-4 py-3"
-            >
-              <div>
-                <p className="text-sm font-semibold text-zinc-200">{role}</p>
-                <p className="mt-0.5 text-xs text-zinc-500">{description}</p>
-              </div>
-              <span className="text-sm font-semibold text-zinc-400">{count}</span>
-            </div>
-          ))}
-        </div>
-      </AdminCard>
-
-      <AdminCard title="What this module will include">
-        <ul className="grid grid-cols-1 gap-2 text-sm text-zinc-400 sm:grid-cols-2">
-          {[
-            "Full contact profile with title and role classification",
-            "Organization linkage and primary contact designation",
-            "Decision authority and influence tracking",
-            "Communication channel preferences",
-            "Meeting history and follow-up dates",
-            "LinkedIn profile and contact details",
-            "Government-specific: CO, COR, and PM roles",
-            "Last contacted tracking and follow-up alerts",
-          ].map((item) => (
-            <li key={item} className="flex items-start gap-2">
-              <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-700" />
-              {item}
-            </li>
-          ))}
-        </ul>
+      <AdminCard
+        title={`${contactsResult.total} contact${contactsResult.total !== 1 ? "s" : ""}`}
+        padded={false}
+      >
+        <AdminTable
+          columns={COLS}
+          rows={contactsResult.items}
+          getRowKey={(c) => c.id}
+        />
       </AdminCard>
     </div>
   );

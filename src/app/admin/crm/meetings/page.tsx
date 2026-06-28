@@ -1,28 +1,110 @@
-import { AdminBadge } from "@/components/admin/AdminBadge";
+import { meetingRepository } from "@/lib/repositories/meeting.repository";
+import type { StoredMeeting } from "@/lib/repositories/meeting.repository";
+import { organizationRepository } from "@/lib/repositories/organization.repository";
 import { AdminButton } from "@/components/admin/AdminButton";
 import { AdminCard, AdminStatCard } from "@/components/admin/AdminCard";
-import { AdminEmptyState } from "@/components/admin/AdminEmptyState";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { AdminBadge } from "@/components/admin/AdminBadge";
+import { AdminTable } from "@/components/admin/AdminTable";
+import type { AdminTableColumn } from "@/lib/admin/types";
+import { formatDate, formatDateTime } from "@/lib/admin/utils";
 
+export const dynamic = "force-dynamic";
 export const metadata = { title: "Meetings — CRM" };
 
-const MEETING_TYPES = [
-  { type: "Intro Call", description: "First conversation with a new contact", count: 0 },
-  { type: "Discovery", description: "Understanding client needs and challenges", count: 0 },
-  { type: "Demo", description: "Demonstrating capabilities or past work", count: 0 },
-  { type: "Proposal Review", description: "Presenting or reviewing a proposal", count: 0 },
-  { type: "Negotiation", description: "Discussing terms and conditions", count: 0 },
-  { type: "Kickoff", description: "Starting a new project or engagement", count: 0 },
-  { type: "Check-in", description: "Ongoing relationship maintenance", count: 0 },
-  { type: "Debrief", description: "Post-award or post-project review", count: 0 },
-] as const;
+type Props = { searchParams?: Promise<{ status?: string }> };
 
-export default function AdminMeetingsPage() {
+const STATUS_VARIANT: Record<string, "success" | "info" | "neutral" | "warning" | "danger"> = {
+  scheduled: "info",
+  completed: "success",
+  cancelled: "neutral",
+  "no-show": "danger",
+};
+
+function buildCols(orgMap: Map<string, string>): AdminTableColumn<StoredMeeting>[] {
+  return [
+    {
+      key: "title",
+      header: "Meeting",
+      render: (m) => (
+        <div>
+          <p className="font-medium text-zinc-100">{m.title}</p>
+          <p className="text-xs text-zinc-500 capitalize">{m.type.replace(/-/g, " ")}</p>
+        </div>
+      ),
+    },
+    {
+      key: "status",
+      header: "Status",
+      render: (m) => (
+        <AdminBadge variant={STATUS_VARIANT[m.status] ?? "neutral"}>
+          {m.status}
+        </AdminBadge>
+      ),
+    },
+    {
+      key: "organization",
+      header: "Organization",
+      render: (m) => (
+        <span className="text-sm text-zinc-400">
+          {m.organizationId ? (orgMap.get(m.organizationId) ?? "—") : "—"}
+        </span>
+      ),
+      hideOnMobile: true,
+    },
+    {
+      key: "date",
+      header: "Date",
+      render: (m) => (
+        <span className="text-sm text-zinc-400">{formatDate(m.scheduledAt)}</span>
+      ),
+    },
+    {
+      key: "duration",
+      header: "Duration",
+      render: (m) => (
+        <span className="text-sm text-zinc-400">
+          {m.durationMinutes ? `${m.durationMinutes}m` : "—"}
+        </span>
+      ),
+      align: "center",
+      hideOnMobile: true,
+    },
+    {
+      key: "followUp",
+      header: "Follow-up",
+      render: (m) => m.followUpDate ? (
+        <span className="text-sm text-amber-300">{formatDate(m.followUpDate)}</span>
+      ) : <span className="text-zinc-600">—</span>,
+      hideOnMobile: true,
+    },
+  ];
+}
+
+export default async function AdminMeetingsPage({ searchParams }: Props) {
+  const params = await searchParams;
+  const statusFilter = params?.status;
+
+  const [stats, result, orgsResult] = await Promise.all([
+    meetingRepository.getStats(),
+    meetingRepository.findAll({
+      filters: statusFilter
+        ? [{ field: "status", operator: "eq", value: statusFilter }]
+        : undefined,
+      sort: { field: "scheduledAt", order: "desc" },
+      perPage: 100,
+    }),
+    organizationRepository.findAll({ perPage: 200 }),
+  ]);
+
+  const orgMap = new Map(orgsResult.items.map((o) => [o.id, o.name]));
+  const COLS = buildCols(orgMap);
+
   return (
     <div className="space-y-8">
       <AdminPageHeader
         title="Meetings"
-        description="Meeting log across all organizations — scheduled, completed, and follow-up required."
+        description="All scheduled and completed meetings with prospects, clients, and partners."
         actions={
           <AdminButton href="/admin/crm" variant="ghost" size="md">
             Back to CRM
@@ -30,71 +112,69 @@ export default function AdminMeetingsPage() {
         }
       />
 
-      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <AdminStatCard label="Scheduled" value="0" hint="Upcoming" />
-        <AdminStatCard label="This month" value="0" hint="Completed" />
-        <AdminStatCard label="Follow-up required" value="0" hint="Action items pending" />
-        <AdminStatCard label="No-shows" value="0" hint="This quarter" />
+      <section className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <AdminStatCard label="Upcoming" value={stats.upcoming} hint="Scheduled" />
+        <AdminStatCard label="Completed this month" value={stats.completedThisMonth} />
+        <AdminStatCard label="Total scheduled" value={stats.scheduled} />
       </section>
 
-      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <AdminCard
-          title="Upcoming Meetings"
-          actions={<AdminBadge variant="neutral">Coming soon</AdminBadge>}
-        >
-          <AdminEmptyState
-            title="No upcoming meetings"
-            description="Schedule meetings with prospects and clients. Meetings are linked to organizations, contacts, and pipeline opportunities."
-          />
-        </AdminCard>
+      {/* Status filter */}
+      <form className="flex flex-wrap gap-2" method="GET">
+        {[
+          { label: "All", value: "" },
+          { label: "Scheduled", value: "scheduled" },
+          { label: "Completed", value: "completed" },
+          { label: "Cancelled", value: "cancelled" },
+        ].map(({ label, value }) => (
+          <button
+            key={value}
+            type="submit"
+            name="status"
+            value={value}
+            className={`rounded-lg border px-3 py-2 text-xs font-medium transition-colors ${
+              (statusFilter ?? "") === value
+                ? "border-amber-400 bg-amber-500/10 text-amber-300"
+                : "border-zinc-700 text-zinc-400 hover:border-zinc-600 hover:text-zinc-200"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </form>
 
-        <AdminCard
-          title="Action Items"
-          description="Follow-ups from completed meetings"
-        >
-          <AdminEmptyState
-            title="No action items"
-            description="Action items from meeting notes will appear here until marked complete."
-          />
-        </AdminCard>
-      </div>
-
-      <AdminCard title="Meeting Types" description="Meetings by purpose and stage">
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {MEETING_TYPES.map(({ type, description, count }) => (
-            <div
-              key={type}
-              className="flex items-start justify-between gap-3 rounded-lg border border-zinc-800 bg-zinc-950/60 px-4 py-3"
-            >
-              <div>
-                <p className="text-sm font-semibold text-zinc-200">{type}</p>
-                <p className="mt-0.5 text-xs text-zinc-500">{description}</p>
-              </div>
-              <span className="text-sm font-semibold text-zinc-400">{count}</span>
-            </div>
-          ))}
-        </div>
+      <AdminCard
+        title={`${result.total} meeting${result.total !== 1 ? "s" : ""}`}
+        padded={false}
+      >
+        <AdminTable
+          columns={COLS}
+          rows={result.items}
+          getRowKey={(m) => m.id}
+        />
       </AdminCard>
 
-      <AdminCard title="What this module will include">
-        <ul className="grid grid-cols-1 gap-2 text-sm text-zinc-400 sm:grid-cols-2">
-          {[
-            "Meeting scheduling with organization and contact linkage",
-            "Pre-meeting agenda tracking",
-            "Post-meeting notes and action item capture",
-            "Follow-up date assignment and alerts",
-            "Recording and transcript URL storage",
-            "Meeting type classification",
-            "Duration and attendance tracking",
-            "Calendar integration: Microsoft 365 / Google (future)",
-          ].map((item) => (
-            <li key={item} className="flex items-start gap-2">
-              <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-700" />
-              {item}
-            </li>
-          ))}
-        </ul>
-      </AdminCard>
+      {/* Action items summary */}
+      {result.items.some((m) => (m.actionItems ?? []).length > 0) && (
+        <AdminCard title="Open Action Items">
+          <ul className="space-y-3">
+            {result.items
+              .filter((m) => (m.actionItems ?? []).length > 0 && m.status === "completed")
+              .flatMap((m) =>
+                (m.actionItems ?? []).map((item, i) => (
+                  <li key={`${m.id}-${i}`} className="flex items-start gap-3">
+                    <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-amber-400" />
+                    <div>
+                      <p className="text-sm text-zinc-200">{item}</p>
+                      <p className="mt-0.5 text-xs text-zinc-500">
+                        From: {m.title} · {formatDate(m.scheduledAt)}
+                      </p>
+                    </div>
+                  </li>
+                )),
+              )}
+          </ul>
+        </AdminCard>
+      )}
     </div>
   );
 }

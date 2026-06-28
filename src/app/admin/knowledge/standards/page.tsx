@@ -1,51 +1,83 @@
-import { AdminBadge } from "@/components/admin/AdminBadge";
+import { knowledgeRepository } from "@/lib/repositories/knowledge.repository";
+import type { StoredKnowledgeEntry } from "@/lib/repositories/knowledge.repository";
 import { AdminButton } from "@/components/admin/AdminButton";
 import { AdminCard, AdminStatCard } from "@/components/admin/AdminCard";
-import { AdminEmptyState } from "@/components/admin/AdminEmptyState";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { AdminBadge } from "@/components/admin/AdminBadge";
+import { AdminTable } from "@/components/admin/AdminTable";
+import type { AdminTableColumn } from "@/lib/admin/types";
+import { formatDate } from "@/lib/admin/utils";
 
+export const dynamic = "force-dynamic";
 export const metadata = { title: "Standards — Knowledge Base" };
 
-const STANDARDS_AREAS = [
-  {
-    area: "Code Quality",
-    description: "TypeScript rules, component conventions, naming, and commit format",
-    source: "docs/04-Engineering/CODING_STANDARDS.md",
-    status: "Approved",
-  },
-  {
-    area: "Design System",
-    description: "Color usage, typography, page structure, and component patterns",
-    source: "docs/04-Engineering/DESIGN_CONVENTIONS.md",
-    status: "Approved",
-  },
-  {
-    area: "Architecture",
-    description: "Directory structure, data models, auth, routing, and SEO",
-    source: "ARCHITECTURE.md",
-    status: "Approved",
-  },
-  {
-    area: "Security",
-    description: "Headers, session management, input validation, and OWASP compliance",
-    source: "next.config.mjs + auth layer",
-    status: "Implemented",
-  },
-  {
-    area: "API Design",
-    description: "Request/response conventions, error handling, and rate limiting",
-    source: "To be documented",
-    status: "Pending",
-  },
-  {
-    area: "Accessibility",
-    description: "WCAG 2.1 AA standards for all public-facing interfaces",
-    source: "docs/04-Engineering/DESIGN_CONVENTIONS.md",
-    status: "Approved",
-  },
-] as const;
+const STATUS_VARIANT: Record<string, "success" | "info" | "neutral" | "warning"> = {
+  approved: "success",
+  review: "warning",
+  draft: "neutral",
+  archived: "neutral",
+  superseded: "neutral",
+};
 
-export default function AdminStandardsPage() {
+const COLS: AdminTableColumn<StoredKnowledgeEntry>[] = [
+  {
+    key: "title",
+    header: "Standard",
+    render: (e) => (
+      <div>
+        <p className="font-medium text-zinc-100">{e.title}</p>
+        {e.description && (
+          <p className="mt-0.5 text-xs text-zinc-500 truncate max-w-xs">{e.description}</p>
+        )}
+      </div>
+    ),
+  },
+  {
+    key: "status",
+    header: "Status",
+    render: (e) => (
+      <AdminBadge variant={STATUS_VARIANT[e.status] ?? "neutral"}>{e.status}</AdminBadge>
+    ),
+  },
+  {
+    key: "owner",
+    header: "Owner",
+    render: (e) => <span className="text-sm text-zinc-400">{e.ownerRole ?? "—"}</span>,
+    hideOnMobile: true,
+  },
+  {
+    key: "review",
+    header: "Next Review",
+    render: (e) => {
+      if (!e.nextReviewAt) return <span className="text-zinc-600">—</span>;
+      const overdue = e.nextReviewAt < new Date().toISOString().slice(0, 10);
+      return (
+        <span className={`text-sm ${overdue ? "font-medium text-amber-300" : "text-zinc-400"}`}>
+          {formatDate(e.nextReviewAt)}
+        </span>
+      );
+    },
+    hideOnMobile: true,
+  },
+  {
+    key: "updated",
+    header: "Updated",
+    render: (e) => <span className="text-sm text-zinc-500">{formatDate(e.updatedAt)}</span>,
+    hideOnMobile: true,
+  },
+];
+
+export default async function AdminStandardsPage() {
+  const standards = await knowledgeRepository.findByCategory("standard");
+  const today = new Date().toISOString().slice(0, 10);
+
+  const stats = {
+    total: standards.length,
+    approved: standards.filter((e) => e.status === "approved").length,
+    draft: standards.filter((e) => e.status === "draft").length,
+    dueForReview: standards.filter((e) => e.nextReviewAt && e.nextReviewAt <= today).length,
+  };
+
   return (
     <div className="space-y-8">
       <AdminPageHeader
@@ -53,77 +85,33 @@ export default function AdminStandardsPage() {
         description="Engineering standards, architectural decisions, and quality benchmarks."
         actions={
           <AdminButton href="/admin/knowledge" variant="ghost" size="md">
-            Back to knowledge base
+            Knowledge Base
           </AdminButton>
         }
       />
 
-      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <AdminStatCard label="Total standards" value="6" hint="Across all areas" />
-        <AdminStatCard label="Approved" value="4" hint="Active and enforced" />
-        <AdminStatCard label="Implemented" value="1" hint="In code, pending doc" />
-        <AdminStatCard label="Pending" value="1" hint="Not yet documented" />
+      <section className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+        <AdminStatCard label="Total standards" value={stats.total} />
+        <AdminStatCard label="Approved" value={stats.approved} />
+        <AdminStatCard label="Drafts" value={stats.draft} />
+        <AdminStatCard
+          label="Due for review"
+          value={stats.dueForReview}
+          trend={stats.dueForReview > 0 ? { value: "Review needed", direction: "down" } : undefined}
+        />
       </section>
 
-      <AdminCard
-        title="Standards Library"
-        description="All technical and engineering standards"
-        actions={<AdminBadge variant="neutral">Structural view only</AdminBadge>}
-      >
-        <AdminEmptyState
-          title="Standards are documented externally"
-          description="Technical standards live in the docs/ directory alongside the codebase. They will be indexed here for cross-referencing with proposals, SOPs, and project delivery requirements."
-        />
-      </AdminCard>
-
-      <AdminCard title="Standards Areas" description="Engineering and quality domains">
-        <div className="space-y-3">
-          {STANDARDS_AREAS.map(({ area, description, source, status }) => (
-            <div
-              key={area}
-              className="rounded-xl border border-zinc-800 bg-zinc-950/60 p-4"
-            >
-              <div className="flex flex-wrap items-start justify-between gap-3">
-                <div className="min-w-0 flex-1">
-                  <h3 className="text-sm font-semibold text-zinc-100">{area}</h3>
-                  <p className="mt-1 text-xs text-zinc-400">{description}</p>
-                  <p className="mt-1.5 font-mono text-xs text-zinc-600">{source}</p>
-                </div>
-                <AdminBadge
-                  variant={
-                    status === "Approved"
-                      ? "success"
-                      : status === "Implemented"
-                      ? "info"
-                      : "neutral"
-                  }
-                >
-                  {status}
-                </AdminBadge>
-              </div>
-            </div>
-          ))}
-        </div>
-      </AdminCard>
-
-      <AdminCard title="What this module will include">
-        <ul className="grid grid-cols-1 gap-2 text-sm text-zinc-400 sm:grid-cols-2">
-          {[
-            "Cross-reference to docs/ source files",
-            "Standard version and approval tracking",
-            "Applicability scope per standard",
-            "Enforcement level per standard",
-            "Links from proposal deliverables to relevant standards",
-            "Review reminders when standards age",
-            "Client-deliverable standard citations",
-            "Export for proposal technical approach sections",
-          ].map((item) => (
-            <li key={item} className="flex items-start gap-2">
-              <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-700" />
-              {item}
-            </li>
-          ))}
-        </ul>
+      <AdminCard title={`${standards.length} standard${standards.length !== 1 ? "s" : ""}`} padded={false}>
+        {standards.length === 0 ? (
+          <div className="px-6 py-10 text-center">
+            <p className="text-sm text-zinc-500">No standards documented yet.</p>
+            <p className="mt-1 text-xs text-zinc-600">
+              Add knowledge entries with category &ldquo;standard&rdquo; to see them here.
+            </p>
+          </div>
+        ) : (
+          <AdminTable columns={COLS} rows={standards} getRowKey={(e) => e.id} />
+        )}
       </AdminCard>
     </div>
   );

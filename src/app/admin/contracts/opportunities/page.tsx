@@ -1,88 +1,180 @@
-import { AdminBadge } from "@/components/admin/AdminBadge";
+import { opportunityRepository } from "@/lib/repositories/opportunity.repository";
+import type { StoredOpportunity, OpportunityStage, OpportunityTrack } from "@/lib/repositories/opportunity.repository";
 import { AdminButton } from "@/components/admin/AdminButton";
 import { AdminCard, AdminStatCard } from "@/components/admin/AdminCard";
-import { AdminEmptyState } from "@/components/admin/AdminEmptyState";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { AdminBadge } from "@/components/admin/AdminBadge";
+import { AdminTable } from "@/components/admin/AdminTable";
+import type { AdminTableColumn } from "@/lib/admin/types";
+import { formatDate } from "@/lib/admin/utils";
 
+export const dynamic = "force-dynamic";
 export const metadata = { title: "Opportunities — Gov Contracts" };
 
-const PIPELINE_STAGES = [
-  { stage: "Identified", description: "On radar, not yet pursuing", count: 0 },
-  { stage: "Tracking", description: "Actively monitoring for updates", count: 0 },
-  { stage: "Pursuing", description: "Decision made to pursue", count: 0 },
-  { stage: "Proposal Prep", description: "Proposal in active development", count: 0 },
-  { stage: "Submitted", description: "Response delivered", count: 0 },
-  { stage: "Awarded", description: "Contract awarded to us", count: 0 },
-  { stage: "Not Awarded", description: "Awarded to competitor", count: 0 },
-  { stage: "No Bid", description: "Opted not to pursue", count: 0 },
-] as const;
+type Props = { searchParams?: Promise<{ track?: string; stage?: string }> };
 
-export default function AdminOpportunitiesPage() {
+const STAGE_VARIANT: Record<OpportunityStage, "success" | "info" | "neutral" | "warning" | "danger"> = {
+  lead: "neutral",
+  qualified: "info",
+  proposal: "warning",
+  negotiation: "info",
+  awarded: "success",
+  lost: "danger",
+  archived: "neutral",
+};
+
+const TRACK_LABELS: Record<OpportunityTrack, string> = {
+  commercial: "Commercial",
+  "government-federal": "Federal",
+  "government-state": "State",
+  "government-local": "Local",
+  enterprise: "Enterprise",
+};
+
+function currency(n?: number): string {
+  if (!n) return "—";
+  if (n >= 1_000_000) return `$${(n / 1_000_000).toFixed(1)}M`;
+  if (n >= 1_000) return `$${(n / 1_000).toFixed(0)}k`;
+  return `$${n.toLocaleString()}`;
+}
+
+const COLS: AdminTableColumn<StoredOpportunity>[] = [
+  {
+    key: "title",
+    header: "Opportunity",
+    render: (o) => (
+      <div>
+        <p className="font-medium text-zinc-100 leading-snug">{o.title}</p>
+        {o.agency && <p className="mt-0.5 text-xs text-zinc-500">{o.agency}</p>}
+      </div>
+    ),
+  },
+  {
+    key: "track",
+    header: "Track",
+    render: (o) => (
+      <AdminBadge variant="neutral">{TRACK_LABELS[o.track]}</AdminBadge>
+    ),
+    hideOnMobile: true,
+  },
+  {
+    key: "stage",
+    header: "Stage",
+    render: (o) => (
+      <AdminBadge variant={STAGE_VARIANT[o.stage]}>
+        {o.stage}
+      </AdminBadge>
+    ),
+  },
+  {
+    key: "value",
+    header: "Est. Value",
+    render: (o) => (
+      <span className="text-sm font-semibold text-zinc-200">{currency(o.estimatedValue)}</span>
+    ),
+    align: "right",
+    hideOnMobile: true,
+  },
+  {
+    key: "probability",
+    header: "Win %",
+    render: (o) => (
+      <span className={`text-sm font-semibold ${
+        (o.winProbability ?? 0) >= 60 ? "text-emerald-400" :
+        (o.winProbability ?? 0) >= 30 ? "text-amber-300" : "text-zinc-400"
+      }`}>
+        {o.winProbability !== undefined ? `${o.winProbability}%` : "—"}
+      </span>
+    ),
+    align: "center",
+    hideOnMobile: true,
+  },
+  {
+    key: "deadline",
+    header: "Deadline",
+    render: (o) => o.responseDeadline ? (
+      <span className="text-sm text-zinc-300">{formatDate(o.responseDeadline)}</span>
+    ) : <span className="text-zinc-600">—</span>,
+    hideOnMobile: true,
+  },
+];
+
+export default async function AdminOpportunitiesPage({ searchParams }: Props) {
+  const params = await searchParams;
+  const trackFilter = params?.track as OpportunityTrack | undefined;
+  const stageFilter = params?.stage as OpportunityStage | undefined;
+
+  const [stats, result] = await Promise.all([
+    opportunityRepository.getPipelineStats(),
+    opportunityRepository.findAll({
+      filters: [
+        ...(trackFilter ? [{ field: "track", operator: "eq" as const, value: trackFilter }] : []),
+        ...(stageFilter ? [{ field: "stage", operator: "eq" as const, value: stageFilter }] : []),
+      ],
+      sort: { field: "responseDeadline", order: "asc" },
+      perPage: 200,
+    }),
+  ]);
+
   return (
     <div className="space-y-8">
       <AdminPageHeader
         title="Opportunities"
-        description="Government contract pipeline from market research through award."
+        description="All tracked opportunities across commercial, government, and enterprise tracks."
         actions={
           <AdminButton href="/admin/contracts" variant="ghost" size="md">
-            Back to contracts
+            Back to Gov Contracts
           </AdminButton>
         }
       />
 
-      <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <AdminStatCard label="Total tracked" value="0" />
-        <AdminStatCard label="Active pursuit" value="0" hint="Pursuing + proposal prep" />
-        <AdminStatCard label="Submitted" value="0" hint="Awaiting award" />
-        <AdminStatCard label="Awarded" value="0" hint="Win rate: —" />
+      <section className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
+        <AdminStatCard label="Total" value={stats.total} />
+        <AdminStatCard label="Pipeline value" value={currency(stats.totalValue)} />
+        <AdminStatCard label="Proposal stage" value={stats.byStage.proposal} />
+        <AdminStatCard label="Awarded" value={stats.byStage.awarded} />
+        <AdminStatCard
+          label="Deadlines (7d)"
+          value={stats.deadlinesThisWeek}
+          trend={stats.deadlinesThisWeek > 0 ? { value: "Due soon", direction: "down" } : undefined}
+        />
       </section>
 
+      {/* Track filter */}
+      <form className="flex flex-wrap gap-2" method="GET">
+        {[
+          { label: "All tracks", value: "" },
+          { label: "Federal", value: "government-federal" },
+          { label: "Commercial", value: "commercial" },
+          { label: "State", value: "government-state" },
+          { label: "Local", value: "government-local" },
+          { label: "Enterprise", value: "enterprise" },
+        ].map(({ label, value }) => (
+          <button
+            key={value}
+            type="submit"
+            name="track"
+            value={value}
+            className={`rounded-lg border px-3 py-2 text-xs font-medium transition-colors ${
+              (trackFilter ?? "") === value
+                ? "border-amber-400 bg-amber-500/10 text-amber-300"
+                : "border-zinc-700 text-zinc-400 hover:border-zinc-600 hover:text-zinc-200"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </form>
+
       <AdminCard
-        title="Opportunity Pipeline"
-        description="All tracked opportunities by stage"
-        actions={<AdminBadge variant="neutral">Coming soon</AdminBadge>}
+        title={`${result.total} opportunit${result.total !== 1 ? "ies" : "y"}`}
+        padded={false}
       >
-        <AdminEmptyState
-          title="No opportunities in pipeline"
-          description="Track federal, state, and local government contracting opportunities here. Pull from SAM.gov, agency portals, and direct outreach."
+        <AdminTable
+          columns={COLS}
+          rows={result.items}
+          getRowKey={(o) => o.id}
         />
-      </AdminCard>
-
-      <AdminCard title="Pipeline Stages" description="Opportunity lifecycle tracking">
-        <div className="divide-y divide-zinc-800">
-          {PIPELINE_STAGES.map(({ stage, description, count }) => (
-            <div
-              key={stage}
-              className="flex items-center justify-between py-3 first:pt-0 last:pb-0"
-            >
-              <div>
-                <p className="text-sm font-medium text-zinc-200">{stage}</p>
-                <p className="mt-0.5 text-xs text-zinc-500">{description}</p>
-              </div>
-              <span className="text-sm font-semibold text-zinc-400">{count}</span>
-            </div>
-          ))}
-        </div>
-      </AdminCard>
-
-      <AdminCard title="What this module will include">
-        <ul className="grid grid-cols-1 gap-2 text-sm text-zinc-400 sm:grid-cols-2">
-          {[
-            "SAM.gov opportunity import and tracking",
-            "NAICS and PSC code matching",
-            "Set-aside category filtering",
-            "Capture stage progression tracking",
-            "Response deadline calendar",
-            "Estimated contract value and sizing",
-            "Agency and POC relationship tracking",
-            "Win/loss analysis and lessons learned",
-          ].map((item) => (
-            <li key={item} className="flex items-start gap-2">
-              <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-zinc-700" />
-              {item}
-            </li>
-          ))}
-        </ul>
       </AdminCard>
     </div>
   );
