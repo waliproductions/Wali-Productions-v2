@@ -108,6 +108,39 @@ const KnowledgeIcon: AdminIcon = (props) => (
   </BaseIcon>
 );
 
+const CrmIcon: AdminIcon = (props) => (
+  <BaseIcon {...props}>
+    <circle cx="9" cy="7" r="3" />
+    <path d="M3 20v-1a6 6 0 0 1 6-6v0" />
+    <circle cx="17" cy="11" r="2.5" />
+    <path d="M12.5 20v-1a4.5 4.5 0 0 1 9 0v1" />
+  </BaseIcon>
+);
+
+const ProjectsIcon: AdminIcon = (props) => (
+  <BaseIcon {...props}>
+    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+    <path d="M2 17l10 5 10-5" />
+    <path d="M2 12l10 5 10-5" />
+  </BaseIcon>
+);
+
+const ContractRecordsIcon: AdminIcon = (props) => (
+  <BaseIcon {...props}>
+    <path d="M9 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9l-6-6z" />
+    <path d="M9 3v6h6" />
+    <circle cx="12" cy="14.5" r="2.5" />
+    <path d="M9.5 17c.7-.7 1.6-1 2.5-1s1.8.3 2.5 1" />
+  </BaseIcon>
+);
+
+const ReportsIcon: AdminIcon = (props) => (
+  <BaseIcon {...props}>
+    <path d="M18 20V10M12 20V4M6 20v-6" />
+    <path d="M3 20.5h18" />
+  </BaseIcon>
+);
+
 const CloseIcon = (props: SVGProps<SVGSVGElement>) => (
   <BaseIcon {...props}>
     <path d="M6 6l12 12M18 6 6 18" />
@@ -131,10 +164,18 @@ export const ADMIN_NAV_SECTIONS: AdminNavSection[] = [
     ],
   },
   {
-    title: "Work",
+    title: "Business Development",
     items: [
+      { label: "CRM", href: "/admin/crm", icon: CrmIcon, matchPrefix: true },
       { label: "Operations", href: "/admin/operations", icon: OperationsIcon, matchPrefix: true },
       { label: "Gov Contracts", href: "/admin/contracts", icon: ContractsIcon, matchPrefix: true },
+    ],
+  },
+  {
+    title: "Project Delivery",
+    items: [
+      { label: "Projects", href: "/admin/projects", icon: ProjectsIcon, matchPrefix: true },
+      { label: "Contract Records", href: "/admin/contract-records", icon: ContractRecordsIcon, matchPrefix: true },
     ],
   },
   {
@@ -153,6 +194,7 @@ export const ADMIN_NAV_SECTIONS: AdminNavSection[] = [
   {
     title: "System",
     items: [
+      { label: "Reports", href: "/admin/reports", icon: ReportsIcon, matchPrefix: true },
       { label: "Analytics", href: "/admin/analytics", icon: AnalyticsIcon, matchPrefix: true },
       { label: "Contact Inquiries", href: "/admin/contact", icon: InboxIcon, matchPrefix: true },
       { label: "Audit Log", href: "/admin/audit", icon: AuditIcon, matchPrefix: true },
@@ -292,7 +334,7 @@ export function AdminSidebar({
         </nav>
 
         <div className="border-t border-zinc-800 px-4 py-3">
-          <p className="text-xs text-zinc-600">Admin Portal · v0.7.0</p>
+          <p className="text-xs text-zinc-600">Admin Portal · v0.8.0</p>
         </div>
       </aside>
     </>
