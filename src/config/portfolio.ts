@@ -39,6 +39,20 @@ export type PortfolioProject = {
   year?: number;
   client?: string;
   url?: string;
+  /** Industry vertical (e.g. "Government", "Healthcare", "Small Business"). */
+  industry?: string;
+  /** Measurable outcomes or results from this project. */
+  outcomes?: string[];
+  /** Public screenshot/image URLs (relative or absolute). */
+  screenshots?: string[];
+  /** Whether this project demonstrates government contracting applicability. */
+  govApplicable?: boolean;
+  /** ISO date string (YYYY-MM-DD) when the project was completed. */
+  completionDate?: string;
+  /** Service lines performed as part of this engagement. */
+  servicesPerformed?: string[];
+  /** e.g. "internal" | "small-business" | "nonprofit" | "government" | "enterprise" */
+  clientType?: string;
 };
 
 export type PortfolioContent = {
@@ -154,6 +168,18 @@ export const portfolioContent: PortfolioContent = {
       year: 2025,
       client: "Wali Productions LLC (internal)",
       url: "https://waliproductions.com",
+      industry: "Professional Services",
+      outcomes: [
+        "Full public marketing site with 6 content pages",
+        "Admin portal with contact management, analytics, and government readiness dashboard",
+        "Secure iron-session authentication with bcryptjs",
+        "Contact form pipeline with email delivery via Nodemailer",
+        "Deployed on Hostinger Node.js with GitHub auto-deploy",
+      ],
+      govApplicable: true,
+      completionDate: "2025-12-31",
+      servicesPerformed: ["Website Design & Development", "Software Development", "Linux & Systems Administration"],
+      clientType: "internal",
     },
   ],
 };

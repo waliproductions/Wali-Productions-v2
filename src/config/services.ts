@@ -17,6 +17,19 @@ export type Cta = {
 export type ServiceCard = {
   title: string;
   description: string;
+  /** URL-safe identifier used for deep-linking and future detail pages. */
+  id?: string;
+  slug?: string;
+  technologies?: string[];
+  deliverables?: string[];
+  /** Industry verticals this service applies to. */
+  industries?: string[];
+  /** e.g. "fixed-price" | "hourly" | "retainer" | "custom" */
+  pricingModel?: string;
+  featured?: boolean;
+  govRelevant?: boolean;
+  /** e.g. "2–4 weeks", "1–3 months" */
+  estimatedTimeline?: string;
 };
 
 export type ServiceCategory = {
