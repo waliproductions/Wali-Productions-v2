@@ -52,9 +52,11 @@ async function main() {
   console.log("\nNext steps:");
   console.log("1. In Hostinger hPanel → Advanced → Node.js → Environment Variables");
   console.log("   Set ADMIN_PASSWORD_HASH to the value above (copy the full $2b$... string)");
+  console.log("   NOTE: Hostinger escapes $ → \\$ internally. The app corrects for this");
+  console.log("   automatically. Paste the hash exactly as shown — do not pre-escape it.");
   console.log("2. Ensure ADMIN_USERNAME is also set to your admin username.");
   console.log("3. Ensure SESSION_SECRET is set (generate with: openssl rand -base64 32)");
-  console.log("4. Save and redeploy.\n");
+  console.log("4. Save and restart the Node.js process.\n");
 }
 
 main().catch((err) => {
