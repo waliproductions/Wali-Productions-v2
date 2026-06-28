@@ -1,16 +1,17 @@
 /**
- * Shared TypeScript types used across config files and components.
- * Config-specific types (ServiceCard, PortfolioProject, etc.) remain
- * co-located with their config file for cohesion.
+ * Shared TypeScript types for the Wali Productions platform.
+ *
+ * Config-specific types (ServiceCard, PortfolioProject, GovernmentContent, etc.)
+ * remain co-located with their config file for cohesion. This module exports
+ * cross-cutting business types that span multiple features and surfaces.
  */
 
-/** Generic labeled link used for CTAs and navigation entries. */
+// Utility types
 export type Cta = {
   label: string;
   href: string;
 };
 
-/** Named identifier pair for code/title lookups (NAICS, PSC, etc.). */
 export type CodeEntry = {
   code: string;
   title: string;
@@ -18,11 +19,46 @@ export type CodeEntry = {
   primary?: boolean;
 };
 
-/** Minimal status representation for items that may be pending or confirmed. */
 export type VerificationStatus = "verified" | "pending" | "in-preparation";
 
-/** A simple key–value pair used in description lists and detail views. */
 export type LabeledValue = {
   label: string;
   value: string;
 };
+
+// Business domain types
+export type { Client, ClientContact, ClientStatus, ClientType, ContactRole } from "./client";
+export type {
+  Project,
+  ProjectStatus,
+  ProjectHealth,
+  Milestone,
+  MilestoneStatus,
+  Deliverable,
+  DeliverableStatus,
+  TeamMember,
+  TeamRole,
+  ProjectDocument,
+} from "./project";
+export type {
+  Proposal,
+  ProposalStatus,
+  ProposalType,
+  ProposalSection,
+  ProposalLineItem,
+  ProposalMilestone,
+  ProposalRevision,
+  PricingStrategy,
+} from "./proposal";
+export type {
+  NaicsCode,
+  PscCode,
+  Certification,
+  CertificationStatus,
+  ContractVehicle,
+  ContractVehicleType,
+  PastPerformanceRecord,
+  TeamQualification,
+  CapabilityStatementSnapshot,
+  ClearanceLevel,
+} from "./government";
