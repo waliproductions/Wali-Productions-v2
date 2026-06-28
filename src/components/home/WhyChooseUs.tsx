@@ -19,11 +19,14 @@ export function WhyChooseUs() {
         </h2>
       </div>
 
-      <div className="mt-14 grid grid-cols-1 gap-x-12 gap-y-10 sm:grid-cols-2">
+      <div className="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2">
         {items.map((item, i) => (
-          <div key={i}>
-            <div className="h-0.5 w-8 bg-[#4A7DB5]" />
-            <h3 className="mt-4 font-display text-lg font-semibold tracking-tight">
+          <div
+            key={i}
+            className="rounded-xl border border-black/10 bg-white p-6 shadow-card transition-all hover:shadow-card-hover hover:border-[#4A7DB5]/25 dark:border-white/10 dark:bg-white/[0.03]"
+          >
+            <div className="mb-4 h-0.5 w-8 bg-[#4A7DB5]" />
+            <h3 className="font-display text-lg font-semibold tracking-tight">
               {item.title}
             </h3>
             <p className="mt-2.5 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">

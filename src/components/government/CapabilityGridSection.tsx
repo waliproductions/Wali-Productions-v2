@@ -1,5 +1,4 @@
 import { Section, SectionEyebrow } from "@/components/home/Section";
-import { FeatureGrid } from "@/components/home/FeatureGrid";
 import type { Capability } from "@/config/government";
 
 type CapabilityGridSectionProps = {
@@ -9,7 +8,6 @@ type CapabilityGridSectionProps = {
   items: Capability[];
   mdColumnsClass?: string;
   tone?: "default" | "muted";
-  /** "list" renders gold-bar items instead of cards — use to vary adjacent sections. */
   layout?: "grid" | "list";
 };
 
@@ -24,7 +22,7 @@ export function CapabilityGridSection({
 }: CapabilityGridSectionProps) {
   const toneClass =
     tone === "muted"
-      ? "border-t border-black/10 bg-gov-light dark:border-white/10 dark:bg-gov-light"
+      ? "border-t border-black/10 bg-gov-light dark:border-white/10"
       : "border-t border-black/10 dark:border-white/10";
 
   return (
@@ -55,7 +53,26 @@ export function CapabilityGridSection({
             ))}
           </div>
         ) : (
-          <FeatureGrid items={items} mdColumnsClass={mdColumnsClass} />
+          <ul className={`grid grid-cols-1 gap-4 ${mdColumnsClass}`}>
+            {items.map((item, i) => (
+              <li
+                key={i}
+                className="rounded-xl border border-black/10 bg-white p-6 shadow-card transition-all hover:shadow-card-hover hover:border-[#4A7DB5]/25 dark:border-white/10 dark:bg-white/[0.03]"
+              >
+                <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-lg bg-[#F0F4F8] dark:bg-white/[0.06]">
+                  <span className="text-xs font-bold text-[#1E3A5F]" aria-hidden="true">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                </div>
+                <h3 className="font-display text-base font-semibold tracking-tight">
+                  {item.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+                  {item.description}
+                </p>
+              </li>
+            ))}
+          </ul>
         )}
       </div>
     </Section>

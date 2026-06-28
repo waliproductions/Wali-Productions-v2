@@ -1,4 +1,5 @@
 import { Hero } from "@/components/home/Hero";
+import { CredibilityBar } from "@/components/home/CredibilityBar";
 import { Mission } from "@/components/home/Mission";
 import { ServicesOverview } from "@/components/home/ServicesOverview";
 import { GovernmentContracting } from "@/components/home/GovernmentContracting";
@@ -25,6 +26,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <CredibilityBar />
       <Mission />
       <ServicesOverview />
       <GovernmentContracting />

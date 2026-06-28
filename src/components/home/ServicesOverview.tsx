@@ -2,59 +2,33 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { homeContent } from "@/config/home";
 import { Section, SectionEyebrow } from "./Section";
-import { FeatureGrid } from "./FeatureGrid";
 
 const SERVICE_ICONS: Record<string, ReactNode> = {
   "Website Design & Development": (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <circle cx="12" cy="12" r="9" />
-      <path d="M3.5 12h17M12 3.5c-2.5 3-4 5.5-4 8.5s1.5 5.5 4 8.5M12 3.5c2.5 3 4 5.5 4 8.5s-1.5 5.5-4 8.5" />
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="14" cy="14" r="11" />
+      <path d="M3.5 14h21M14 3.5C11 7 9 10.5 9 14s2 7 5 10.5M14 3.5C17 7 19 10.5 19 14s-2 7-5 10.5" />
     </svg>
   ),
   "Software Development": (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <polyline points="16 18 22 12 16 6" />
-      <polyline points="8 6 2 12 8 18" />
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="2" y="5" width="24" height="18" rx="2" />
+      <path d="M10 12l-3 3 3 3M18 12l3 3-3 3M14 10l-2 8" />
     </svg>
   ),
   "AI Integration & Business Automation": (
-    <svg
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <rect x="9" y="9" width="6" height="6" rx="1" />
-      <path d="M3 12h6M15 12h6M12 3v6M12 15v6" />
-      <circle cx="12" cy="12" r="9" strokeOpacity="0.2" />
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
+      <circle cx="14" cy="14" r="3.5" />
+      <path d="M14 3v7M14 18v7M3 14h7M18 14h7M6.2 6.2l4.9 4.9M16.9 16.9l4.9 4.9M21.8 6.2l-4.9 4.9M11.1 16.9l-4.9 4.9" />
     </svg>
   ),
 };
+
+const ICON_FALLBACK = (
+  <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <circle cx="14" cy="14" r="11" /><path d="M14 10v4l3 3" />
+  </svg>
+);
 
 export function ServicesOverview() {
   const { eyebrow, heading, intro, items } = homeContent.services;
@@ -82,27 +56,30 @@ export function ServicesOverview() {
           className="inline-flex shrink-0 items-center gap-1.5 text-sm font-semibold text-[#1E3A5F] transition-colors hover:text-[#2B4C7E]"
         >
           View all services
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 14 14"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <path d="M2 7h10M7 2l5 5-5 5" />
           </svg>
         </Link>
       </div>
-      <div className="mt-12">
-        <FeatureGrid
-          items={items}
-          getIcon={(title) => SERVICE_ICONS[title] ?? null}
-        />
-      </div>
+
+      <ul className="mt-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {items.map((item, index) => (
+          <li
+            key={index}
+            className="group rounded-2xl border border-black/10 bg-white p-7 shadow-card transition-all hover:shadow-card-hover hover:border-[#4A7DB5]/25 dark:border-white/10 dark:bg-white/[0.03]"
+          >
+            <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[#F0F4F8] text-[#1E3A5F] transition-colors group-hover:bg-[#E8EFF8] dark:bg-white/[0.06]">
+              {SERVICE_ICONS[item.title] ?? ICON_FALLBACK}
+            </div>
+            <h3 className="font-display text-lg font-semibold tracking-tight">
+              {item.title}
+            </h3>
+            <p className="mt-2.5 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
+              {item.description}
+            </p>
+          </li>
+        ))}
+      </ul>
     </Section>
   );
 }

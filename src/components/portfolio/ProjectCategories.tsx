@@ -22,8 +22,13 @@ export function ProjectCategories() {
         {items.map((item, i) => (
           <li
             key={i}
-            className="rounded-xl border border-black/10 bg-white p-5 shadow-card dark:border-white/10 dark:bg-white/[0.03]"
+            className="group rounded-xl border border-black/10 bg-white p-6 shadow-card transition-all hover:shadow-card-hover hover:border-[#4A7DB5]/25 dark:border-white/10 dark:bg-white/[0.03]"
           >
+            <div className="mb-3 flex h-8 w-8 items-center justify-center rounded-lg bg-[#F0F4F8] dark:bg-white/[0.06]">
+              <span className="text-xs font-bold text-[#1E3A5F]" aria-hidden="true">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+            </div>
             <h3 className="font-display text-base font-semibold tracking-tight">
               {item.title}
             </h3>

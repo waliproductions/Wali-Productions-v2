@@ -16,7 +16,7 @@ export function FeaturedProjects() {
     <Section
       id="featured-projects"
       labelledById="featured-projects-heading"
-      className="border-t border-black/10 dark:border-white/10"
+      className="border-t border-black/10 bg-[#F8FAFC] dark:border-white/10"
     >
       <SectionEyebrow variant="gold">{eyebrow}</SectionEyebrow>
       <h2
@@ -31,8 +31,9 @@ export function FeaturedProjects() {
           {confirmedItems.map((item, index) => (
             <li
               key={index}
-              className="rounded-xl border border-black/10 bg-white p-7 shadow-card transition-all hover:shadow-card-hover dark:border-white/10 dark:bg-white/[0.03]"
+              className="group rounded-2xl border border-black/10 bg-white p-7 shadow-card transition-all hover:shadow-card-hover hover:border-[#4A7DB5]/25 dark:border-white/10 dark:bg-white/[0.03]"
             >
+              <div className="mb-4 h-1 w-10 rounded-full bg-[#4A7DB5]" />
               <h3 className="font-display text-lg font-semibold tracking-tight">
                 {item.title}
               </h3>
@@ -43,7 +44,8 @@ export function FeaturedProjects() {
           ))}
         </ul>
       ) : (
-        <div className="mt-10 rounded-xl border border-black/10 p-8 dark:border-white/10">
+        <div className="mt-10 rounded-2xl border border-black/10 bg-white p-10 dark:border-white/10 dark:bg-white/[0.03]">
+          <div className="mb-4 h-0.5 w-10 bg-[#4A7DB5]" />
           <p className="text-sm leading-relaxed text-neutral-500 dark:text-neutral-400">
             {note}
           </p>
