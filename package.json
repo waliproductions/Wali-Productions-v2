@@ -1,13 +1,13 @@
 {
   "name": "wali-productions-v2",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
-  "description": "Wali Productions LLC — corporate website (Phase 1 bootstrap).",
+  "description": "Wali Productions LLC — enterprise operating platform.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "echo 'Lint temporarily deferred until ESLint config review'",
+    "lint": "next lint",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

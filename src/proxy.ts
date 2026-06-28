@@ -23,7 +23,7 @@ export async function proxy(request: NextRequest) {
       password: secret,
     });
 
-    if (!session.isLoggedIn) {
+    if (!session.isLoggedIn || session.role !== "admin") {
       return NextResponse.redirect(loginUrl);
     }
   } catch {

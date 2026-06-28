@@ -166,6 +166,12 @@ const IntegrationsIcon: AdminIcon = (props) => (
   </BaseIcon>
 );
 
+const HealthIcon: AdminIcon = (props) => (
+  <BaseIcon {...props}>
+    <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+  </BaseIcon>
+);
+
 const CloseIcon = (props: SVGProps<SVGSVGElement>) => (
   <BaseIcon {...props}>
     <path d="M6 6l12 12M18 6 6 18" />
@@ -231,6 +237,7 @@ export const ADMIN_NAV_SECTIONS: AdminNavSection[] = [
       { label: "Integrations", href: "/admin/integrations", icon: IntegrationsIcon, matchPrefix: true },
       { label: "Contact Inquiries", href: "/admin/contact", icon: InboxIcon, matchPrefix: true },
       { label: "Audit Log", href: "/admin/audit", icon: AuditIcon, matchPrefix: true },
+      { label: "Health", href: "/admin/health", icon: HealthIcon, matchPrefix: true },
       { label: "Settings", href: "/admin/settings", icon: SettingsIcon, matchPrefix: true },
     ],
   },
@@ -367,7 +374,7 @@ export function AdminSidebar({
         </nav>
 
         <div className="border-t border-zinc-800 px-4 py-3">
-          <p className="text-xs text-zinc-600">Admin Portal · v0.9.0</p>
+          <p className="text-xs text-zinc-600">Admin Portal · v1.0.0</p>
         </div>
       </aside>
     </>

@@ -49,12 +49,12 @@ export function AdminCard({
         >
           <div className="min-w-0">
             {title ? (
-              <h2 className="truncate text-sm font-semibold text-zinc-100">
+              <h2 className="truncate text-base font-semibold text-zinc-100">
                 {title}
               </h2>
             ) : null}
             {description ? (
-              <p className="mt-0.5 text-sm text-zinc-500">{description}</p>
+              <p className="mt-0.5 text-sm text-zinc-400">{description}</p>
             ) : null}
           </div>
 

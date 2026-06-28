@@ -1,7 +1,7 @@
 # Architecture — Wali Productions v2
 
 Technical reference for the codebase structure, conventions, and key decisions.
-Updated through v0.9.
+Updated through v1.0.
 
 ---
 
