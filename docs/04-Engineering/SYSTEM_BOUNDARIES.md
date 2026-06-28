@@ -44,11 +44,37 @@ data-connected or authenticated.
 
 ---
 
+### Admin Portal — CRM (`/admin/crm/*`)
+
+**Purpose:** Business-development relationship management — prospects, clients, pipeline.
+
+**Owns:** `Organization` records (BD view), `CrmContact` records, `Meeting` records,
+`CommunicationRecord` history, `SalesPipelineEntry` stages, and `CrmActivity` feed.
+
+**Does not own:** Client delivery records (that is `Client` in types/client.ts),
+project execution (that is `/admin/projects`), or contracted work tracking
+(that is `/admin/contract-records`).
+
+**Key linkage rule:** An `Organization` gains a `clientId` only when a proposal is
+accepted or a contract is awarded. Before award, `clientId` is absent — the relationship
+is a prospect, not a client.
+
+**Sub-sections:**
+
+| Route | Purpose |
+|-------|---------|
+| `/admin/crm/organizations` | Prospect and client organization registry |
+| `/admin/crm/contacts` | Individual contact records with role typing |
+| `/admin/crm/pipeline` | 7-stage sales pipeline with value tracking |
+| `/admin/crm/meetings` | Meeting log with 8 meeting types |
+
+---
+
 ### Admin Portal — Operations (`/admin/operations/*`)
 
 **Purpose:** Internal operational hub for commercial work management.
 
-**Owns:** Tasks, commercial proposal pipeline, client CRM, and business metrics.
+**Owns:** Tasks, commercial proposal pipeline, client CRM (legacy — CRM moving to `/admin/crm`), and business metrics.
 
 **Does not own:** Government contracting details (proposals with NAICS/PSC/set-aside),
 knowledge base authoring, public page content.
@@ -100,6 +126,64 @@ government source document browser.
 
 **Does not own:** Active contracting operations, live opportunity tracking,
 proposal development — those belong to `/admin/contracts`.
+
+---
+
+### Admin Portal — Projects (`/admin/projects/*`)
+
+**Purpose:** Project delivery management — active execution, risks, deliverables, lessons.
+
+**Owns:** `Project` records (delivery view), `Risk[]`, `ProjectIssue[]`, `ChangeRequest[]`,
+`WBSNode[]`, `CustomerApproval[]`, `Deliverable[]` (project-level), and `LessonsLearnedRecord[]`.
+
+**Does not own:** Contract terms and financial records (that is `/admin/contract-records`),
+pre-award proposal content (that is `/admin/contracts`), or business-development pipeline
+(that is `/admin/crm`).
+
+**Key linkages:**
+- `Project.contractId` → links to a `Contract` in contract-records when work is under a formal contract
+- `Project.proposalId` → links back to the accepted proposal that created this project
+- `Project.govPerformanceEligible` → flags for future past-performance citation
+
+**Sub-sections:**
+
+| Route | Purpose |
+|-------|---------|
+| `/admin/projects/active` | Full project register by status |
+| `/admin/projects/deliverables` | Cross-project deliverable tracker |
+| `/admin/projects/risks` | Risk register + issue log with impact matrix |
+| `/admin/projects/lessons` | Lessons learned library by category |
+
+---
+
+### Admin Portal — Contract Records (`/admin/contract-records/*`)
+
+**Purpose:** Post-award contract performance management.
+
+**Owns:** `Contract` records, `TaskOrder[]`, `ContractDeliverable[]`,
+`InvoiceRecord[]`, `ContractModification[]`, and `PerformanceReport[]`.
+
+**Does not own:** Pre-award contracting operations (that is `/admin/contracts`),
+project delivery execution (that is `/admin/projects`), or business-development
+pipeline (that is `/admin/crm`).
+
+**Key distinction — pre-award vs. post-award:**
+
+| `/admin/contracts` (pre-award) | `/admin/contract-records` (post-award) |
+|-------------------------------|----------------------------------------|
+| Opportunity tracking, capture | Active contract performance |
+| Proposal development | Task order and delivery management |
+| Certifications, teaming | Invoice and payment tracking |
+| Compliance planning | Modifications and option years |
+
+**Sub-sections:**
+
+| Route | Purpose |
+|-------|---------|
+| `/admin/contract-records/active` | Active contract register by type and status |
+| `/admin/contract-records/task-orders` | IDIQ task order management |
+| `/admin/contract-records/deliverables` | CDRL and deliverable tracking |
+| `/admin/contract-records/invoices` | Invoice lifecycle management |
 
 ---
 
@@ -182,7 +266,11 @@ intended access control model.
 | Portal UI components | `src/components/portal/` |
 | Page-specific display logic | `src/components/<page>/` |
 | Government public page admin | `/admin/government/*` |
-| Government contracting operations | `/admin/contracts/*` |
-| Commercial proposals and clients | `/admin/operations/*` |
+| Government contracting operations (pre-award) | `/admin/contracts/*` |
+| Post-award contract performance | `/admin/contract-records/*` |
+| Business-development relationships | `/admin/crm/*` |
+| Commercial proposals and tasks | `/admin/operations/*` |
+| Project delivery and risks | `/admin/projects/*` |
 | Institutional knowledge and playbooks | `/admin/knowledge/*` |
+| Business intelligence and reporting | `/admin/reports/*` |
 | Client-visible project data | `/portal/*` |

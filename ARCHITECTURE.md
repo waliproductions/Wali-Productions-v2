@@ -1,7 +1,7 @@
 # Architecture — Wali Productions v2
 
 Technical reference for the codebase structure, conventions, and key decisions.
-Updated through v0.7.
+Updated through v0.8.
 
 ---
 
@@ -182,6 +182,62 @@ extends it with step-by-step procedures and role assignments. `PolicyRecord` add
 enforcement level and effective dates. `DocumentRecord` handles file-based documents
 with versioning and retention rules.
 
+### CRM (v0.8)
+
+`Organization` represents prospects and clients from a business-development lens
+(distinct from `Client` which tracks delivery). `CrmContact` links to an organization
+with a typed role. `Meeting`, `CommunicationRecord`, and `CrmActivity` provide full
+relationship history. `SalesPipelineEntry` tracks deals through 7 stages with
+`relationshipScore` (0–100) and `organizationId → clientId` linkage when work is awarded.
+
+### Contract (v0.8)
+
+`Contract` is the post-award record type: `contractNumber`, `status`, `type`,
+`vehicleCategory`, `clientId`, `organizationId`, `agency`, `proposalId`, `opportunityId`,
+and full financial tracking. Supports `OptionYear[]`, `TaskOrder[]`, `Milestone[]`,
+`Deliverable[]`, `InvoiceRecord[]`, `ContractModification[]`, and `PerformanceReport[]`.
+
+### Proposal Workspace (v0.8)
+
+`SectionTemplate` is the reusable proposal content library with usage tracking.
+`ProposalVolume` groups sections per proposal. `ComplianceMatrix` maps requirements
+to response sections. `ProposalReview` and `ProposalApproval` support multi-stage
+review workflows (pink/red/gold/compliance/pricing/executive).
+
+### Project Extensions (v0.8)
+
+Added to `src/types/project.ts`: `Risk`, `ProjectIssue`, `ChangeRequest`, `WBSNode`,
+`LessonsLearnedRecord`, and `CustomerApproval`. `Project` extended with optional
+`contractId`, `taskOrderId`, `wbs`, `risks`, `issues`, `changeRequests`,
+`customerApprovals`, and `lessonsLearned` fields.
+
+### Workflow Engine (v0.8)
+
+`WorkflowDefinition` supports trigger-based, entity-scoped, configurable step
+sequences. `WorkflowStep` types: approval, review, task, notification, wait, condition,
+webhook. 15 trigger events cover the full proposal-to-contract-to-project lifecycle.
+
+### Dashboard & Reporting (v0.8)
+
+`DashboardWidget` type supports 9 widget types (metric, list, line/bar/pie/donut chart,
+table, calendar, activity-feed) with configurable size, dataSource, and refresh interval.
+`DashboardLayout` allows audience-scoped named layouts. `ReportConfig` covers 10 domains.
+
+### AI Readiness (v0.8)
+
+`AiProvider` is vendor-agnostic (anthropic, openai, azure, google, on-premise, unknown).
+`AiIntegrationPoint` tracks 13 capability types with status lifecycle (planned →
+prototyping → beta → active → deprecated). `AiRequestRecord` provides audit trails
+with `humanOverrideApplied` tracking. `AiKnowledgeChunk` scaffolds future RAG/embedding.
+
+### Service Layer (v0.8)
+
+`src/lib/services/` defines TypeScript interfaces for all major domains:
+`ICrmService`, `IContractService`, `IProposalService`, `IProjectService`. The
+`ServiceResult<T>` = `{ ok: true; data: T } | { ok: false; error: string; code? }` pattern
+standardizes all service responses. `ok()` and `err()` helpers simplify construction.
+These are interface definitions only — no implementation yet.
+
 ---
 
 ## Admin Portal Sections
@@ -189,24 +245,50 @@ with versioning and retention rules.
 The admin portal uses grouped sidebar navigation organized by functional domain.
 All sections share the dark-theme admin UI component library (`src/components/admin/`).
 
+**Business Development**
+
 | Section | Route | Purpose |
 |---------|-------|---------|
-| Dashboard | `/admin` | Platform overview and quick metrics |
-| Operations | `/admin/operations` | Tasks, proposals pipeline, clients CRM, reports |
-| Gov Contracts | `/admin/contracts` | Internal contracting workspace (opportunities, proposals, past perf, certs, teaming) |
+| CRM | `/admin/crm` | Organizations, contacts, pipeline (7 stages), meetings |
+| Operations | `/admin/operations` | Tasks, proposal pipeline, clients, reports |
+| Gov Contracts | `/admin/contracts` | Pre-award workspace: opportunities, proposals, certs, teaming |
+
+**Project Delivery**
+
+| Section | Route | Purpose |
+|---------|-------|---------|
+| Projects | `/admin/projects` | Active delivery, risks, deliverables, lessons learned |
+| Contract Records | `/admin/contract-records` | Post-award: active contracts, task orders, deliverables, invoices |
+
+**Content**
+
+| Section | Route | Purpose |
+|---------|-------|---------|
 | Portfolio | `/admin/portfolio` | Portfolio entry management |
 | Government | `/admin/government` | Public `/government` page admin + capability center |
+
+**Knowledge**
+
+| Section | Route | Purpose |
+|---------|-------|---------|
 | Knowledge Base | `/admin/knowledge` | SOPs, policies, standards, templates |
-| Analytics | `/admin/analytics` | Traffic and engagement metrics |
+
+**System**
+
+| Section | Route | Purpose |
+|---------|-------|---------|
+| Reports | `/admin/reports` | Business intelligence hub — 10 reporting domains |
+| Analytics | `/admin/analytics` | Website traffic and engagement metrics |
 | Contact Inquiries | `/admin/contact` | Incoming form submissions |
 | Audit Log | `/admin/audit` | Admin action history |
 | Settings | `/admin/settings` | System configuration |
 
-**Key distinction — Government vs. Contracts:**
-`/admin/government` manages public-facing marketing content (the `/government` page).
-`/admin/contracts` is an internal workspace for actual contracting operations and is
-never exposed publicly. They share `src/types/government.ts` types but serve completely
-different purposes.
+**Key distinctions:**
+
+- `/admin/government` — public-facing marketing content (the `/government` page). Never reveals internal ops data.
+- `/admin/contracts` — pre-award contracting workspace (opportunities, proposals, certifications, teaming). Internal only.
+- `/admin/contract-records` — post-award performance management (active contracts, task orders, deliverables, invoices). Distinct from pre-award ops.
+- `/admin/crm` — business development relationship tracking. `Organization` records link to `Client` records only when work is awarded.
 
 ---
 
