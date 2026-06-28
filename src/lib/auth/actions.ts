@@ -64,6 +64,14 @@ export async function loginAction(
     expectedUsername.trim()
   );
 
+  console.log("[auth:diag]", {
+    hashLen: passwordHash.length,
+    hashPrefix: passwordHash.slice(0, 7),
+    usernameLen: expectedUsername.length,
+    passwordMatch,
+    usernameMatch,
+  });
+
   if (!usernameMatch || !passwordMatch) {
     return { error: "Invalid username or password." };
   }
