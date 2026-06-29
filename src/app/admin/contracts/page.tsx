@@ -63,6 +63,24 @@ export default async function AdminContractsPage() {
       hint: "Subcontractors and primes",
       href: "/admin/contracts/teaming",
     },
+    {
+      label: "Agency Directory",
+      value: "—",
+      hint: "Federal agency intelligence",
+      href: "/admin/contracts/agencies",
+    },
+    {
+      label: "Contract Vehicles",
+      value: "—",
+      hint: "GWACs, MACs, IDIQs, BPAs",
+      href: "/admin/contracts/vehicles",
+    },
+    {
+      label: "Submission Checklist",
+      value: "25 items",
+      hint: "Pre-submission gates",
+      href: "/admin/contracts/proposals/submission-checklist",
+    },
   ];
 
   return (
