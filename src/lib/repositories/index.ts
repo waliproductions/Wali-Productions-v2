@@ -20,3 +20,15 @@ export { knowledgeRepository } from "./knowledge.repository";
 export type { StoredKnowledgeEntry } from "./knowledge.repository";
 
 export { notificationRepository, dispatchNotification } from "./notification.repository";
+
+export { activityRepository } from "./activity.repository";
+export type { ActivityRecord, ActivityVerb } from "./activity.repository";
+
+export { workflowRepository, workflowInstanceRepository } from "./workflow.repository";
+export type { StoredWorkflowDefinition, StoredWorkflowInstance } from "./workflow.repository";
+
+export { documentRepository } from "./document.repository";
+export type { StoredDocument, DocumentCategory, DocumentStatus } from "./document.repository";
+
+export { captureRepository } from "./capture.repository";
+export type { StoredCaptureRecord, CaptureStage } from "./capture.repository";

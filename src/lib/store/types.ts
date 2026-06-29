@@ -116,6 +116,12 @@ export const ID_PREFIXES = {
   teamingPartner: "TEAM",
   attachment: "ATT",
   task: "TASK",
+  workflow: "WF",
+  workflowInstance: "WFI",
+  activity: "ACT",
+  document: "DM",
+  capture: "CAP",
+  report: "RPT",
 } as const;
 
 export type EntityType = keyof typeof ID_PREFIXES;
@@ -134,6 +140,12 @@ export const COLLECTION_PATHS: Record<EntityType, string> = {
   teamingPartner: "teaming-partners",
   attachment: "attachments",
   task: "tasks",
+  workflow: "workflows/definitions",
+  workflowInstance: "workflows/instances",
+  activity: "activity",
+  document: "documents",
+  capture: "capture",
+  report: "reports",
 };
 
 // ─── Search index ─────────────────────────────────────────────────────────────
