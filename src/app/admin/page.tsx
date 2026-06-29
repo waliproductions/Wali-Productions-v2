@@ -7,12 +7,13 @@ import { projectRepository } from "@/lib/repositories/project.repository";
 import { proposalRepository } from "@/lib/repositories/proposal.repository";
 import { knowledgeRepository } from "@/lib/repositories/knowledge.repository";
 import { notificationRepository } from "@/lib/repositories/notification.repository";
-import {
-  getContactDashboardSubmissions,
-} from "@/lib/admin/contact-dashboard";
+import { activityRepository } from "@/lib/repositories/activity.repository";
+import { captureRepository } from "@/lib/repositories/capture.repository";
+import { workflowRepository, workflowInstanceRepository } from "@/lib/repositories/workflow.repository";
+import { getContactDashboardSubmissions } from "@/lib/admin/contact-dashboard";
 import { AdminWidget, AdminWidgetList, AdminWidgetMetric } from "@/components/admin/AdminWidget";
 import { AdminBadge } from "@/components/admin/AdminBadge";
-import { formatDate, formatRelativeTime } from "@/lib/admin/utils";
+import { formatDate } from "@/lib/admin/utils";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Executive Dashboard" };
@@ -23,9 +24,18 @@ function currency(n: number): string {
   return `$${n.toLocaleString()}`;
 }
 
-export default async function AdminDashboardPage() {
-  const now = Date.now();
+function pct(num: number, den: number): string {
+  if (den === 0) return "—";
+  return `${Math.round((num / den) * 100)}%`;
+}
 
+function healthScore(active: number, atRisk: number, blocked: number): number {
+  if (active === 0) return 100;
+  const riskWeight = atRisk * 0.5 + blocked * 1.0;
+  return Math.max(0, Math.round(100 - (riskWeight / active) * 100));
+}
+
+export default async function AdminDashboardPage() {
   const [
     orgStats,
     contactStats,
@@ -37,6 +47,12 @@ export default async function AdminDashboardPage() {
     unreadCount,
     submissions,
     upcomingMeetings,
+    activityStats,
+    captureStats,
+    wfStats,
+    wfInstanceStats,
+    recentActivity,
+    expiringProposals,
   ] = await Promise.all([
     organizationRepository.getStats(),
     contactRepository.getStats(),
@@ -47,15 +63,23 @@ export default async function AdminDashboardPage() {
     knowledgeRepository.getStats(),
     notificationRepository.getUnreadCount(),
     getContactDashboardSubmissions(),
-    meetingRepository.getUpcoming(4),
+    meetingRepository.getUpcoming(5),
+    activityRepository.getStats(),
+    captureRepository.getStats(),
+    workflowRepository.getStats(),
+    workflowInstanceRepository.getStats(),
+    activityRepository.getRecent(6),
+    proposalRepository.getExpiringProposals(14),
   ]);
 
   const recentSubmissions = submissions.slice(0, 5);
+  const projHealthScore = healthScore(projectStats.active, projectStats.atRisk, projectStats.blocked);
+  const winRate = pct(proposalStats.accepted, proposalStats.total);
 
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-amber-400">
             Command Center
@@ -64,25 +88,48 @@ export default async function AdminDashboardPage() {
             Executive Dashboard
           </h1>
           <p className="mt-1 text-sm text-zinc-400">
-            Wali Productions LLC — daily operating view
+            Wali Productions LLC · Enterprise Operating Platform v1.2
           </p>
         </div>
-        {unreadCount > 0 && (
-          <span className="mt-1 flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-300">
-            <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
-            {unreadCount} notification{unreadCount !== 1 ? "s" : ""}
-          </span>
-        )}
+        <div className="flex flex-wrap items-center gap-2">
+          {unreadCount > 0 && (
+            <Link
+              href="/admin/notifications"
+              className="flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-300 transition-colors hover:border-amber-400/50"
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
+              {unreadCount} notification{unreadCount !== 1 ? "s" : ""}
+            </Link>
+          )}
+          {expiringProposals.length > 0 && (
+            <Link
+              href="/admin/operations/proposals"
+              className="flex items-center gap-1.5 rounded-full border border-red-500/30 bg-red-500/10 px-3 py-1 text-xs font-medium text-red-300 transition-colors hover:border-red-400/50"
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-red-400" />
+              {expiringProposals.length} proposal{expiringProposals.length !== 1 ? "s" : ""} expiring
+            </Link>
+          )}
+          {captureStats.deadlinesThisMonth > 0 && (
+            <Link
+              href="/admin/contracts/capture"
+              className="flex items-center gap-1.5 rounded-full border border-violet-500/30 bg-violet-500/10 px-3 py-1 text-xs font-medium text-violet-300 transition-colors hover:border-violet-400/50"
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-violet-400" />
+              {captureStats.deadlinesThisMonth} capture deadline{captureStats.deadlinesThisMonth !== 1 ? "s" : ""} this month
+            </Link>
+          )}
+        </div>
       </div>
 
-      {/* Top KPIs */}
-      <section className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+      {/* Top KPIs — Business Health */}
+      <section className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
         {[
           { label: "Organizations", value: orgStats.total, sub: `${orgStats.activeClients} clients`, href: "/admin/crm/organizations" },
-          { label: "Open Pipeline", value: pipelineStats.activeCount, sub: currency(pipelineStats.totalValue), href: "/admin/crm/pipeline" },
-          { label: "Active Projects", value: projectStats.active, sub: `${projectStats.atRisk} at risk`, href: "/admin/projects" },
-          { label: "Proposals", value: proposalStats.total, sub: `${proposalStats.sent} sent`, href: "/admin/operations/proposals" },
-          { label: "Gov Opps", value: pipelineStats.byStage.lead + pipelineStats.byStage.qualified + pipelineStats.byStage.proposal, sub: "pursuing", href: "/admin/contracts/opportunities" },
+          { label: "Revenue Pipeline", value: currency(pipelineStats.totalValue), sub: `${pipelineStats.activeCount} active`, href: "/admin/crm/pipeline" },
+          { label: "Proposal Win Rate", value: winRate, sub: `${proposalStats.accepted} won`, href: "/admin/operations/proposals" },
+          { label: "Active Projects", value: projectStats.active, sub: `Health ${projHealthScore}%`, href: "/admin/projects" },
+          { label: "Capture Plans", value: captureStats.activePursuit, sub: currency(captureStats.weightedPipelineValue), href: "/admin/contracts/capture" },
           { label: "Knowledge Docs", value: knowledgeStats.total, sub: `${knowledgeStats.dueForReview} for review`, href: "/admin/knowledge" },
         ].map(({ label, value, sub, href }) => (
           <Link
@@ -97,71 +144,127 @@ export default async function AdminDashboardPage() {
         ))}
       </section>
 
+      {/* Project Health Score Banner */}
+      {projectStats.active > 0 && (
+        <div className={`flex items-center gap-4 rounded-xl border px-5 py-3 ${
+          projHealthScore >= 80
+            ? "border-emerald-500/20 bg-emerald-500/5"
+            : projHealthScore >= 60
+              ? "border-amber-500/20 bg-amber-500/5"
+              : "border-red-500/20 bg-red-500/5"
+        }`}>
+          <div className="flex-1">
+            <p className="text-xs font-semibold uppercase tracking-wide text-zinc-400">Project Portfolio Health</p>
+            <div className="mt-2 flex items-center gap-3">
+              <div className="h-2 flex-1 overflow-hidden rounded-full bg-zinc-800">
+                <div
+                  className={`h-full rounded-full transition-all ${
+                    projHealthScore >= 80 ? "bg-emerald-500" : projHealthScore >= 60 ? "bg-amber-400" : "bg-red-500"
+                  }`}
+                  style={{ width: `${projHealthScore}%` }}
+                />
+              </div>
+              <span className={`text-lg font-bold ${
+                projHealthScore >= 80 ? "text-emerald-400" : projHealthScore >= 60 ? "text-amber-300" : "text-red-400"
+              }`}>{projHealthScore}%</span>
+            </div>
+          </div>
+          <div className="flex gap-4 text-xs">
+            <div className="text-center">
+              <p className="font-bold text-emerald-400">{projectStats.active - projectStats.atRisk - projectStats.blocked}</p>
+              <p className="text-zinc-500">On Track</p>
+            </div>
+            <div className="text-center">
+              <p className="font-bold text-amber-400">{projectStats.atRisk}</p>
+              <p className="text-zinc-500">At Risk</p>
+            </div>
+            <div className="text-center">
+              <p className="font-bold text-red-400">{projectStats.blocked}</p>
+              <p className="text-zinc-500">Blocked</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Main grid */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
 
-        {/* Business Development */}
+        {/* Column 1: Business Development */}
         <div className="flex flex-col gap-6">
-          <AdminWidget title="Business Development" action={{ label: "CRM →", href: "/admin/crm" }}>
-            <div className="space-y-3">
-              <div className="flex justify-between text-sm">
-                <span className="text-zinc-400">Prospects</span>
-                <span className="font-semibold text-zinc-200">{orgStats.prospects}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-zinc-400">Active clients</span>
-                <span className="font-semibold text-zinc-200">{orgStats.activeClients}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-zinc-400">Partners</span>
-                <span className="font-semibold text-zinc-200">{orgStats.partners}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-zinc-400">Total contacts</span>
-                <span className="font-semibold text-zinc-200">{contactStats.total}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span className="text-zinc-400">Follow-ups due</span>
-                <span className={`font-semibold ${contactStats.followUpsDue > 0 ? "text-amber-300" : "text-zinc-200"}`}>
-                  {contactStats.followUpsDue}
-                </span>
-              </div>
+          <AdminWidget title="Business Development" action={{ label: "CRM", href: "/admin/crm" }}>
+            <div className="space-y-3 text-sm">
+              {[
+                ["Prospects", orgStats.prospects, "text-zinc-200"],
+                ["Active clients", orgStats.activeClients, "text-emerald-400"],
+                ["Partners", orgStats.partners, "text-sky-400"],
+                ["Total contacts", contactStats.total, "text-zinc-200"],
+                ["Follow-ups due", contactStats.followUpsDue, contactStats.followUpsDue > 0 ? "text-amber-300" : "text-zinc-200"],
+                ["Decision makers", contactStats.decisionMakers, "text-zinc-200"],
+              ].map(([label, value, color]) => (
+                <div key={label as string} className="flex justify-between">
+                  <span className="text-zinc-400">{label}</span>
+                  <span className={`font-semibold ${color}`}>{value}</span>
+                </div>
+              ))}
             </div>
           </AdminWidget>
 
-          <AdminWidget title="Opportunity Pipeline" action={{ label: "View all →", href: "/admin/crm/pipeline" }}>
+          <AdminWidget title="Opportunity Pipeline" action={{ label: "Pipeline", href: "/admin/crm/pipeline" }}>
             <div className="space-y-2">
               {(
                 [
-                  ["Lead", pipelineStats.byStage.lead, "text-zinc-400"],
-                  ["Qualified", pipelineStats.byStage.qualified, "text-sky-400"],
-                  ["Proposal", pipelineStats.byStage.proposal, "text-amber-400"],
-                  ["Negotiation", pipelineStats.byStage.negotiation, "text-violet-400"],
-                  ["Awarded", pipelineStats.byStage.awarded, "text-emerald-400"],
+                  ["Lead", pipelineStats.byStage.lead, "bg-zinc-400"],
+                  ["Qualified", pipelineStats.byStage.qualified, "bg-sky-400"],
+                  ["Proposal", pipelineStats.byStage.proposal, "bg-amber-400"],
+                  ["Negotiation", pipelineStats.byStage.negotiation, "bg-violet-400"],
+                  ["Awarded", pipelineStats.byStage.awarded, "bg-emerald-400"],
                 ] as const
-              ).map(([label, count, color]) => (
+              ).map(([label, count, dot]) => (
                 <div key={label} className="flex items-center justify-between gap-2 text-sm">
                   <div className="flex items-center gap-2">
-                    <span className={`h-2 w-2 rounded-full ${color.replace("text-", "bg-")}`} />
+                    <span className={`h-2 w-2 rounded-full ${dot}`} />
                     <span className="text-zinc-400">{label}</span>
                   </div>
-                  <span className={`font-semibold ${color}`}>{count}</span>
+                  <span className="font-semibold text-zinc-200">{count}</span>
                 </div>
               ))}
+              <div className="mt-2 border-t border-zinc-800 pt-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-zinc-400">Total value</span>
+                  <span className="font-semibold text-zinc-200">{currency(pipelineStats.totalValue)}</span>
+                </div>
+              </div>
               {pipelineStats.deadlinesThisWeek > 0 && (
-                <div className="mt-3 rounded-lg border border-amber-500/20 bg-amber-500/5 px-3 py-2">
-                  <p className="text-xs font-medium text-amber-300">
+                <div className="mt-2 rounded-lg border border-red-500/20 bg-red-500/5 px-3 py-2">
+                  <p className="text-xs font-medium text-red-300">
                     {pipelineStats.deadlinesThisWeek} deadline{pipelineStats.deadlinesThisWeek !== 1 ? "s" : ""} this week
                   </p>
                 </div>
               )}
             </div>
           </AdminWidget>
+
+          <AdminWidget title="Proposal Intelligence" action={{ label: "Proposals", href: "/admin/operations/proposals" }}>
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { label: "Win Rate", value: winRate, hint: "of all proposals" },
+                { label: "Pipeline", value: `${proposalStats.drafts + proposalStats.inReview + proposalStats.sent}`, hint: "active proposals" },
+                { label: "Accepted", value: String(proposalStats.accepted), hint: "total won" },
+                { label: "Sent", value: String(proposalStats.sent), hint: "awaiting response" },
+              ].map(({ label, value, hint }) => (
+                <div key={label} className="rounded-lg bg-zinc-800/40 p-3">
+                  <p className="text-xs text-zinc-500">{label}</p>
+                  <p className="mt-1 text-lg font-bold text-zinc-100">{value}</p>
+                  <p className="mt-0.5 text-xs text-zinc-600">{hint}</p>
+                </div>
+              ))}
+            </div>
+          </AdminWidget>
         </div>
 
-        {/* Center column */}
+        {/* Column 2: Projects + Operations */}
         <div className="flex flex-col gap-6">
-          <AdminWidget title="Project Health" action={{ label: "Projects →", href: "/admin/projects" }}>
+          <AdminWidget title="Projects at Risk" action={{ label: "Projects", href: "/admin/projects" }}>
             <div className="space-y-2">
               {(
                 [
@@ -178,14 +281,14 @@ export default async function AdminDashboardPage() {
                   <span className="font-semibold text-zinc-200">{count}</span>
                 </div>
               ))}
-              <div className="mt-2 border-t border-zinc-800 pt-2 text-sm">
+              <div className="mt-2 border-t border-zinc-800 pt-2 space-y-1.5 text-sm">
                 <div className="flex justify-between">
                   <span className="text-zinc-400">Open risks</span>
                   <span className={`font-semibold ${projectStats.openRisks > 0 ? "text-amber-300" : "text-zinc-200"}`}>
                     {projectStats.openRisks}
                   </span>
                 </div>
-                <div className="mt-1.5 flex justify-between">
+                <div className="flex justify-between">
                   <span className="text-zinc-400">Milestones (14d)</span>
                   <span className="font-semibold text-zinc-200">{projectStats.upcomingMilestones}</span>
                 </div>
@@ -193,14 +296,14 @@ export default async function AdminDashboardPage() {
             </div>
           </AdminWidget>
 
-          <AdminWidget title="Upcoming Meetings" action={{ label: "View all →", href: "/admin/crm/meetings" }}>
+          <AdminWidget title="Contract Milestones" action={{ label: "Meetings", href: "/admin/crm/meetings" }}>
             {upcomingMeetings.length === 0 ? (
               <p className="text-sm text-zinc-600">No upcoming meetings.</p>
             ) : (
               <ul className="divide-y divide-zinc-800/60">
                 {upcomingMeetings.map((m) => (
                   <li key={m.id} className="py-2.5">
-                    <p className="text-sm font-medium text-zinc-200 truncate">{m.title}</p>
+                    <p className="truncate text-sm font-medium text-zinc-200">{m.title}</p>
                     <p className="mt-0.5 text-xs text-zinc-500">
                       {formatDate(m.scheduledAt)} · {m.durationMinutes ?? "—"}m
                     </p>
@@ -210,42 +313,49 @@ export default async function AdminDashboardPage() {
             )}
           </AdminWidget>
 
-          <AdminWidget title="Proposals" action={{ label: "View all →", href: "/admin/operations/proposals" }}>
+          <AdminWidget title="Workflows" action={{ label: "Workflows", href: "/admin/workflows" }}>
             <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-zinc-400">Drafts</span>
-                <span className="font-semibold text-zinc-200">{proposalStats.drafts}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-zinc-400">In review</span>
-                <span className="font-semibold text-zinc-200">{proposalStats.inReview}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-zinc-400">Sent</span>
-                <span className="font-semibold text-amber-300">{proposalStats.sent}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-zinc-400">Accepted</span>
-                <span className="font-semibold text-emerald-400">{proposalStats.accepted}</span>
-              </div>
+              {[
+                ["Definitions", wfStats.total, "text-zinc-200"],
+                ["Active", wfStats.active, "text-emerald-400"],
+                ["Running instances", wfInstanceStats.active, "text-sky-400"],
+                ["Completed", wfInstanceStats.completed, "text-zinc-200"],
+                ["Failed", wfInstanceStats.failed, wfInstanceStats.failed > 0 ? "text-red-400" : "text-zinc-200"],
+              ].map(([label, value, color]) => (
+                <div key={label as string} className="flex justify-between">
+                  <span className="text-zinc-400">{label}</span>
+                  <span className={`font-semibold ${color}`}>{value}</span>
+                </div>
+              ))}
             </div>
           </AdminWidget>
         </div>
 
-        {/* Right column */}
+        {/* Column 3: Intelligence + Activity */}
         <div className="flex flex-col gap-6">
-          <AdminWidget title="Contact Inquiries" action={{ label: "View all →", href: "/admin/contact" }}>
-            <AdminWidgetMetric
-              label="Total received"
-              value={submissions.length}
-              hint="All time"
-            />
+          <AdminWidget title="Government Capture" action={{ label: "Capture", href: "/admin/contracts/capture" }}>
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { label: "Active Pursuit", value: captureStats.activePursuit },
+                { label: "Gate Reviews", value: captureStats.upcomingGateReviews },
+                { label: "Pipeline", value: currency(captureStats.totalPipelineValue) },
+                { label: "Weighted", value: currency(captureStats.weightedPipelineValue) },
+              ].map(({ label, value }) => (
+                <div key={label} className="rounded-lg bg-zinc-800/40 p-3">
+                  <p className="text-xs text-zinc-500">{label}</p>
+                  <p className="mt-1 text-base font-bold text-zinc-100">{value}</p>
+                </div>
+              ))}
+            </div>
+          </AdminWidget>
+
+          <AdminWidget title="Contact Inquiries" action={{ label: "View all", href: "/admin/contact" }}>
+            <AdminWidgetMetric label="Total received" value={submissions.length} hint="All time" />
             {recentSubmissions.length > 0 && (
               <div className="mt-4">
                 <AdminWidgetList
                   items={recentSubmissions.map((s) => ({
                     label: s.requester?.name ?? "Unknown",
-                    value: s.lifecycleStatus,
                     badge: (
                       <AdminBadge
                         variant={
@@ -266,60 +376,50 @@ export default async function AdminDashboardPage() {
             )}
           </AdminWidget>
 
-          <AdminWidget title="Government" action={{ label: "Gov workspace →", href: "/admin/contracts" }}>
+          <AdminWidget title="Knowledge Base Updates" action={{ label: "Knowledge", href: "/admin/knowledge" }}>
             <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-zinc-400">Tracking</span>
-                <span className="font-semibold text-zinc-200">
-                  {pipelineStats.byStage.lead + pipelineStats.byStage.qualified}
-                </span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-zinc-400">Proposal phase</span>
-                <span className="font-semibold text-amber-300">{pipelineStats.byStage.proposal}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-zinc-400">Deadlines this week</span>
-                <span className={`font-semibold ${pipelineStats.deadlinesThisWeek > 0 ? "text-red-400" : "text-zinc-200"}`}>
-                  {pipelineStats.deadlinesThisWeek}
-                </span>
-              </div>
+              {[
+                ["Total documents", knowledgeStats.total, "text-zinc-200"],
+                ["Approved", knowledgeStats.approved, "text-emerald-400"],
+                ["Drafts", knowledgeStats.draftCount, "text-zinc-200"],
+                ["Due for review", knowledgeStats.dueForReview, knowledgeStats.dueForReview > 0 ? "text-amber-300" : "text-zinc-200"],
+              ].map(([label, value, color]) => (
+                <div key={label as string} className="flex justify-between">
+                  <span className="text-zinc-400">{label}</span>
+                  <span className={`font-semibold ${color}`}>{value}</span>
+                </div>
+              ))}
             </div>
           </AdminWidget>
 
-          <AdminWidget title="Knowledge Base" action={{ label: "View →", href: "/admin/knowledge" }}>
-            <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-zinc-400">Total documents</span>
-                <span className="font-semibold text-zinc-200">{knowledgeStats.total}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-zinc-400">Approved</span>
-                <span className="font-semibold text-emerald-400">{knowledgeStats.approved}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-zinc-400">Drafts</span>
-                <span className="font-semibold text-zinc-200">{knowledgeStats.draftCount}</span>
-              </div>
-              {knowledgeStats.dueForReview > 0 && (
-                <div className="mt-2 rounded-lg border border-amber-500/20 bg-amber-500/5 px-3 py-2">
-                  <p className="text-xs font-medium text-amber-300">
-                    {knowledgeStats.dueForReview} due for review
-                  </p>
-                </div>
-              )}
-            </div>
+          <AdminWidget title="Recent Activity" action={{ label: "Audit log", href: "/admin/audit" }}>
+            {recentActivity.length === 0 ? (
+              <p className="text-sm text-zinc-600">No recent activity.</p>
+            ) : (
+              <ul className="divide-y divide-zinc-800/60">
+                {recentActivity.map((a) => (
+                  <li key={a.id} className="py-2">
+                    <p className="truncate text-xs font-medium text-zinc-300">{a.summary}</p>
+                    <p className="mt-0.5 text-xs text-zinc-600">
+                      {a.actor} · {formatDate(a.createdAt)}
+                    </p>
+                  </li>
+                ))}
+              </ul>
+            )}
           </AdminWidget>
 
           <AdminWidget title="Quick Access" size="compact">
             <AdminWidgetList
               items={[
                 { label: "CRM Pipeline", href: "/admin/crm/pipeline" },
+                { label: "Capture Plans", href: "/admin/contracts/capture" },
                 { label: "Risk Register", href: "/admin/projects/risks" },
-                { label: "Gov Opportunities", href: "/admin/contracts/opportunities" },
-                { label: "Knowledge Base", href: "/admin/knowledge" },
+                { label: "Document Manager", href: "/admin/documents" },
+                { label: "Workflows", href: "/admin/workflows" },
+                { label: "Notifications", href: "/admin/notifications" },
                 { label: "Platform Health", href: "/admin/health" },
-                { label: "Settings", href: "/admin/settings" },
+                { label: "Search", href: "/admin/search" },
               ]}
             />
           </AdminWidget>
