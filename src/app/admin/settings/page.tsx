@@ -301,6 +301,78 @@ export default async function AdminSettingsPage() {
         </div>
       </AdminCard>
 
+      {/* Feature flags */}
+      <AdminCard
+        title="Feature Flags"
+        description="Platform capabilities — all enabled in v1.2"
+      >
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            { flag: "crm", label: "CRM", desc: "Organizations, contacts, pipeline, meetings" },
+            { flag: "proposals", label: "Proposals", desc: "Proposal lifecycle and tracking" },
+            { flag: "projects", label: "Projects", desc: "Project delivery and health" },
+            { flag: "workflows", label: "Workflow Engine", desc: "Configurable business workflows" },
+            { flag: "documents", label: "Document Management", desc: "Lifecycle, versions, approvals" },
+            { flag: "capture", label: "Gov Capture", desc: "Capture plans and pipeline" },
+            { flag: "knowledge", label: "Knowledge Base", desc: "SOPs, policies, standards" },
+            { flag: "notifications", label: "Notifications", desc: "In-app notification center" },
+            { flag: "audit", label: "Audit Log", desc: "Enterprise activity tracking" },
+            { flag: "reports", label: "Reports", desc: "Cross-module intelligence" },
+            { flag: "search", label: "Global Search", desc: "Full-text cross-module search" },
+            { flag: "portal", label: "Client Portal", desc: "Client-facing milestone access" },
+          ].map(({ flag, label, desc }) => (
+            <div key={flag} className="flex items-start gap-3 rounded-lg border border-zinc-800 bg-zinc-900/40 p-3">
+              <span className="mt-0.5 h-2 w-2 flex-shrink-0 rounded-full bg-emerald-500" />
+              <div>
+                <p className="text-sm font-medium text-zinc-200">{label}</p>
+                <p className="mt-0.5 text-xs text-zinc-500">{desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p className="mt-4 text-xs text-zinc-600">
+          Feature flag configuration will move to app-data/settings/features.json in a future release.
+        </p>
+      </AdminCard>
+
+      {/* Module defaults */}
+      <div className="grid gap-6 sm:grid-cols-2">
+        <AdminCard title="Workflow Defaults" description="Default settings for the workflow engine">
+          <ul className="divide-y divide-zinc-800/60 text-sm">
+            {[
+              { setting: "Default SLA", value: "72 hours" },
+              { setting: "Approval routing", value: "Sequential (step-by-step)" },
+              { setting: "Auto-advance on approval", value: "Enabled" },
+              { setting: "Notification on step", value: "Enabled" },
+              { setting: "Instance retention", value: "Indefinite" },
+            ].map(({ setting, value }) => (
+              <li key={setting} className="flex items-center justify-between py-2.5 first:pt-0 last:pb-0">
+                <span className="text-zinc-400">{setting}</span>
+                <span className="text-zinc-200">{value}</span>
+              </li>
+            ))}
+          </ul>
+        </AdminCard>
+
+        <AdminCard title="Notification Defaults" description="Default notification settings">
+          <ul className="divide-y divide-zinc-800/60 text-sm">
+            {[
+              { setting: "Default priority", value: "Normal" },
+              { setting: "Expiration window", value: "30 days" },
+              { setting: "Proposal expiry alert", value: "14 days before" },
+              { setting: "Document expiry alert", value: "30 days before" },
+              { setting: "Capture deadline alert", value: "14 days before" },
+              { setting: "Knowledge review alert", value: "7 days before" },
+            ].map(({ setting, value }) => (
+              <li key={setting} className="flex items-center justify-between py-2.5 first:pt-0 last:pb-0">
+                <span className="text-zinc-400">{setting}</span>
+                <span className="text-zinc-200">{value}</span>
+              </li>
+            ))}
+          </ul>
+        </AdminCard>
+      </div>
+
       {/* System information */}
       <AdminCard title="System Information" description="Runtime environment">
         <dl className="grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">
