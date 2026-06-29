@@ -28,6 +28,11 @@ const ENTITY_CONFIG: Record<string, {
   capture:           { label: "Capture",         variant: "warning", module: "Gov Contracts" },
   activity:          { label: "Activity",        variant: "neutral", module: "Audit" },
   notification:      { label: "Notification",    variant: "neutral", module: "Notifications" },
+  userAccount:       { label: "User",            variant: "info",    module: "IAM" },
+  task:              { label: "Task",            variant: "warning", module: "Tasks" },
+  department:        { label: "Department",      variant: "neutral", module: "IAM" },
+  agency:            { label: "Agency",          variant: "success", module: "Gov Contracts" },
+  contractVehicle:   { label: "Vehicle",         variant: "success", module: "Gov Contracts" },
 };
 
 function getEntityTitle(result: SearchResult): string {
@@ -62,6 +67,16 @@ function getEntitySubtitle(result: SearchResult): string | null {
       return (e.stage as string | undefined)?.replace(/-/g, " ") ?? null;
     case "activity":
       return (e.verb as string | undefined) ?? null;
+    case "userAccount":
+      return (e.accountType as string | undefined) ?? null;
+    case "task":
+      return (e.status as string | undefined)?.replace(/-/g, " ") ?? null;
+    case "agency":
+      return (e.relationship as string | undefined)?.replace(/-/g, " ") ?? null;
+    case "contractVehicle":
+      return (e.type as string | undefined)?.toUpperCase() ?? null;
+    case "department":
+      return (e.status as string | undefined) ?? null;
     default:
       return null;
   }
