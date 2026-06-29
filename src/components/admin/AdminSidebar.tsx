@@ -233,6 +233,7 @@ export const ADMIN_NAV_SECTIONS: AdminNavSection[] = [
       { label: "Operations", href: "/admin/operations", icon: OperationsIcon, matchPrefix: true },
       { label: "Gov Contracts", href: "/admin/contracts", icon: ContractsIcon, matchPrefix: true },
       { label: "Workflows", href: "/admin/workflows", icon: WorkflowIcon, matchPrefix: true },
+      { label: "Automation", href: "/admin/automation", icon: WorkflowIcon, matchPrefix: true },
       { label: "Documents", href: "/admin/documents", icon: DocumentsIcon, matchPrefix: true },
     ],
   },
