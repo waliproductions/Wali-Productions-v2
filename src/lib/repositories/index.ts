@@ -35,3 +35,29 @@ export type { StoredCaptureRecord, CaptureStage } from "./capture.repository";
 
 export { contractRepository } from "./contract.repository";
 export type { StoredContract, ContractType, ContractStatus } from "./contract.repository";
+
+export { userAccountRepository } from "./user-account.repository";
+export type {
+  StoredUserAccount,
+  UserAccountType,
+  UserAccountStatus,
+  EmploymentType,
+  ClearanceLevel,
+} from "./user-account.repository";
+
+export { taskRepository } from "./task.repository";
+export type { StoredTask, TaskStatus, TaskPriority, TaskType } from "./task.repository";
+
+export { departmentRepository } from "./department.repository";
+export type { StoredDepartment, DepartmentStatus } from "./department.repository";
+
+export { agencyRepository } from "./agency.repository";
+export type { StoredAgency, AgencyTier, AgencyRelationshipStatus } from "./agency.repository";
+
+export { contractVehicleRepository } from "./contract-vehicle.repository";
+export type {
+  StoredContractVehicle,
+  VehicleType,
+  VehicleStatus,
+  VehicleSetAside,
+} from "./contract-vehicle.repository";

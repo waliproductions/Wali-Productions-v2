@@ -232,6 +232,8 @@ export const ADMIN_NAV_SECTIONS: AdminNavSection[] = [
       { label: "CRM", href: "/admin/crm", icon: CrmIcon, matchPrefix: true },
       { label: "Operations", href: "/admin/operations", icon: OperationsIcon, matchPrefix: true },
       { label: "Gov Contracts", href: "/admin/contracts", icon: ContractsIcon, matchPrefix: true },
+      { label: "Agencies", href: "/admin/contracts/agencies", icon: GovernmentIcon, matchPrefix: true },
+      { label: "Vehicles", href: "/admin/contracts/vehicles", icon: ContractRecordsIcon, matchPrefix: true },
       { label: "Workflows", href: "/admin/workflows", icon: WorkflowIcon, matchPrefix: true },
       { label: "Automation", href: "/admin/automation", icon: WorkflowIcon, matchPrefix: true },
       { label: "Documents", href: "/admin/documents", icon: DocumentsIcon, matchPrefix: true },
@@ -255,6 +257,8 @@ export const ADMIN_NAV_SECTIONS: AdminNavSection[] = [
     title: "People",
     items: [
       { label: "Users", href: "/admin/users", icon: UsersIcon, matchPrefix: true },
+      { label: "Tasks", href: "/admin/tasks", icon: OperationsIcon, matchPrefix: true },
+      { label: "RBAC Matrix", href: "/admin/iam/roles", icon: SecurityIcon, matchPrefix: false },
     ],
   },
   {
@@ -411,7 +415,7 @@ export function AdminSidebar({
         </nav>
 
         <div className="border-t border-zinc-800 px-4 py-3">
-          <p className="text-xs text-zinc-600">Admin Portal · v1.2.0</p>
+          <p className="text-xs text-zinc-600">Admin Portal · v1.3.0</p>
         </div>
       </aside>
     </>

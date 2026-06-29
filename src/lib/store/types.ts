@@ -122,6 +122,15 @@ export const ID_PREFIXES = {
   document: "DM",
   capture: "CAP",
   report: "RPT",
+  // v1.3 additions
+  userAccount: "USR",
+  department: "DEPT",
+  agency: "AGCY",
+  contractVehicle: "CV",
+  savedSearch: "SS",
+  asset: "ASSET",
+  calendarEvent: "CAL",
+  invitation: "INV",
 } as const;
 
 export type EntityType = keyof typeof ID_PREFIXES;
@@ -146,6 +155,15 @@ export const COLLECTION_PATHS: Record<EntityType, string> = {
   document: "documents",
   capture: "capture",
   report: "reports",
+  // v1.3 additions
+  userAccount: "iam/users",
+  department: "iam/departments",
+  agency: "gov/agencies",
+  contractVehicle: "gov/contract-vehicles",
+  savedSearch: "search/saved",
+  asset: "assets",
+  calendarEvent: "calendar",
+  invitation: "iam/invitations",
 };
 
 // ─── Search index ─────────────────────────────────────────────────────────────
