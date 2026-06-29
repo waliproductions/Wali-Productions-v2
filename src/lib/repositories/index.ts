@@ -32,3 +32,6 @@ export type { StoredDocument, DocumentCategory, DocumentStatus } from "./documen
 
 export { captureRepository } from "./capture.repository";
 export type { StoredCaptureRecord, CaptureStage } from "./capture.repository";
+
+export { contractRepository } from "./contract.repository";
+export type { StoredContract, ContractType, ContractStatus } from "./contract.repository";
