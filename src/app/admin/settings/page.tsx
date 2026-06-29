@@ -373,6 +373,86 @@ export default async function AdminSettingsPage() {
         </AdminCard>
       </div>
 
+      {/* Enterprise org structure */}
+      <AdminCard title="Organization Structure" description="Departments, business units, and locations">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+          {[
+            {
+              label: "Departments",
+              href: "/admin/users",
+              desc: "Functional departments and business units",
+              placeholder: "Engineering, Operations, BD, Gov Contracts, Marketing",
+            },
+            {
+              label: "Locations",
+              href: "/admin/settings",
+              desc: "Office locations and remote work designations",
+              placeholder: "Remote / CONUS / OCONUS",
+            },
+            {
+              label: "Working Hours",
+              href: "/admin/settings",
+              desc: "Default hours, time zones, and holiday schedule",
+              placeholder: "Mon–Fri 0900–1700 EST",
+            },
+          ].map(({ label, desc, placeholder }) => (
+            <div key={label} className="rounded-lg border border-zinc-800 bg-zinc-950/50 p-4">
+              <p className="text-sm font-semibold text-zinc-200">{label}</p>
+              <p className="mt-1 text-xs text-zinc-500">{desc}</p>
+              <p className="mt-2 text-xs text-zinc-600 italic">{placeholder}</p>
+            </div>
+          ))}
+        </div>
+        <p className="mt-4 text-xs text-zinc-600">
+          Department management is available in{" "}
+          <a href="/admin/users" className="text-amber-400 hover:underline">
+            User Management
+          </a>
+          . Locations and working hours will be configurable via app-data/settings/org.json in v1.4.
+        </p>
+      </AdminCard>
+
+      {/* Security & compliance */}
+      <AdminCard title="Security & Compliance" description="Platform security posture">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {[
+            { setting: "Session TTL", value: "7 days (iron-session)" },
+            { setting: "Password hashing", value: "bcryptjs cost 12" },
+            { setting: "MFA policy", value: "Optional (future: required for admin)" },
+            { setting: "Session recording", value: "Audit log enabled" },
+            { setting: "RBAC model", value: "Role-based, 13 enterprise roles" },
+            { setting: "Permission granularity", value: "35 named permissions" },
+          ].map(({ setting, value }) => (
+            <div key={setting} className="flex items-center justify-between rounded-lg border border-zinc-800 bg-zinc-950/50 px-4 py-3">
+              <span className="text-sm text-zinc-400">{setting}</span>
+              <span className="text-xs text-zinc-200">{value}</span>
+            </div>
+          ))}
+        </div>
+      </AdminCard>
+
+      {/* API & integrations */}
+      <AdminCard title="API Foundation" description="Future integration readiness">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {[
+            { name: "Microsoft 365", status: "Planned — v1.5", desc: "Calendar, Teams, SharePoint sync" },
+            { name: "Google Workspace", status: "Planned — v1.5", desc: "Calendar, Drive, Gmail integration" },
+            { name: "QuickBooks Online", status: "Planned — v1.5", desc: "Invoice and financial sync" },
+            { name: "SAM.gov", status: "Planned — v1.4", desc: "Opportunity and registration data" },
+            { name: "USASpending.gov", status: "Planned — v1.4", desc: "Agency spend data feeds" },
+            { name: "GovWin / Deltek", status: "Roadmap", desc: "Pipeline and market intel feeds" },
+          ].map(({ name, status, desc }) => (
+            <div key={name} className="rounded-lg border border-zinc-800 bg-zinc-950/50 p-3">
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-medium text-zinc-200">{name}</p>
+                <span className="rounded-full bg-zinc-800 px-2 py-0.5 text-xs text-zinc-500">{status}</span>
+              </div>
+              <p className="mt-0.5 text-xs text-zinc-500">{desc}</p>
+            </div>
+          ))}
+        </div>
+      </AdminCard>
+
       {/* System information */}
       <AdminCard title="System Information" description="Runtime environment">
         <dl className="grid gap-3 text-sm sm:grid-cols-2 lg:grid-cols-4">

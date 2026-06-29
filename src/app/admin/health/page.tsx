@@ -1,3 +1,5 @@
+import fs from "node:fs/promises";
+import path from "node:path";
 import type { Metadata } from "next";
 
 import { AdminCard } from "@/components/admin/AdminCard";
@@ -10,6 +12,25 @@ import {
   type ConfigGroup,
   type PlatformHealth,
 } from "@/lib/config/validator";
+import {
+  contactRepository,
+  organizationRepository,
+  opportunityRepository,
+  proposalRepository,
+  contractRepository,
+  projectRepository,
+  knowledgeRepository,
+  notificationRepository,
+  activityRepository,
+  workflowRepository,
+  documentRepository,
+  captureRepository,
+  userAccountRepository,
+  taskRepository,
+  departmentRepository,
+  agencyRepository,
+  contractVehicleRepository,
+} from "@/lib/repositories";
 
 export const metadata: Metadata = {
   title: "System Health | Admin",
@@ -181,10 +202,71 @@ function GroupCard({ group }: { group: ConfigGroup }) {
   );
 }
 
+// ─── Storage stats ────────────────────────────────────────────────────────────
+
+async function getDataDirSizeBytes(dirPath: string): Promise<number> {
+  try {
+    const entries = await fs.readdir(dirPath, { withFileTypes: true, recursive: true });
+    let total = 0;
+    for (const entry of entries) {
+      if (entry.isFile()) {
+        try {
+          const fullPath = path.join(entry.parentPath ?? dirPath, entry.name);
+          const stat = await fs.stat(fullPath);
+          total += stat.size;
+        } catch { /* skip unreadable */ }
+      }
+    }
+    return total;
+  } catch {
+    return 0;
+  }
+}
+
+function formatBytes(bytes: number): string {
+  if (bytes === 0) return "0 B";
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
-export default function HealthPage() {
+export default async function HealthPage() {
   const health = validatePlatformConfig();
+
+  const appDataPath = path.join(process.cwd(), "app-data");
+  const [storageBytes, repoCounts] = await Promise.all([
+    getDataDirSizeBytes(appDataPath),
+    Promise.all([
+      contactRepository.count(),
+      organizationRepository.count(),
+      opportunityRepository.count(),
+      proposalRepository.count(),
+      contractRepository.count(),
+      projectRepository.count(),
+      knowledgeRepository.count(),
+      notificationRepository.count(),
+      activityRepository.count(),
+      workflowRepository.count(),
+      documentRepository.count(),
+      captureRepository.count(),
+      userAccountRepository.count(),
+      taskRepository.count(),
+      departmentRepository.count(),
+      agencyRepository.count(),
+      contractVehicleRepository.count(),
+    ]),
+  ]);
+
+  const REPO_LABELS = [
+    "Contacts", "Organizations", "Opportunities", "Proposals",
+    "Contracts", "Projects", "Knowledge", "Notifications",
+    "Activity", "Workflows", "Documents", "Captures",
+    "Users", "Tasks", "Departments", "Agencies", "Vehicles",
+  ];
+
+  const totalRecords = repoCounts.reduce((s, n) => s + n, 0);
 
   return (
     <div className="space-y-6">
@@ -219,6 +301,41 @@ export default function HealthPage() {
       {health.groups.map((group) => (
         <GroupCard key={group.id} group={group} />
       ))}
+
+      <AdminCard title="Storage" description="app-data/ directory on disk">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+          <div className="rounded-lg border border-zinc-800 bg-zinc-950/50 p-4 text-center">
+            <p className="text-2xl font-bold text-amber-400">{formatBytes(storageBytes)}</p>
+            <p className="mt-1 text-xs text-zinc-500">Total data size</p>
+          </div>
+          <div className="rounded-lg border border-zinc-800 bg-zinc-950/50 p-4 text-center">
+            <p className="text-2xl font-bold text-amber-400">{totalRecords}</p>
+            <p className="mt-1 text-xs text-zinc-500">Total records</p>
+          </div>
+          <div className="rounded-lg border border-zinc-800 bg-zinc-950/50 p-4 text-center">
+            <p className="text-2xl font-bold text-amber-400">{REPO_LABELS.length}</p>
+            <p className="mt-1 text-xs text-zinc-500">Active repositories</p>
+          </div>
+          <div className="rounded-lg border border-zinc-800 bg-zinc-950/50 p-4 text-center">
+            <p className="text-2xl font-bold text-zinc-400">JSON</p>
+            <p className="mt-1 text-xs text-zinc-500">Storage backend</p>
+          </div>
+        </div>
+        <p className="mt-4 text-xs text-zinc-600">
+          Data is persisted to JSON files in app-data/. Repository layer abstractions are PostgreSQL-ready for a future migration.
+        </p>
+      </AdminCard>
+
+      <AdminCard title="Repository Status" description="Record counts across all collections">
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+          {REPO_LABELS.map((label, i) => (
+            <div key={label} className="flex items-center justify-between rounded-lg border border-zinc-800 bg-zinc-950/40 px-3 py-2">
+              <span className="text-xs text-zinc-400">{label}</span>
+              <span className="text-sm font-semibold text-zinc-200">{repoCounts[i]}</span>
+            </div>
+          ))}
+        </div>
+      </AdminCard>
 
       <div className="rounded-xl border border-zinc-800 bg-zinc-900/60 px-5 py-4">
         <p className="text-xs text-zinc-600">

@@ -272,7 +272,8 @@ export const ADMIN_NAV_SECTIONS: AdminNavSection[] = [
     title: "System",
     items: [
       { label: "Reports", href: "/admin/reports", icon: ReportsIcon, matchPrefix: true },
-      { label: "Analytics", href: "/admin/analytics", icon: AnalyticsIcon, matchPrefix: true },
+      { label: "Analytics", href: "/admin/analytics", icon: AnalyticsIcon, matchPrefix: false },
+      { label: "Executive Analytics", href: "/admin/analytics/executive", icon: AnalyticsIcon, matchPrefix: true },
       { label: "Security", href: "/admin/security", icon: SecurityIcon, matchPrefix: true },
       { label: "Integrations", href: "/admin/integrations", icon: IntegrationsIcon, matchPrefix: true },
       { label: "Notifications", href: "/admin/notifications", icon: BellIcon, matchPrefix: true },
