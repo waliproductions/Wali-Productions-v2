@@ -1,166 +1,236 @@
-import Link from "next/link";
+import { activityRepository } from "@/lib/repositories/activity.repository";
+import type { ActivityRecord, ActivityVerb } from "@/lib/repositories/activity.repository";
 import { getContactAuditEvents } from "@/lib/admin/contact-dashboard";
+import { AdminButton } from "@/components/admin/AdminButton";
+import { AdminCard, AdminStatCard } from "@/components/admin/AdminCard";
+import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { AdminBadge } from "@/components/admin/AdminBadge";
+import { formatDate } from "@/lib/admin/utils";
 
 export const dynamic = "force-dynamic";
+export const metadata = { title: "Audit & Activity Log" };
 
-type AuditAdminPageProps = {
-  searchParams?: Promise<{
-    q?: string;
-    event?: string;
-  }>;
+type Props = {
+  searchParams?: Promise<{ q?: string; verb?: string; entity?: string; tab?: string }>;
 };
 
-function formatStatus(status: string) {
-  return status
-    .split(/[-_]/)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
+const VERB_VARIANT: Record<ActivityVerb, "success" | "info" | "neutral" | "warning" | "danger"> = {
+  created: "success",
+  updated: "info",
+  deleted: "danger",
+  archived: "neutral",
+  restored: "success",
+  approved: "success",
+  rejected: "danger",
+  submitted: "info",
+  completed: "success",
+  assigned: "info",
+  commented: "neutral",
+  uploaded: "info",
+  downloaded: "neutral",
+  "logged-in": "success",
+  "logged-out": "neutral",
+  "settings-changed": "warning",
+  "workflow-started": "info",
+  "workflow-completed": "success",
+  "workflow-failed": "danger",
+  "notification-sent": "neutral",
+};
+
+function ActivityRow({ a }: { a: ActivityRecord }) {
+  return (
+    <div className="px-5 py-4">
+      <div className="flex flex-wrap items-center gap-3">
+        <AdminBadge variant={VERB_VARIANT[a.verb] ?? "neutral"}>{a.verb}</AdminBadge>
+        <span className="text-sm font-medium text-zinc-200 capitalize">{a.entityType}</span>
+        {a.entityTitle && (
+          <span className="text-sm text-zinc-400 truncate">{a.entityTitle}</span>
+        )}
+        <span className="ml-auto text-xs text-zinc-600">{formatDate(a.createdAt)}</span>
+      </div>
+      <p className="mt-1.5 text-sm text-zinc-300">{a.summary}</p>
+      <div className="mt-1 flex flex-wrap gap-3 text-xs text-zinc-500">
+        <span>Actor: <span className="text-zinc-400">{a.actor}</span></span>
+        {a.entityId && <span>ID: <span className="font-mono text-zinc-400">{a.entityId}</span></span>}
+        {a.ipAddress && <span>IP: <span className="text-zinc-400">{a.ipAddress}</span></span>}
+      </div>
+    </div>
+  );
 }
 
-export default async function AdminAuditPage({
-  searchParams,
-}: AuditAdminPageProps) {
+export default async function AdminAuditPage({ searchParams }: Props) {
   const params = await searchParams;
-  const query = String(params?.q ?? "").trim().toLowerCase();
-  const eventFilter = String(params?.event ?? "").trim().toLowerCase();
+  const q = params?.q?.trim() ?? "";
+  const verbFilter = params?.verb;
+  const entityFilter = params?.entity;
+  const tab = params?.tab ?? "activity";
 
-  const events = await getContactAuditEvents();
+  const [stats, activityResult, contactEvents] = await Promise.all([
+    activityRepository.getStats(),
+    activityRepository.findAll({
+      search: q || undefined,
+      filters: [
+        ...(verbFilter ? [{ field: "verb", operator: "eq" as const, value: verbFilter }] : []),
+        ...(entityFilter ? [{ field: "entityType", operator: "eq" as const, value: entityFilter }] : []),
+      ],
+      sort: { field: "createdAt", order: "desc" },
+      perPage: 50,
+    }),
+    getContactAuditEvents(),
+  ]);
 
-  const eventNames = Array.from(new Set(events.map((event) => event.event))).sort();
-
-  const filteredEvents = events.filter((event) => {
-    const matchesEvent = !eventFilter || event.event === eventFilter;
-
-    const searchableText = [
-      event.eventId,
-      event.timestamp,
-      event.submissionId,
-      event.event,
-      event.actor,
-      event.source,
-      JSON.stringify(event.details),
-    ]
-      .filter(Boolean)
-      .join(" ")
-      .toLowerCase();
-
-    const matchesQuery = !query || searchableText.includes(query);
-
-    return matchesEvent && matchesQuery;
-  });
+  const verbOptions = Object.keys(VERB_VARIANT) as ActivityVerb[];
 
   return (
-    <main className="min-h-screen bg-zinc-950 px-6 py-10 text-zinc-100">
-      <div className="mx-auto max-w-7xl space-y-8">
-        <div>
-          <Link className="text-sm text-amber-400 hover:text-amber-300" href="/admin">
-            ← Admin overview
-          </Link>
-        </div>
+    <div className="space-y-8">
+      <AdminPageHeader
+        title="Audit & Activity Log"
+        description="Full platform audit trail — entity changes, logins, workflow events, and contact pipeline."
+        actions={
+          <AdminButton href="/admin" variant="ghost" size="md">
+            Dashboard
+          </AdminButton>
+        }
+      />
 
-        <section className="space-y-3">
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-amber-400">
-            Audit Log
-          </p>
-          <h1 className="text-4xl font-bold tracking-tight">
-            Contact Pipeline Events
-          </h1>
-          <p className="max-w-3xl text-zinc-300">
-            Review received submissions, SMTP delivery events, failures,
-            lifecycle movement, and recovery metadata.
-          </p>
-        </section>
+      <section className="grid grid-cols-3 gap-4">
+        <AdminStatCard label="Total events" value={stats.total} />
+        <AdminStatCard label="This week" value={stats.thisWeek} />
+        <AdminStatCard label="Today" value={stats.today} />
+      </section>
 
-        <form className="grid gap-4 rounded-2xl border border-zinc-800 bg-zinc-900 p-5 md:grid-cols-[1fr_240px_auto]">
-          <label className="space-y-2">
-            <span className="text-sm text-zinc-400">Search</span>
+      {/* Tab selector */}
+      <form className="flex gap-2" method="GET">
+        {(["activity", "contact"] as const).map((t) => (
+          <button
+            key={t}
+            type="submit"
+            name="tab"
+            value={t}
+            className={`rounded-lg border px-4 py-2 text-sm font-medium capitalize transition-colors ${
+              tab === t
+                ? "border-amber-400 bg-amber-500/10 text-amber-300"
+                : "border-zinc-700 text-zinc-400 hover:border-zinc-600 hover:text-zinc-200"
+            }`}
+          >
+            {t === "activity" ? "Enterprise Activity" : "Contact Pipeline"}
+          </button>
+        ))}
+      </form>
+
+      {tab === "activity" ? (
+        <>
+          {/* Filters */}
+          <form className="flex flex-wrap gap-2" method="GET">
+            <input name="tab" type="hidden" value="activity" />
             <input
-              className="w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-3 text-sm text-zinc-100 outline-none focus:border-amber-400"
-              defaultValue={params?.q ?? ""}
               name="q"
-              placeholder="Submission ID, event ID, source, details..."
-              type="search"
+              defaultValue={q}
+              placeholder="Search activity…"
+              className="min-w-48 flex-1 rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-200 placeholder-zinc-500 outline-none focus:border-amber-400"
             />
-          </label>
-
-          <label className="space-y-2">
-            <span className="text-sm text-zinc-400">Event type</span>
             <select
-              className="w-full rounded-xl border border-zinc-700 bg-zinc-950 px-4 py-3 text-sm text-zinc-100 outline-none focus:border-amber-400"
-              defaultValue={params?.event ?? ""}
-              name="event"
+              name="verb"
+              defaultValue={verbFilter ?? ""}
+              className="rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-200 outline-none focus:border-amber-400"
             >
-              <option value="">All events</option>
-              {eventNames.map((eventName) => (
-                <option key={eventName} value={eventName}>
-                  {formatStatus(eventName)}
-                </option>
+              <option value="">All verbs</option>
+              {verbOptions.map((v) => (
+                <option key={v} value={v}>{v}</option>
               ))}
             </select>
-          </label>
-
-          <div className="flex items-end">
-            <button
-              className="w-full rounded-xl bg-amber-400 px-5 py-3 text-sm font-bold text-zinc-950 transition hover:bg-amber-300"
-              type="submit"
+            <select
+              name="entity"
+              defaultValue={entityFilter ?? ""}
+              className="rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-zinc-200 outline-none focus:border-amber-400"
             >
-              Apply
+              <option value="">All entities</option>
+              {["auth", "system", "contact", "opportunity", "proposal", "project", "knowledge", "document", "workflow", "capture"].map((e) => (
+                <option key={e} value={e}>{e}</option>
+              ))}
+            </select>
+            <button
+              type="submit"
+              className="rounded-lg bg-amber-400 px-4 py-2 text-sm font-semibold text-zinc-950 hover:bg-amber-300"
+            >
+              Filter
             </button>
-          </div>
-        </form>
+          </form>
 
-        <section className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-zinc-800 px-5 py-4">
-            <h2 className="text-xl font-semibold">Audit Results</h2>
-            <p className="text-sm text-zinc-400">
-              Showing {filteredEvents.length} of {events.length}
-            </p>
-          </div>
-
-          <div className="divide-y divide-zinc-800">
-            {filteredEvents.length === 0 ? (
-              <p className="px-5 py-6 text-sm text-zinc-400">
-                No matching audit events found.
-              </p>
+          <AdminCard
+            title={`${activityResult.total} activity record${activityResult.total !== 1 ? "s" : ""}`}
+            padded={false}
+          >
+            {activityResult.items.length === 0 ? (
+              <div className="px-6 py-10 text-center">
+                <p className="text-sm text-zinc-500">
+                  {stats.total === 0
+                    ? "No activity recorded yet. Actions you take in the portal will appear here."
+                    : "No records match this filter."}
+                </p>
+              </div>
             ) : (
-              filteredEvents.map((event) => (
-                <article className="px-5 py-5" key={event.eventId}>
-                  <div className="flex flex-wrap items-center gap-3">
-                    <h3 className="font-semibold">{formatStatus(event.event)}</h3>
-                    <p className="text-sm text-zinc-400">{event.timestamp}</p>
-                  </div>
-
-                  <dl className="mt-3 grid gap-3 text-sm md:grid-cols-3">
-                    <div>
-                      <dt className="text-zinc-500">Submission ID</dt>
-                      <dd className="break-all text-zinc-300">
-                        {event.submissionId}
-                      </dd>
-                    </div>
-                    <div>
-                      <dt className="text-zinc-500">Event ID</dt>
-                      <dd className="break-all text-zinc-300">{event.eventId}</dd>
-                    </div>
-                    <div>
-                      <dt className="text-zinc-500">Actor</dt>
-                      <dd className="text-zinc-300">{event.actor}</dd>
-                    </div>
-                  </dl>
-
-                  <details className="mt-4 rounded-xl border border-zinc-800 bg-zinc-950 p-4">
-                    <summary className="cursor-pointer text-sm font-medium text-amber-400">
-                      View event details
-                    </summary>
-                    <pre className="mt-4 overflow-x-auto whitespace-pre-wrap text-xs leading-6 text-zinc-300">
-                      {JSON.stringify(event.details, null, 2)}
-                    </pre>
-                  </details>
-                </article>
-              ))
+              <div className="divide-y divide-zinc-800">
+                {activityResult.items.map((a) => (
+                  <ActivityRow key={a.id} a={a} />
+                ))}
+              </div>
             )}
-          </div>
-        </section>
-      </div>
-    </main>
+          </AdminCard>
+
+          {Object.keys(stats.byVerb).length > 0 && (
+            <AdminCard title="Activity by Type">
+              <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
+                {(Object.entries(stats.byVerb) as [ActivityVerb, number][])
+                  .sort(([, a], [, b]) => b - a)
+                  .map(([verb, count]) => (
+                    <div key={verb} className="rounded-lg border border-zinc-800 bg-zinc-900/50 p-3 text-center">
+                      <p className="text-lg font-bold text-zinc-100">{count}</p>
+                      <p className="mt-0.5 text-xs text-zinc-500">{verb}</p>
+                    </div>
+                  ))}
+              </div>
+            </AdminCard>
+          )}
+        </>
+      ) : (
+        <AdminCard
+          title={`${contactEvents.length} contact pipeline event${contactEvents.length !== 1 ? "s" : ""}`}
+          padded={false}
+        >
+          {contactEvents.length === 0 ? (
+            <div className="px-6 py-10 text-center">
+              <p className="text-sm text-zinc-500">No contact pipeline events recorded.</p>
+            </div>
+          ) : (
+            <div className="divide-y divide-zinc-800">
+              {contactEvents.map((e) => (
+                <div key={e.eventId} className="px-5 py-4">
+                  <div className="flex flex-wrap items-center gap-3">
+                    <span className="rounded-md bg-zinc-800 px-2 py-0.5 text-xs font-medium text-zinc-300">
+                      {e.event}
+                    </span>
+                    <span className="text-xs text-zinc-500">{e.timestamp}</span>
+                  </div>
+                  <div className="mt-2 grid gap-2 text-xs text-zinc-500 sm:grid-cols-3">
+                    <span>Submission: <span className="font-mono text-zinc-400">{e.submissionId}</span></span>
+                    <span>Event: <span className="font-mono text-zinc-400">{e.eventId}</span></span>
+                    <span>Actor: <span className="text-zinc-400">{e.actor}</span></span>
+                  </div>
+                  {e.details && Object.keys(e.details).length > 0 && (
+                    <details className="mt-3 rounded-lg border border-zinc-800 bg-zinc-950 p-3">
+                      <summary className="cursor-pointer text-xs font-medium text-amber-400">Details</summary>
+                      <pre className="mt-2 overflow-x-auto whitespace-pre-wrap text-xs text-zinc-400">
+                        {JSON.stringify(e.details, null, 2)}
+                      </pre>
+                    </details>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </AdminCard>
+      )}
+    </div>
   );
 }
