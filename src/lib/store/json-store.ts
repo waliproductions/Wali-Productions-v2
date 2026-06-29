@@ -43,6 +43,9 @@ export async function storeRead<T extends EntityRecord>(
   collection: string,
   id: string,
 ): Promise<T | null> {
+  // Serve from list cache when the collection is already loaded — avoids a disk read.
+  const cached = listCache.get(collection) as T[] | undefined;
+  if (cached) return cached.find((e) => e.id === id) ?? null;
   return readJson<T>(entityPath(collection, id));
 }
 

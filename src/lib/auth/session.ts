@@ -22,8 +22,11 @@ function getSessionSecret(): string {
   return secret.trim();
 }
 
+let _sessionOptions: SessionOptions | null = null;
+
 export function getSessionOptions(): SessionOptions {
-  return {
+  if (_sessionOptions) return _sessionOptions;
+  _sessionOptions = {
     cookieName: SESSION_COOKIE_NAME,
     password: getSessionSecret(),
     ttl: SESSION_TTL,
@@ -34,6 +37,7 @@ export function getSessionOptions(): SessionOptions {
       path: "/",
     },
   };
+  return _sessionOptions;
 }
 
 export async function getSession() {

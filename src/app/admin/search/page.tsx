@@ -232,7 +232,7 @@ export default async function AdminSearchPage({ searchParams }: Props) {
             ))}
           </div>
           <p className="mt-4 text-xs text-zinc-600">
-            12 entity types indexed · Type at least 2 characters to search
+            17 entity types indexed · Type at least 2 characters to search
           </p>
         </AdminCard>
       )}

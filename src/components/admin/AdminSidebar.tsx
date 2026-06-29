@@ -416,7 +416,7 @@ export function AdminSidebar({
         </nav>
 
         <div className="border-t border-zinc-800 px-4 py-3">
-          <p className="text-xs text-zinc-600">Admin Portal · v1.3.0</p>
+          <p className="text-xs text-zinc-600">Admin Portal · v1.4.0</p>
         </div>
       </aside>
     </>

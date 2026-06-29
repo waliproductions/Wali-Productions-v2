@@ -24,7 +24,7 @@ async function loadCounters(): Promise<Record<string, number>> {
 async function flushCounters(): Promise<void> {
   if (!counterCache) return;
   await ensureDir(SEQUENCE_DIR);
-  await atomicWrite(COUNTER_FILE, JSON.stringify(counterCache, null, 2));
+  await atomicWrite(COUNTER_FILE, JSON.stringify(counterCache));
 }
 
 // Serialize all ID generation through a single in-memory queue

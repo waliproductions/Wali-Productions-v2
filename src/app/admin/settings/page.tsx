@@ -304,7 +304,7 @@ export default async function AdminSettingsPage() {
       {/* Feature flags */}
       <AdminCard
         title="Feature Flags"
-        description="Platform capabilities — all enabled in v1.2"
+        description="Platform capabilities — all enabled in v1.4"
       >
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
           {[
@@ -408,7 +408,7 @@ export default async function AdminSettingsPage() {
           <a href="/admin/users" className="text-amber-400 hover:underline">
             User Management
           </a>
-          . Locations and working hours will be configurable via app-data/settings/org.json in v1.4.
+          . Locations and working hours will be configurable via app-data/settings/org.json in a future release.
         </p>
       </AdminCard>
 
@@ -420,7 +420,7 @@ export default async function AdminSettingsPage() {
             { setting: "Password hashing", value: "bcryptjs cost 12" },
             { setting: "MFA policy", value: "Optional (future: required for admin)" },
             { setting: "Session recording", value: "Audit log enabled" },
-            { setting: "RBAC model", value: "Role-based, 13 enterprise roles" },
+            { setting: "RBAC model", value: "Role-based, 16 enterprise roles" },
             { setting: "Permission granularity", value: "35 named permissions" },
           ].map(({ setting, value }) => (
             <div key={setting} className="flex items-center justify-between rounded-lg border border-zinc-800 bg-zinc-950/50 px-4 py-3">
@@ -438,8 +438,8 @@ export default async function AdminSettingsPage() {
             { name: "Microsoft 365", status: "Planned — v1.5", desc: "Calendar, Teams, SharePoint sync" },
             { name: "Google Workspace", status: "Planned — v1.5", desc: "Calendar, Drive, Gmail integration" },
             { name: "QuickBooks Online", status: "Planned — v1.5", desc: "Invoice and financial sync" },
-            { name: "SAM.gov", status: "Planned — v1.4", desc: "Opportunity and registration data" },
-            { name: "USASpending.gov", status: "Planned — v1.4", desc: "Agency spend data feeds" },
+            { name: "SAM.gov", status: "Planned — v1.5", desc: "Opportunity and registration data" },
+            { name: "USASpending.gov", status: "Planned — v1.5", desc: "Agency spend data feeds" },
             { name: "GovWin / Deltek", status: "Roadmap", desc: "Pipeline and market intel feeds" },
           ].map(({ name, status, desc }) => (
             <div key={name} className="rounded-lg border border-zinc-800 bg-zinc-950/50 p-3">

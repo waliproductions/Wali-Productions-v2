@@ -9,8 +9,13 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { randomBytes } from "node:crypto";
 
+// Track which dirs have been created in this process so we skip redundant mkdir syscalls.
+const knownDirs = new Set<string>();
+
 export async function ensureDir(dir: string): Promise<void> {
+  if (knownDirs.has(dir)) return;
   await fs.mkdir(dir, { recursive: true });
+  knownDirs.add(dir);
 }
 
 export async function atomicWrite(filePath: string, content: string): Promise<void> {
@@ -40,7 +45,7 @@ export async function readJson<T>(filePath: string): Promise<T | null> {
 }
 
 export async function writeJson<T>(filePath: string, data: T): Promise<void> {
-  await atomicWrite(filePath, JSON.stringify(data, null, 2));
+  await atomicWrite(filePath, JSON.stringify(data));
 }
 
 export async function fileExists(filePath: string): Promise<boolean> {

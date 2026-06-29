@@ -88,7 +88,7 @@ export default async function AdminDashboardPage() {
             Executive Dashboard
           </h1>
           <p className="mt-1 text-sm text-zinc-400">
-            Wali Productions LLC · Enterprise Operating Platform v1.2
+            Wali Productions LLC · Enterprise Operating Platform v1.4
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
