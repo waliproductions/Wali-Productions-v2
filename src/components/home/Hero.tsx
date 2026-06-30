@@ -70,11 +70,11 @@ export function Hero() {
   return (
     <section aria-labelledby="hero-heading" className="relative overflow-hidden">
       {/* Background layers */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#060d1a] via-[#0d1b38] to-[#1e3a5f]" aria-hidden="true" />
+      <div className="absolute inset-0 bg-gradient-navy" aria-hidden="true" />
       <div className="absolute inset-0 bg-dot-pattern" aria-hidden="true" />
 
       {/* Ambient glow orbs */}
-      <div className="pointer-events-none absolute -right-48 -top-48 h-[800px] w-[800px] rounded-full bg-[#2b4c7e] opacity-[0.18] blur-[120px]" aria-hidden="true" />
+      <div className="pointer-events-none absolute -right-48 -top-48 h-[800px] w-[800px] rounded-full bg-[#2b4c7e] opacity-[0.12] blur-[120px]" aria-hidden="true" />
       <div className="pointer-events-none absolute -left-24 bottom-0 h-[500px] w-[500px] rounded-full bg-[#4A7DB5] opacity-[0.10] blur-[100px]" aria-hidden="true" />
 
       {/* Top accent line */}

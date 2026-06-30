@@ -33,7 +33,7 @@ export function GradientCTA({
       aria-labelledby={id ? `${id}-heading` : undefined}
       className="relative overflow-hidden"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-[#060d1a] via-[#0d1b38] to-[#1e3a5f]" aria-hidden="true" />
+      <div className="absolute inset-0 bg-gradient-navy" aria-hidden="true" />
       <div className="absolute inset-0 bg-dot-pattern" aria-hidden="true" />
       <div className={glowClass} aria-hidden="true" />
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#4A7DB5]/30 to-transparent" aria-hidden="true" />

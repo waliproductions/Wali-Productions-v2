@@ -87,9 +87,9 @@ export function CapabilityStatementPage() {
     <>
       {/* Hero */}
       <section aria-labelledby="cap-heading" className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#060d1a] via-[#0d1b38] to-[#1e3a5f]" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-navy" aria-hidden="true" />
         <div className="absolute inset-0 bg-dot-pattern" aria-hidden="true" />
-        <div className="pointer-events-none absolute -right-48 -top-48 h-[600px] w-[600px] rounded-full bg-[#2b4c7e] opacity-[0.15] blur-[100px]" aria-hidden="true" />
+        <div className="pointer-events-none absolute -right-48 -top-48 h-[600px] w-[600px] rounded-full bg-[#2b4c7e] opacity-[0.12] blur-[100px]" aria-hidden="true" />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#4A7DB5]/40 to-transparent" aria-hidden="true" />
 
         <div className="relative mx-auto max-w-content px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
@@ -98,7 +98,7 @@ export function CapabilityStatementPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
           >
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#B8831A]/30 bg-[#B8831A]/10 px-4 py-1.5">
+            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-4 py-1.5">
               <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#d4a84b]">
                 Capability Statement
               </span>
@@ -132,7 +132,7 @@ export function CapabilityStatementPage() {
       {/* Company Overview */}
       <section
         aria-labelledby="overview-heading"
-        className="border-t border-[#4A7DB5]/20 bg-[#0d1b38]"
+        className="border-t border-[#4A7DB5]/20 bg-navy-800"
       >
         <div className="mx-auto max-w-content px-4 py-10 sm:px-6 lg:px-8">
           <motion.div
@@ -191,7 +191,7 @@ export function CapabilityStatementPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#B8831A]">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">
               Core Competencies
             </p>
             <h2
@@ -234,7 +234,7 @@ export function CapabilityStatementPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#B8831A]">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">
               Technical Depth
             </p>
             <h2
@@ -288,7 +288,7 @@ export function CapabilityStatementPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#B8831A]">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">
                 Markets Served
               </p>
               <h2
@@ -313,7 +313,7 @@ export function CapabilityStatementPage() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
             >
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#B8831A]">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">
                 {competencies.eyebrow}
               </p>
               <h3 className="mt-4 font-display text-2xl font-bold tracking-tight text-[#0D1B2A] dark:text-white">
@@ -355,7 +355,7 @@ export function CapabilityStatementPage() {
             transition={{ duration: 0.6 }}
             className="max-w-2xl"
           >
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#B8831A]">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">
               Why Wali Productions
             </p>
             <h2
@@ -401,7 +401,7 @@ export function CapabilityStatementPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#B8831A]">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">
               Point of Contact
             </p>
             <h2
@@ -464,7 +464,7 @@ export function CapabilityStatementPage() {
 
       {/* Contact CTA */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#060d1a] via-[#0d1b38] to-[#1e3a5f]" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-navy" aria-hidden="true" />
         <div className="absolute inset-0 bg-dot-pattern" aria-hidden="true" />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#4A7DB5]/30 to-transparent" aria-hidden="true" />
 

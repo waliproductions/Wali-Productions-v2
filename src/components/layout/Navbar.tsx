@@ -46,8 +46,8 @@ export function Navbar() {
       className={[
         "sticky top-0 z-50 transition-all duration-300",
         scrolled
-          ? "border-b border-black/10 bg-white/95 shadow-sm backdrop-blur-xl supports-[backdrop-filter]:bg-white/85 dark:border-white/10 dark:bg-[#060d1a]/95"
-          : "border-b border-black/8 bg-white/90 backdrop-blur-md supports-[backdrop-filter]:bg-white/80 dark:border-white/8 dark:bg-[#060d1a]/90",
+          ? "border-b border-black/10 bg-white/95 shadow-sm backdrop-blur-xl supports-[backdrop-filter]:bg-white/85 dark:border-white/10 dark:bg-navy-950/95"
+          : "border-b border-black/8 bg-white/90 backdrop-blur-md supports-[backdrop-filter]:bg-white/80 dark:border-white/8 dark:bg-navy-950/90",
       ].join(" ")}
     >
       <nav
@@ -158,7 +158,7 @@ export function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2, ease: "easeOut" as const }}
-            className="border-t border-black/8 bg-white dark:border-white/8 dark:bg-[#060d1a] md:hidden"
+            className="border-t border-black/8 bg-white dark:border-white/8 dark:bg-navy-950 md:hidden"
           >
             <ul className="mx-auto max-w-content space-y-0.5 px-4 py-3 sm:px-6">
               {siteConfig.nav.map((item) => (

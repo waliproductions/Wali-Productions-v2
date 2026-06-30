@@ -24,7 +24,7 @@ export function ConsultationRequest() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#B8831A]">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">
               Our Process
             </p>
             <h2 className="mt-4 font-display text-3xl font-bold tracking-tight text-[#0D1B2A] sm:text-4xl dark:text-white">
@@ -79,7 +79,7 @@ export function ConsultationRequest() {
             transition={{ duration: 0.7, ease: "easeOut" as const, delay: 0.1 }}
           >
             <div className="rounded-2xl border border-black/8 bg-white p-8 shadow-premium dark:border-white/8 dark:bg-white/[0.03]">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#B8831A]">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">
                 {eyebrow}
               </p>
               <h2

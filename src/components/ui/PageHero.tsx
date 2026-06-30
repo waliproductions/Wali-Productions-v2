@@ -22,7 +22,7 @@ export function PageHero({
   return (
     <section aria-labelledby={headingId} className="relative overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#060d1a] via-[#0d1b38] to-[#1e3a5f]" aria-hidden="true" />
+      <div className="absolute inset-0 bg-gradient-navy" aria-hidden="true" />
       <div className="absolute inset-0 bg-grid-pattern" aria-hidden="true" />
       <div className="pointer-events-none absolute -right-40 -top-40 h-[600px] w-[600px] rounded-full bg-[#4A7DB5] opacity-[0.10] blur-[100px]" aria-hidden="true" />
       <div className="pointer-events-none absolute left-0 bottom-0 h-[300px] w-[400px] rounded-full bg-[#2b4c7e] opacity-[0.12] blur-[80px]" aria-hidden="true" />
@@ -38,7 +38,7 @@ export function PageHero({
         >
           <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 backdrop-blur-sm">
             <span className="h-1.5 w-1.5 rounded-full bg-[#4A7DB5]" aria-hidden="true" />
-            <p className={`text-xs font-semibold uppercase tracking-[0.2em] ${eyebrowClass} text-[#94A3B8]`}>
+            <p className={`text-xs font-semibold uppercase tracking-[0.2em] ${eyebrowClass}`}>
               {identity}
             </p>
           </div>

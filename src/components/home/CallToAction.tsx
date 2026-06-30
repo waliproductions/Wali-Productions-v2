@@ -34,10 +34,10 @@ export function CallToAction() {
       aria-labelledby="cta-heading"
       className="relative overflow-hidden"
     >
-      <div className="absolute inset-0 bg-gradient-to-br from-[#060d1a] via-[#0d1b38] to-[#1e3a5f]" aria-hidden="true" />
+      <div className="absolute inset-0 bg-gradient-navy" aria-hidden="true" />
       <div className="absolute inset-0 bg-dot-pattern" aria-hidden="true" />
-      <div className="pointer-events-none absolute -left-40 -top-40 h-[600px] w-[600px] rounded-full bg-[#4A7DB5] opacity-[0.12] blur-[100px]" aria-hidden="true" />
-      <div className="pointer-events-none absolute -right-20 bottom-0 h-[400px] w-[400px] rounded-full bg-[#2b4c7e] opacity-[0.15] blur-[80px]" aria-hidden="true" />
+      <div className="pointer-events-none absolute -left-40 -top-40 h-[600px] w-[600px] rounded-full bg-[#4A7DB5] opacity-[0.10] blur-[100px]" aria-hidden="true" />
+      <div className="pointer-events-none absolute -right-20 bottom-0 h-[400px] w-[400px] rounded-full bg-[#2b4c7e] opacity-[0.12] blur-[80px]" aria-hidden="true" />
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#4A7DB5]/30 to-transparent" aria-hidden="true" />
 
       <div className="relative mx-auto max-w-content px-4 py-24 sm:px-6 sm:py-28 lg:px-8 lg:py-32">

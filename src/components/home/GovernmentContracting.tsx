@@ -16,7 +16,7 @@ export function GovernmentContracting() {
   return (
     <section aria-labelledby="government-heading" className="relative overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#060d1a] via-[#0d1b38] to-[#1e3a5f]" aria-hidden="true" />
+      <div className="absolute inset-0 bg-gradient-navy" aria-hidden="true" />
       <div className="absolute inset-0 bg-grid-pattern" aria-hidden="true" />
       <div className="pointer-events-none absolute -left-48 bottom-0 h-[600px] w-[600px] rounded-full bg-[#4A7DB5] opacity-[0.08] blur-[100px]" aria-hidden="true" />
       <div className="pointer-events-none absolute right-0 top-0 h-[400px] w-[400px] rounded-full bg-[#2b4c7e] opacity-[0.12] blur-[80px]" aria-hidden="true" />

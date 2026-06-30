@@ -25,7 +25,7 @@ export function FAQ() {
             transition={{ duration: 0.6 }}
             className="lg:sticky lg:top-28 lg:self-start"
           >
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#B8831A]">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">
               {eyebrow}
             </p>
             <h2

@@ -72,7 +72,7 @@ const TOPIC_CARDS = [
 
 const CATEGORY_COLORS: Record<string, string> = {
   "Buyer Education": "bg-[#EEF3FA] text-[#1E3A5F] dark:bg-[#1E3A5F]/30 dark:text-[#93c5fd]",
-  "Government Contracting": "bg-[#FEF9EE] text-[#92650E] dark:bg-[#B8831A]/20 dark:text-[#D4A634]",
+  "Government Contracting": "bg-[#FEF9EE] text-[#92650E] dark:bg-gold/20 dark:text-[#D4A634]",
   "AI & Automation": "bg-[#F0FDF4] text-[#166534] dark:bg-green-900/30 dark:text-green-300",
   "Cybersecurity": "bg-[#FFF1F2] text-[#9F1239] dark:bg-rose-900/30 dark:text-rose-300",
   "Digital Transformation": "bg-[#EEF3FA] text-[#1E3A5F] dark:bg-[#1E3A5F]/30 dark:text-[#93c5fd]",
@@ -85,9 +85,9 @@ export function ResourcesPage() {
     <>
       {/* Hero */}
       <section aria-labelledby="resources-hero-heading" className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#060d1a] via-[#0d1b38] to-[#1e3a5f]" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-navy" aria-hidden="true" />
         <div className="absolute inset-0 bg-dot-pattern" aria-hidden="true" />
-        <div className="pointer-events-none absolute -right-48 -top-48 h-[600px] w-[600px] rounded-full bg-[#2b4c7e] opacity-[0.15] blur-[100px]" aria-hidden="true" />
+        <div className="pointer-events-none absolute -right-48 -top-48 h-[600px] w-[600px] rounded-full bg-[#2b4c7e] opacity-[0.12] blur-[100px]" aria-hidden="true" />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#4A7DB5]/40 to-transparent" aria-hidden="true" />
 
         <div className="relative mx-auto max-w-content px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
@@ -217,7 +217,7 @@ export function ResourcesPage() {
             transition={{ duration: 0.6 }}
             className="mx-auto max-w-2xl text-center"
           >
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#B8831A]">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">
               Ready to Act?
             </p>
             <h2 className="mt-4 font-display text-3xl font-bold tracking-tight text-[#0D1B2A] sm:text-4xl dark:text-white">

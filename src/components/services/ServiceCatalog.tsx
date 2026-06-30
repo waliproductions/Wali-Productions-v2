@@ -53,7 +53,7 @@ export function ServiceCatalog() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#B8831A]">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">
             Service Catalog
           </p>
           <h2
@@ -120,8 +120,8 @@ export function ServiceCatalog() {
 
                     {/* Problem / Solution */}
                     <div className="mt-5 space-y-3">
-                      <div className="flex gap-3 rounded-lg bg-[#FEF9EE] p-3.5 dark:bg-[#B8831A]/10">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#B8831A" strokeWidth="1.5" strokeLinecap="round" className="mt-0.5 shrink-0" aria-hidden="true">
+                      <div className="flex gap-3 rounded-lg bg-[#FEF9EE] p-3.5 dark:bg-gold/10">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="#d4a849" strokeWidth="1.5" strokeLinecap="round" className="mt-0.5 shrink-0" aria-hidden="true">
                           <circle cx="8" cy="8" r="6.5" /><path d="M8 5v3M8 10.5h.01" />
                         </svg>
                         <p className="text-xs leading-relaxed text-[#92650E] dark:text-[#D4A634]">

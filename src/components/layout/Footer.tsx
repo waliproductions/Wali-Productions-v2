@@ -24,7 +24,7 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative overflow-hidden bg-[#060d1a]">
+    <footer className="relative overflow-hidden bg-navy-950">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#4A7DB5]/20 to-transparent" aria-hidden="true" />
 
       <div className="mx-auto max-w-content px-4 pb-10 pt-16 sm:px-6 lg:px-8">
@@ -130,19 +130,19 @@ export function Footer() {
             </div>
 
             <div className="mt-8">
-              <p className="text-xs text-neutral-600">Response within 24 hours</p>
-              <p className="mt-1 text-xs text-neutral-600">No commitment required</p>
+              <p className="text-xs text-neutral-500">Response within 24 hours</p>
+              <p className="mt-1 text-xs text-neutral-500">No commitment required</p>
             </div>
           </div>
         </div>
 
         {/* Bottom bar */}
         <div className="mt-14 flex flex-col gap-4 border-t border-white/[0.07] pt-7 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs text-neutral-600">
+          <p className="text-xs text-neutral-500">
             &copy; {year} {siteConfig.legalName}. All rights reserved.
           </p>
           <div className="flex flex-wrap items-center gap-4">
-            <p className="text-xs text-neutral-600">
+            <p className="text-xs text-neutral-500">
               Veteran-Owned · Government Contracting Ready
             </p>
             {siteConfig.legal.length > 0 && (
@@ -151,7 +151,7 @@ export function Footer() {
                   <li key={item.href}>
                     <Link
                       href={item.href}
-                      className="text-xs text-neutral-600 transition-colors hover:text-neutral-400"
+                      className="text-xs text-neutral-500 transition-colors hover:text-neutral-300"
                     >
                       {item.label}
                     </Link>

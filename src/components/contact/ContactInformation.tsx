@@ -21,7 +21,7 @@ export function ContactInformation() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#B8831A]">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">
               {eyebrow}
             </p>
             <h2
@@ -90,7 +90,7 @@ export function ContactInformation() {
             className="flex flex-col justify-center"
           >
             <div className="rounded-2xl border border-[#4A7DB5]/20 bg-gradient-to-br from-[#EEF3FA] to-white p-8 dark:border-white/8 dark:from-white/[0.04] dark:to-white/[0.02]">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#B8831A]">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">
                 Ready to begin?
               </p>
               <h3 className="mt-3 font-display text-2xl font-bold tracking-tight text-[#0D1B2A] dark:text-white">

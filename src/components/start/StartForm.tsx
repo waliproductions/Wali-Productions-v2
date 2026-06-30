@@ -48,7 +48,7 @@ export function StartForm() {
             transition={{ duration: 0.6 }}
             className="lg:col-span-2"
           >
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#B8831A]">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">
               What to expect
             </p>
             <h2

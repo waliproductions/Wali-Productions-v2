@@ -23,9 +23,9 @@ export function ServiceLandingPage({ service, categoryTitle }: Props) {
     <>
       {/* Hero */}
       <section aria-labelledby="service-hero-heading" className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#060d1a] via-[#0d1b38] to-[#1e3a5f]" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-navy" aria-hidden="true" />
         <div className="absolute inset-0 bg-dot-pattern" aria-hidden="true" />
-        <div className="pointer-events-none absolute -right-64 -top-64 h-[700px] w-[700px] rounded-full bg-[#2b4c7e] opacity-[0.15] blur-[120px]" aria-hidden="true" />
+        <div className="pointer-events-none absolute -right-64 -top-64 h-[700px] w-[700px] rounded-full bg-[#2b4c7e] opacity-[0.12] blur-[120px]" aria-hidden="true" />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#4A7DB5]/40 to-transparent" aria-hidden="true" />
 
         <div className="relative mx-auto max-w-content px-4 py-20 sm:px-6 sm:py-28 lg:px-8">
@@ -130,8 +130,8 @@ export function ServiceLandingPage({ service, categoryTitle }: Props) {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <div className="mb-4 inline-flex items-center gap-2 rounded-lg bg-[#FEF9EE] px-3 py-1.5 dark:bg-[#B8831A]/10">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#B8831A" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
+              <div className="mb-4 inline-flex items-center gap-2 rounded-lg bg-[#FEF9EE] px-3 py-1.5 dark:bg-gold/10">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#d4a849" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
                   <circle cx="7" cy="7" r="5.5" /><path d="M7 4.5v3M7 9h.01" />
                 </svg>
                 <span className="text-xs font-semibold text-[#92650E] dark:text-[#D4A634]">
@@ -187,7 +187,7 @@ export function ServiceLandingPage({ service, categoryTitle }: Props) {
             transition={{ duration: 0.6 }}
             className="max-w-xl"
           >
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#B8831A]">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">
               What You Get
             </p>
             <h2
@@ -235,7 +235,7 @@ export function ServiceLandingPage({ service, categoryTitle }: Props) {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#B8831A]">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">
                 What We Deliver
               </p>
               <h2
@@ -270,7 +270,7 @@ export function ServiceLandingPage({ service, categoryTitle }: Props) {
                 transition={{ duration: 0.6, delay: 0.1 }}
                 className="rounded-xl border border-black/8 bg-[#F8FAFC] p-7 dark:border-white/8 dark:bg-white/[0.03]"
               >
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#B8831A]">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-gold">
                   Best Fit For
                 </p>
                 <h3 className="mt-3 font-display text-xl font-bold tracking-tight text-[#0D1B2A] dark:text-white">
@@ -308,7 +308,7 @@ export function ServiceLandingPage({ service, categoryTitle }: Props) {
 
       {/* CTA */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#060d1a] via-[#0d1b38] to-[#1e3a5f]" aria-hidden="true" />
+        <div className="absolute inset-0 bg-gradient-navy" aria-hidden="true" />
         <div className="absolute inset-0 bg-dot-pattern" aria-hidden="true" />
         <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#4A7DB5]/30 to-transparent" aria-hidden="true" />
 
