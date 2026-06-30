@@ -14,7 +14,7 @@ export const metadata = buildMetadata({
   absoluteTitle:
     "Wali Productions — Enterprise Technology Consulting & Digital Transformation",
   description:
-    "Wali Productions LLC delivers enterprise technology consulting, cybersecurity, AI integration, software engineering, and digital transformation for government agencies, nonprofits, churches, and private enterprises. Veteran-Owned.",
+    "Wali Productions LLC delivers enterprise technology consulting, cybersecurity, AI integration, software engineering, cloud solutions, and digital transformation for government agencies, nonprofits, churches, and private enterprises. Veteran-Owned Small Business (VOSB). Government contracting ready.",
   path: "/",
 });
 

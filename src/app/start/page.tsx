@@ -6,7 +6,7 @@ import { StartTrustBar } from "@/components/start/StartTrustBar";
 export const metadata = buildMetadata({
   title: "Start a Project",
   description:
-    "Begin your technology project with Wali Productions LLC. Share your goals, budget, and timeline — we'll respond within 24 hours with an honest assessment. Veteran-Owned.",
+    "Begin your technology project with Wali Productions LLC. Government agencies, nonprofits, churches, and businesses — share your goals, budget, and timeline. We respond within 24 hours with an honest assessment. Veteran-Owned Small Business.",
   path: "/start",
 });
 

@@ -4,7 +4,7 @@ import { CapabilityStatementPage } from "@/components/capability-statement/Capab
 export const metadata = buildMetadata({
   title: "Capability Statement",
   description:
-    "Wali Productions LLC capability statement — Veteran-Owned enterprise technology consulting. Core competencies, technology services, and government contracting information.",
+    "Wali Productions LLC capability statement — Veteran-Owned Small Business (VOSB) technology consulting. Core services: custom software, cybersecurity, AI integration, cloud solutions, IT consulting, and government IT. SAM.gov registration in preparation. VOSB set-aside eligible.",
   path: "/capability-statement",
 });
 

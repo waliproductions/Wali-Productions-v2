@@ -139,10 +139,10 @@ export const portfolioContent: PortfolioContent = {
   },
   pastPerformance: {
     eyebrow: "Past Performance",
-    heading: "A track record built on integrity.",
+    heading: "Representative experience, honestly stated.",
     paragraphs: [
-      "Past performance at Wali Productions LLC spans website development, software engineering, technology consulting, AI integration, digital media, streaming production, and government contracting preparation.",
-      "We document every engagement with the accuracy and completeness required for past performance references in government procurement. Client names, project details, and outcomes are presented only with appropriate authorization.",
+      "The work shown here reflects real, completed engagements. For government procurement purposes, we distinguish between internal capability demonstrations (projects we built for ourselves) and formal client work. Client references and project details are provided upon request with appropriate authorization.",
+      "We do not inflate past performance or claim work that isn't verifiable. Every entry is documented with the accuracy required for government contracting references. If you are evaluating us for a procurement opportunity, contact us directly for a tailored capability and past performance discussion.",
     ],
   },
   documentation: {
@@ -156,7 +156,7 @@ export const portfolioContent: PortfolioContent = {
   cta: {
     heading: "Ready to start your project?",
     body: "If you're evaluating technology partners, the most effective thing we can do is have a direct conversation about your specific challenge. We'll give you a straight answer.",
-    primaryCta: { label: "Request a Consultation", href: "/contact" },
+    primaryCta: { label: "Start a Project", href: "/start" },
     note: "No commitment required · Veteran-Owned · Response within 24 hours",
   },
   projects: [

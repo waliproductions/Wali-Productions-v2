@@ -129,6 +129,56 @@ export function CapabilityStatementPage() {
         </div>
       </section>
 
+      {/* Company Overview */}
+      <section
+        aria-labelledby="overview-heading"
+        className="border-t border-[#4A7DB5]/20 bg-[#0d1b38]"
+      >
+        <div className="mx-auto max-w-content px-4 py-10 sm:px-6 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="grid grid-cols-1 gap-8 lg:grid-cols-3"
+          >
+            <div className="lg:col-span-2">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#d4a84b]">
+                Company Overview
+              </p>
+              <h2
+                id="overview-heading"
+                className="mt-3 font-display text-xl font-bold text-white"
+              >
+                Who We Are
+              </h2>
+              <p className="mt-3 text-sm leading-relaxed text-[#94A3B8]">
+                Wali Productions LLC is a Christian Veteran-Owned technology consulting firm providing software development, cybersecurity, AI integration, IT consulting, cloud solutions, business automation, and media production services. Founded by a U.S. military veteran and senior software engineer, the company is built on the principles of integrity, technical excellence, and faithful service. We operate with senior-level practitioners on every engagement — not junior developers — and deliver documentation-driven, security-first solutions that government agencies and enterprises can depend on.
+              </p>
+            </div>
+            <div className="flex flex-col gap-3">
+              <div className="rounded-xl border border-white/10 bg-white/[0.04] p-4">
+                <p className="text-xs font-semibold uppercase tracking-wider text-[#94A3B8]">Business Type</p>
+                <p className="mt-1.5 text-sm font-semibold text-white">Veteran-Owned LLC</p>
+              </div>
+              <div className="rounded-xl border border-white/10 bg-white/[0.04] p-4">
+                <p className="text-xs font-semibold uppercase tracking-wider text-[#94A3B8]">Set-Aside Eligibility</p>
+                <p className="mt-1.5 text-sm font-semibold text-white">VOSB — Veteran-Owned Small Business</p>
+              </div>
+              <div className="rounded-xl border border-white/10 bg-white/[0.04] p-4">
+                <p className="text-xs font-semibold uppercase tracking-wider text-[#94A3B8]">SAM.gov</p>
+                <p className="mt-1.5 text-sm font-semibold text-white">Registration in preparation</p>
+              </div>
+              <div className="rounded-xl border border-white/10 bg-white/[0.04] p-4">
+                <p className="text-xs font-semibold uppercase tracking-wider text-[#94A3B8]">NAICS Codes</p>
+                <p className="mt-1.5 text-sm font-semibold text-white">In preparation per SAM.gov registration</p>
+                <p className="mt-1 text-xs text-[#64748B]">Applicable categories: software publishing, computer programming, systems design, IT consulting, cybersecurity</p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
       {/* Core Services */}
       <section
         aria-labelledby="services-heading"
@@ -333,6 +383,79 @@ export function CapabilityStatementPage() {
                 <p className="mt-2 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
                   {item.body}
                 </p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Point of Contact */}
+      <section
+        aria-labelledby="contact-heading"
+        className="border-t border-black/8 dark:border-white/8"
+      >
+        <div className="mx-auto max-w-content px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#B8831A]">
+              Point of Contact
+            </p>
+            <h2
+              id="contact-heading"
+              className="mt-4 font-display text-3xl font-bold tracking-tight text-[#0D1B2A] sm:text-4xl dark:text-white"
+            >
+              Contact information
+            </h2>
+          </motion.div>
+
+          <div className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {[
+              {
+                label: "Company",
+                value: "Wali Productions LLC",
+                sub: "Veteran-Owned Limited Liability Company",
+              },
+              {
+                label: "Website",
+                value: "waliproductions.com",
+                sub: "waliproductions.com",
+                href: "https://waliproductions.com",
+              },
+              {
+                label: "Contact",
+                value: "Start a Project",
+                sub: "waliproductions.com/start",
+                href: "/start",
+              },
+            ].map((item, i) => (
+              <motion.div
+                key={item.label}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.07 }}
+                className="rounded-xl border border-black/8 bg-white p-6 shadow-card dark:border-white/8 dark:bg-white/[0.03]"
+              >
+                <p className="text-xs font-semibold uppercase tracking-wider text-neutral-500 dark:text-neutral-400">
+                  {item.label}
+                </p>
+                {item.href ? (
+                  <Link
+                    href={item.href}
+                    className="mt-2 block font-display text-base font-semibold text-[#1E3A5F] underline-offset-4 hover:underline dark:text-[#60a5fa]"
+                  >
+                    {item.value}
+                  </Link>
+                ) : (
+                  <p className="mt-2 font-display text-base font-semibold text-[#0D1B2A] dark:text-white">
+                    {item.value}
+                  </p>
+                )}
+                <p className="mt-1 text-xs text-neutral-500">{item.sub}</p>
               </motion.div>
             ))}
           </div>

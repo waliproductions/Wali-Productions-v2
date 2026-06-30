@@ -10,8 +10,8 @@ export function GovernmentHero() {
       headline={headline}
       subhead={subhead}
       badges={[
-        "Veteran-Owned Small Business",
-        "SAM.gov Registered",
+        "Veteran-Owned Small Business (VOSB)",
+        "SAM.gov Registration in Preparation",
         "Federal, State & Local",
         "Security-First Delivery",
       ]}

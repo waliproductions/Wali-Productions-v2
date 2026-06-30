@@ -39,7 +39,7 @@ export function FeaturedProjects() {
                 initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: i * 0.1 }}
+                transition={{ duration: 0.6, ease: "easeOut" as const, delay: i * 0.1 }}
                 className="group relative overflow-hidden rounded-2xl border border-black/8 bg-white shadow-card transition-all duration-300 hover:border-[#4A7DB5]/25 hover:shadow-card-hover dark:border-white/8 dark:bg-white/[0.03]"
               >
                 <div className="p-8 lg:p-10">

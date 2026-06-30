@@ -36,6 +36,12 @@ export type RegistrationItem = {
   value: string;
 };
 
+export type ProcurementStep = {
+  step: string;
+  title: string;
+  description: string;
+};
+
 export type GovernmentContent = {
   hero: {
     identity: string;
@@ -56,6 +62,13 @@ export type GovernmentContent = {
     eyebrow: string;
     heading: string;
     items: Capability[];
+  };
+  procurementReadiness: {
+    eyebrow: string;
+    heading: string;
+    body: string;
+    setAsideNote: string;
+    steps: ProcurementStep[];
   };
   capabilityStatement: {
     eyebrow: string;
@@ -168,12 +181,40 @@ export const governmentContent: GovernmentContent = {
       },
     ],
   },
+  procurementReadiness: {
+    eyebrow: "Procurement Pathway",
+    heading: "How to engage Wali Productions LLC.",
+    body: "Wali Productions LLC is structured and prepared to support government procurement — as a prime contractor for small business set-aside opportunities and as a subcontractor to prime contractors requiring specialized technology capabilities.",
+    setAsideNote: "As a Veteran-Owned Small Business (VOSB), Wali Productions LLC is eligible for veteran-owned set-aside contracting opportunities under federal acquisition regulations. SAM.gov registration and full VOSB documentation are in preparation.",
+    steps: [
+      {
+        step: "01",
+        title: "Review Capabilities",
+        description: "Download or review our capability statement to confirm alignment with your requirement. Our core competencies span software engineering, cybersecurity, AI integration, IT consulting, cloud solutions, and media production.",
+      },
+      {
+        step: "02",
+        title: "Submit Your Requirement",
+        description: "Contact us with your scope, period of performance, and any applicable vehicle or set-aside type. We review all serious inquiries and respond within one business day.",
+      },
+      {
+        step: "03",
+        title: "Qualification Discussion",
+        description: "We conduct a brief discovery call to assess fit, confirm qualifications, and discuss teaming arrangements if applicable. No obligation on either side.",
+      },
+      {
+        step: "04",
+        title: "Proposal or Quote",
+        description: "For qualified opportunities, we prepare a responsive proposal or quotation including technical approach, past performance, pricing, and required representations and certifications.",
+      },
+    ],
+  },
   capabilityStatement: {
     eyebrow: "Capability Statement",
     heading: "Our capability statement.",
     paragraphs: [
       "Wali Productions LLC is a Christian Veteran-Owned technology and digital solutions company offering website and software development, technology and IT consulting, AI solutions, business automation, digital marketing, media production, and content creation.",
-      "Our one-page capability statement is maintained as a separate business document and updated when government identifiers, certifications, NAICS codes, or past performance information changes.",
+      "Our capability statement is maintained as a separate business document and updated whenever government identifiers, certifications, NAICS codes, or past performance information changes. Contact us to request the current version.",
     ],
   },
   registration: {
@@ -191,11 +232,13 @@ export const governmentContent: GovernmentContent = {
   },
   pastPerformance: {
     eyebrow: "Past Performance",
-    heading: "Past performance.",
-    note: "Past performance is published only when documented, verifiable, and authorized. Client names and project details are not shown without authorization.",
+    heading: "Representative experience.",
+    note: "Formal government past performance references are published only when documented, verifiable, and authorized. The entry below represents internal and direct client work used to demonstrate technical capability. Additional references are available upon request.",
     items: [
-      { title: pending("documented past performance entry", "02-Government/PAST_PERFORMANCE.md"), description: pending("entry summary (when authorized)", "02-Government/PAST_PERFORMANCE.md") },
-      { title: pending("documented past performance entry", "02-Government/PAST_PERFORMANCE.md"), description: pending("entry summary (when authorized)", "02-Government/PAST_PERFORMANCE.md") },
+      {
+        title: "Wali Productions LLC — Enterprise Web Platform (Internal, 2025)",
+        description: "Full-stack enterprise platform built on Next.js 16, React 19, TypeScript, and Tailwind CSS. Includes a public-facing marketing site, authenticated admin portal, contact pipeline with lifecycle management, and static site generation for 48+ pages. Demonstrates: software architecture, security-conscious design, documentation discipline, accessibility (WCAG 2.1), and full product delivery lifecycle.",
+      },
     ],
   },
   cta: {
