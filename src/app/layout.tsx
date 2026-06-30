@@ -4,7 +4,7 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { siteConfig } from "@/config/site";
-import { OG_IMAGE, buildOrganizationJsonLd } from "@/lib/seo";
+import { OG_IMAGE, buildOrganizationJsonLd, buildLocalBusinessJsonLd } from "@/lib/seo";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -94,6 +94,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(buildOrganizationJsonLd()) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(buildLocalBusinessJsonLd()) }}
         />
       </head>
       <body className="flex min-h-screen flex-col bg-background font-sans text-foreground antialiased">

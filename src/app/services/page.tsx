@@ -6,6 +6,7 @@ import { ServiceCategories } from "@/components/services/ServiceCategories";
 import { ServiceCatalog } from "@/components/services/ServiceCatalog";
 import { WhyWork } from "@/components/services/WhyWork";
 import { TrustAndCompliance } from "@/components/services/TrustAndCompliance";
+import { FAQ } from "@/components/home/FAQ";
 import { ServicesCallToAction } from "@/components/services/ServicesCallToAction";
 
 export const metadata = buildMetadata({
@@ -31,6 +32,7 @@ export default function ServicesPage() {
       <ServiceCatalog />
       <WhyWork />
       <TrustAndCompliance />
+      <FAQ />
       <ProseSection
         id="client-promise"
         eyebrow={clientPromise.eyebrow}

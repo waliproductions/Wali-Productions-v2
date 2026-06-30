@@ -36,6 +36,8 @@ export type ContactContent = {
     budgetOptions: string[];
     timelineOptions: string[];
     preferredContactOptions: string[];
+    orgTypeOptions: string[];
+    decisionMakerOptions: string[];
   };
   process: ProcessStep[];
   inquiryCategories: {
@@ -122,6 +124,23 @@ export const contactContent: ContactContent = {
       "Phone call",
       "Video call (Zoom/Teams)",
       "No preference",
+    ],
+    orgTypeOptions: [
+      "Federal Agency",
+      "State or Local Government",
+      "Nonprofit Organization",
+      "Church or Ministry",
+      "Small Business (1–50 employees)",
+      "Mid-size Business (51–500 employees)",
+      "Enterprise (500+ employees)",
+      "Professional Services Firm",
+      "Individual / Freelancer",
+      "Other",
+    ],
+    decisionMakerOptions: [
+      "Yes — I can approve or recommend this project",
+      "I'm gathering information for someone else",
+      "Not sure yet",
     ],
   },
   process: [

@@ -3,10 +3,12 @@ export type ContactSubmissionInput = {
   email: string;
   company?: string;
   phone?: string;
+  orgType?: string;
   service?: string;
   budget?: string;
   timeline?: string;
   preferredContact?: string;
+  decisionMaker?: string;
   message: string;
 };
 
@@ -27,10 +29,12 @@ export type ContactSubmissionRecord = {
     phone: string | null;
   };
   inquiry: {
+    orgType: string | null;
     service: string | null;
     budget: string | null;
     timeline: string | null;
     preferredContact: string | null;
+    decisionMaker: string | null;
     message: string;
   };
   processing: {
@@ -61,10 +65,12 @@ export function validateContactSubmission(input: unknown): {
   const email = String(value.email ?? "").trim();
   const company = String(value.company ?? "").trim();
   const phone = String(value.phone ?? "").trim();
+  const orgType = String(value.orgType ?? "").trim();
   const service = String(value.service ?? "").trim();
   const budget = String(value.budget ?? "").trim();
   const timeline = String(value.timeline ?? "").trim();
   const preferredContact = String(value.preferredContact ?? "").trim();
+  const decisionMaker = String(value.decisionMaker ?? "").trim();
   const message = String(value.message ?? "").trim();
 
   if (name.length < 2) errors.push("Name is required.");
@@ -80,10 +86,12 @@ export function validateContactSubmission(input: unknown): {
       email,
       company: company || undefined,
       phone: phone || undefined,
+      orgType: orgType || undefined,
       service: service || undefined,
       budget: budget || undefined,
       timeline: timeline || undefined,
       preferredContact: preferredContact || undefined,
+      decisionMaker: decisionMaker || undefined,
       message,
     },
   };

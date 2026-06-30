@@ -9,7 +9,7 @@ import { AboutCallToAction } from "@/components/about/AboutCallToAction";
 export const metadata = buildMetadata({
   title: "About",
   description:
-    "Wali Productions LLC — Veteran-Owned enterprise technology consulting founded on integrity, engineering excellence, and faithful service. Learn about our mission, values, and commitment to government agencies, businesses, nonprofits, and churches.",
+    "Wali Productions LLC — Veteran-Owned technology consulting based in Springfield, Missouri. Founded on integrity, engineering excellence, and faithful service. Serving government agencies, businesses, nonprofits, and churches nationwide.",
   path: "/about",
 });
 

@@ -42,6 +42,12 @@ ${record.requester.company ?? "Not provided"}
 Phone:
 ${record.requester.phone ?? "Not provided"}
 
+Organization Type:
+${record.inquiry.orgType ?? "Not specified"}
+
+Decision Maker:
+${record.inquiry.decisionMaker ?? "Not specified"}
+
 Preferred Contact Method:
 ${record.inquiry.preferredContact ?? "Not specified"}
 

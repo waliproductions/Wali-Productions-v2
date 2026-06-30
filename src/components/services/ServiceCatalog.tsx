@@ -160,16 +160,24 @@ export function ServiceCatalog() {
                       </p>
                     </div>
 
-                    {/* CTA */}
-                    <div className="mt-5">
+                    {/* CTAs */}
+                    <div className="mt-5 flex flex-wrap items-center gap-4">
+                      {service.id && (
+                        <Link
+                          href={`/services/${service.id}`}
+                          className="group/cta inline-flex items-center gap-1.5 text-xs font-semibold text-[#1E3A5F] transition-colors hover:text-[#4A7DB5] dark:text-[#60a5fa] dark:hover:text-[#93c5fd]"
+                        >
+                          Learn more
+                          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="transition-transform group-hover/cta:translate-x-0.5">
+                            <path d="M2 6h8M5 2.5L9.5 6 5 9.5" />
+                          </svg>
+                        </Link>
+                      )}
                       <Link
                         href={`/start?service=${encodeURIComponent(service.title)}`}
-                        className="group/cta inline-flex items-center gap-1.5 text-xs font-semibold text-[#1E3A5F] transition-colors hover:text-[#4A7DB5] dark:text-[#60a5fa] dark:hover:text-[#93c5fd]"
+                        className="inline-flex items-center gap-1.5 rounded-lg border border-black/10 px-3 py-1.5 text-xs font-semibold text-neutral-600 transition-all hover:border-[#4A7DB5]/30 hover:bg-[#EEF3FA] hover:text-[#1E3A5F] dark:border-white/10 dark:text-neutral-400 dark:hover:border-[#4A7DB5]/40 dark:hover:bg-[#1E3A5F]/20 dark:hover:text-white"
                       >
                         Request this service
-                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="transition-transform group-hover/cta:translate-x-0.5">
-                          <path d="M2 6h8M5 2.5L9.5 6 5 9.5" />
-                        </svg>
                       </Link>
                     </div>
 

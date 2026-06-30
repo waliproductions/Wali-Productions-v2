@@ -66,6 +66,44 @@ export function buildOrganizationJsonLd() {
   };
 }
 
+export function buildLocalBusinessJsonLd() {
+  const baseUrl = getBaseUrl() || "https://waliproductions.com";
+  return {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    name: siteConfig.legalName,
+    alternateName: siteConfig.name,
+    description:
+      "Enterprise technology consulting — Veteran-Owned Small Business. Custom software, cybersecurity, AI integration, cloud solutions, and government IT serving Springfield, Missouri and clients nationwide.",
+    url: baseUrl,
+    image: `${baseUrl}/opengraph/og-image.png`,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Springfield",
+      addressRegion: "MO",
+      addressCountry: "US",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: "37.2153",
+      longitude: "-93.2982",
+    },
+    areaServed: [
+      { "@type": "City", "name": "Springfield, Missouri" },
+      { "@type": "State", "name": "Missouri" },
+      { "@type": "Country", "name": "United States" },
+    ],
+    priceRange: "$$–$$$",
+    openingHours: "Mo-Fr 09:00-18:00",
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      url: `${baseUrl}/start`,
+      availableLanguage: "English",
+    },
+  };
+}
+
 export function buildWebPageJsonLd({
   name,
   description,

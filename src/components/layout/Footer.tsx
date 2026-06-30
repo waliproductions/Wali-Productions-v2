@@ -3,17 +3,18 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 
 const SERVICES_LINKS = [
-  { label: "Software Engineering", href: "/services#service-catalog" },
-  { label: "AI & Automation", href: "/services#service-catalog" },
-  { label: "Cybersecurity", href: "/services#service-catalog" },
-  { label: "Cloud Solutions", href: "/services#service-catalog" },
-  { label: "IT Consulting", href: "/services#service-catalog" },
+  { label: "Custom Software", href: "/services/custom-software" },
+  { label: "Web Development", href: "/services/web-development" },
+  { label: "AI & Automation", href: "/services/ai-integration" },
+  { label: "Cybersecurity", href: "/services/security-assessment" },
+  { label: "Cloud Solutions", href: "/services/cloud-migration" },
   { label: "Government IT", href: "/government" },
 ];
 
 const COMPANY_LINKS = [
   { label: "About", href: "/about" },
   { label: "Portfolio", href: "/portfolio" },
+  { label: "Resources", href: "/resources" },
   { label: "Government", href: "/government" },
   { label: "Capability Statement", href: "/capability-statement" },
   { label: "Contact", href: "/contact" },
@@ -52,7 +53,7 @@ export function Footer() {
               </div>
             </Link>
             <p className="mt-6 max-w-xs text-sm leading-relaxed text-neutral-500">
-              Enterprise technology consulting, cybersecurity, AI integration, and digital transformation — delivered with veteran discipline and integrity.
+              Enterprise technology consulting based in Springfield, Missouri. Cybersecurity, AI integration, software engineering, and government IT — delivered with veteran discipline and integrity.
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
               <span className="rounded-md border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-neutral-400">

@@ -95,6 +95,14 @@ export default async function ContactDetailPage({ params }: ContactDetailPagePro
           <h2 className="text-xl font-semibold">Inquiry</h2>
           <dl className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
+              <dt className="text-sm text-zinc-500">Organization Type</dt>
+              <dd className="text-zinc-200">{submission.inquiry.orgType ?? "Not specified"}</dd>
+            </div>
+            <div>
+              <dt className="text-sm text-zinc-500">Decision Maker</dt>
+              <dd className="text-zinc-200">{submission.inquiry.decisionMaker ?? "Not specified"}</dd>
+            </div>
+            <div>
               <dt className="text-sm text-zinc-500">Service</dt>
               <dd className="text-zinc-200">{submission.inquiry.service ?? "Not specified"}</dd>
             </div>

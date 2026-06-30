@@ -7,14 +7,15 @@ import { GovernmentContracting } from "@/components/home/GovernmentContracting";
 import { ProcessSection } from "@/components/home/ProcessSection";
 import { IndustriesSection } from "@/components/home/IndustriesSection";
 import { WhyChooseUs } from "@/components/home/WhyChooseUs";
+import { FAQ } from "@/components/home/FAQ";
 import { CallToAction } from "@/components/home/CallToAction";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   absoluteTitle:
-    "Wali Productions — Enterprise Technology Consulting & Digital Transformation",
+    "Wali Productions — Enterprise Technology Consulting | Springfield, Missouri",
   description:
-    "Wali Productions LLC delivers enterprise technology consulting, cybersecurity, AI integration, software engineering, cloud solutions, and digital transformation for government agencies, nonprofits, churches, and private enterprises. Veteran-Owned Small Business (VOSB). Government contracting ready.",
+    "Wali Productions LLC — Veteran-Owned technology consulting based in Springfield, Missouri. Custom software, cybersecurity, AI integration, cloud solutions, and government IT for agencies, nonprofits, churches, and businesses nationwide. VOSB-eligible. Government contracting ready.",
   path: "/",
 });
 
@@ -30,6 +31,7 @@ export default function HomePage() {
       <ProcessSection />
       <IndustriesSection />
       <WhyChooseUs />
+      <FAQ />
       <CallToAction />
     </>
   );

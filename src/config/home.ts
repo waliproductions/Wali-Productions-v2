@@ -79,16 +79,16 @@ export type HomeContent = {
 
 export const homeContent: HomeContent = {
   hero: {
-    eyebrow: "Enterprise Technology Consulting",
+    eyebrow: "Enterprise Technology Consulting · Springfield, Missouri",
     headline: "Digital Transformation. Enterprise Results.",
     subhead:
-      "Wali Productions LLC delivers advanced technology consulting, cybersecurity solutions, AI integration, and digital transformation services for government agencies and private enterprises.",
+      "Wali Productions LLC delivers technology consulting, cybersecurity, AI integration, and software engineering for government agencies, nonprofits, churches, and private enterprises. Based in Springfield, Missouri. Serving clients nationwide.",
     primaryCta: { label: "Start a Project", href: "/start" },
     secondaryCta: { label: "Explore Our Capabilities", href: "/services" },
     trustBadges: [
-      "Veteran-Owned Small Business",
+      "Veteran-Owned Small Business (VOSB)",
       "Government Contracting Ready",
-      "Enterprise-Grade Security",
+      "Based in Springfield, Missouri",
     ],
   },
   stats: [

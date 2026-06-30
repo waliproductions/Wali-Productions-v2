@@ -9,6 +9,7 @@ export type ServiceDetail = {
   problem: string;
   solution: string;
   benefits: string[];
+  deliverables: string[];
   idealFor: string[];
   outcomes: string;
   id?: string;
@@ -20,6 +21,11 @@ export type ServiceCategory = {
   title: string;
   description: string;
   services: ServiceDetail[];
+};
+
+export type FaqItem = {
+  question: string;
+  answer: string;
 };
 
 export type ServicesContent = {
@@ -44,6 +50,12 @@ export type ServicesContent = {
     eyebrow: string;
     heading: string;
     paragraphs: string[];
+  };
+  faqs: {
+    eyebrow: string;
+    heading: string;
+    subhead: string;
+    items: FaqItem[];
   };
   cta: {
     heading: string;
@@ -93,6 +105,15 @@ export const servicesContent: ServicesContent = {
             "Designed for security and compliance from day one",
             "Scalable architecture that grows with you",
           ],
+          deliverables: [
+            "Production-ready software system",
+            "Full source code in version-controlled repository",
+            "Architecture and system design documentation",
+            "API documentation (where applicable)",
+            "Deployment guide and runbook",
+            "User or admin documentation",
+            "30-day post-launch support period",
+          ],
           idealFor: ["Government agencies", "Regulated industries", "Organizations with complex workflows"],
           outcomes: "A production-ready software system that solves your specific problem and can be maintained and extended by any competent team.",
           govRelevant: true,
@@ -109,6 +130,15 @@ export const servicesContent: ServicesContent = {
             "Mobile-first responsive design",
             "SEO-optimized architecture",
           ],
+          deliverables: [
+            "Full-stack web application",
+            "Source code (Git repository)",
+            "WCAG 2.1 accessibility compliance documentation",
+            "Lighthouse performance baseline report",
+            "CMS or admin interface (if scoped)",
+            "Domain and hosting setup guidance",
+            "30-day post-launch support",
+          ],
           idealFor: ["Small businesses", "Government agencies", "Nonprofits", "Enterprises"],
           outcomes: "A fast, accessible, and professional web presence that serves your audience and achieves your goals.",
         },
@@ -123,6 +153,13 @@ export const servicesContent: ServicesContent = {
             "Real-time data synchronization",
             "Reduces errors from duplicate data",
             "Enables new automation workflows",
+          ],
+          deliverables: [
+            "Working integration connecting specified systems",
+            "API or middleware documentation",
+            "Data flow diagrams",
+            "Integration testing report",
+            "Deployment and rollback guide",
           ],
           idealFor: ["Organizations with multiple legacy systems", "Businesses scaling operations"],
           outcomes: "A connected technology stack where your systems work together — reducing friction, errors, and manual overhead.",
@@ -147,6 +184,14 @@ export const servicesContent: ServicesContent = {
             "Improved decision support",
             "Maintained human control and oversight",
           ],
+          deliverables: [
+            "Configured AI integration (LLM or ML pipeline)",
+            "Governance and oversight documentation",
+            "Prompt engineering specifications",
+            "Human-in-the-loop workflow design",
+            "Integration testing and validation report",
+            "Staff training materials",
+          ],
           idealFor: ["Knowledge-intensive organizations", "Content-heavy operations", "Data analysis teams"],
           outcomes: "AI-powered workflows that save real hours and improve output quality — with documentation and governance to support enterprise adoption.",
           govRelevant: true,
@@ -162,6 +207,14 @@ export const servicesContent: ServicesContent = {
             "Near-elimination of manual data entry errors",
             "24/7 process execution without staffing overhead",
             "Detailed process audit trails and reporting",
+          ],
+          deliverables: [
+            "Implemented automation workflows",
+            "Process documentation and flow diagrams",
+            "Audit trail and logging configuration",
+            "Testing and validation report",
+            "User training materials",
+            "Maintenance and monitoring guide",
           ],
           idealFor: ["Operations teams", "Finance and accounting", "HR and compliance", "Government agencies"],
           outcomes: "Automated workflows that run reliably in the background — saving hundreds of hours per year and improving data accuracy.",
@@ -186,6 +239,13 @@ export const servicesContent: ServicesContent = {
             "Compliance gap analysis (NIST, FISMA, HIPAA, etc.)",
             "Executive and technical reporting",
           ],
+          deliverables: [
+            "Security assessment report (executive + technical)",
+            "Risk register with ratings",
+            "Prioritized remediation roadmap",
+            "Compliance gap analysis",
+            "Architecture diagram (current state)",
+          ],
           idealFor: ["Government contractors", "Healthcare organizations", "Financial services", "Any organization handling sensitive data"],
           outcomes: "Documented understanding of your security posture, a prioritized list of actions, and a clear path to defensible compliance.",
           govRelevant: true,
@@ -201,6 +261,14 @@ export const servicesContent: ServicesContent = {
             "Implemented and tested security controls",
             "Staff training and awareness programs",
             "Ongoing compliance maintenance guidance",
+          ],
+          deliverables: [
+            "Policy and procedure documentation package",
+            "Implemented and tested security controls",
+            "Control mapping to framework (NIST, FISMA, HIPAA, SOC 2)",
+            "Staff training program materials",
+            "Audit preparation checklist",
+            "Ongoing compliance maintenance guide",
           ],
           idealFor: ["Government contractors pursuing federal contracts", "Healthcare organizations", "Organizations under regulatory scrutiny"],
           outcomes: "A documented, implemented compliance posture ready to withstand audit scrutiny and support contract awards.",
@@ -225,6 +293,15 @@ export const servicesContent: ServicesContent = {
             "Elastic scaling for variable workloads",
             "Enhanced disaster recovery capabilities",
           ],
+          deliverables: [
+            "Cloud architecture design document",
+            "Migration plan and phased timeline",
+            "Migrated workloads (per scope)",
+            "Infrastructure-as-code configuration",
+            "Cost optimization analysis",
+            "Post-migration monitoring setup",
+            "Operational runbook",
+          ],
           idealFor: ["Organizations running aging on-premise infrastructure", "Businesses experiencing growth"],
           outcomes: "A modernized cloud infrastructure that is more cost-effective, scalable, and secure than your previous environment.",
           govRelevant: true,
@@ -248,6 +325,14 @@ export const servicesContent: ServicesContent = {
             "Vendor and technology selection guidance",
             "Budget and resource planning framework",
           ],
+          deliverables: [
+            "Current state technology assessment",
+            "Target architecture document",
+            "Prioritized technology roadmap (12–36 months)",
+            "Business case summaries per initiative",
+            "Vendor / technology evaluation matrix",
+            "Budget and resource planning framework",
+          ],
           idealFor: ["Executive teams planning technology investment", "Organizations undergoing digital transformation"],
           outcomes: "A documented technology strategy that guides decisions for the next 12-36 months and aligns your technology team with business leadership.",
           govRelevant: true,
@@ -263,6 +348,13 @@ export const servicesContent: ServicesContent = {
             "Proactive monitoring and alerting",
             "Reduced risk of unplanned downtime",
             "Clear runbooks for operational procedures",
+          ],
+          deliverables: [
+            "Hardened Linux system configuration",
+            "Security baseline documentation",
+            "Monitoring and alerting setup",
+            "Operational runbooks for routine procedures",
+            "Backup and recovery documentation",
           ],
           idealFor: ["Organizations running Linux-based infrastructure", "Government agencies requiring hardened systems"],
           outcomes: "Well-administered, documented, and monitored Linux infrastructure that your team can operate confidently.",
@@ -287,6 +379,14 @@ export const servicesContent: ServicesContent = {
             "Detailed project documentation and reporting",
             "Veteran-Owned set-aside eligibility",
           ],
+          deliverables: [
+            "Technology deliverables per engagement scope",
+            "Section 508 accessibility compliance documentation",
+            "Security documentation aligned to NIST / FISMA",
+            "Project management and status reporting",
+            "Deliverable acceptance support package",
+            "Post-delivery transition documentation",
+          ],
           idealFor: ["Federal civilian agencies", "State and local governments", "Defense contractors", "Prime contractors seeking capable subcontractors"],
           outcomes: "Technology solutions delivered on time, on budget, with the documentation and compliance posture required for government acceptance.",
           govRelevant: true,
@@ -301,6 +401,13 @@ export const servicesContent: ServicesContent = {
             "Reliable, professionally configured streaming workflows",
             "Multi-platform simultaneous streaming",
             "Operator training and documentation",
+            "Emergency failover procedures",
+          ],
+          deliverables: [
+            "Configured streaming workflow",
+            "Equipment recommendations list",
+            "Operator training sessions",
+            "Streaming setup documentation",
             "Emergency failover procedures",
           ],
           idealFor: ["Faith organizations", "Government agencies", "Conference and event producers", "Educational institutions"],
@@ -337,6 +444,53 @@ export const servicesContent: ServicesContent = {
     paragraphs: [
       "When you engage Wali Productions LLC, you will receive honest assessments, professional execution, and complete accountability for every deliverable we commit to.",
       "We don't overpromise or underdeliver. We tell you what's achievable, agree to a clear scope, and deliver it — with transparent communication throughout.",
+    ],
+  },
+  faqs: {
+    eyebrow: "Common Questions",
+    heading: "Frequently asked questions.",
+    subhead: "Straightforward answers to what our clients want to know before engaging.",
+    items: [
+      {
+        question: "How does an engagement with Wali Productions work?",
+        answer: "It starts with a brief discovery conversation — no sales pitch, just honest questions about your challenge. If we're a fit, we define scope, timeline, and budget together, then you receive a clear proposal. Once approved, we move into delivery with structured checkpoints and transparent communication throughout.",
+      },
+      {
+        question: "What size organizations do you work with?",
+        answer: "We work with organizations of all sizes — from solo professionals and small churches to mid-size businesses and government agencies. Our approach scales to fit the engagement. A small business website and a federal IT consulting engagement are both done with the same discipline and professionalism.",
+      },
+      {
+        question: "Do you work with government agencies?",
+        answer: "Yes. Wali Productions LLC is structured and preparing for government contracting as a Veteran-Owned Small Business (VOSB). We deliver technology services with the documentation discipline, security posture, and compliance standards that government work requires. Our SAM.gov registration is in preparation.",
+      },
+      {
+        question: "Do you serve churches, nonprofits, and ministries?",
+        answer: "Absolutely. Serving mission-driven organizations is part of why Wali Productions was founded. We work with churches, nonprofits, and ministries at rates and scopes appropriate to their budgets, and we genuinely care about their missions succeeding.",
+      },
+      {
+        question: "What does a project typically cost?",
+        answer: "It depends on scope, complexity, and timeline. A simple website project might start at a few thousand dollars. A complex enterprise software engagement might be $50,000 or more. We give honest estimates after understanding your requirement — we don't publish pricing without context because it rarely helps either party.",
+      },
+      {
+        question: "How quickly can you start?",
+        answer: "Typically within one to two weeks of signed agreement for most engagements. We're a focused firm, not a large agency, so we don't queue projects for months. If your timeline is urgent, tell us — we'll let you know honestly what's possible.",
+      },
+      {
+        question: "What happens after I submit a project inquiry?",
+        answer: "We review every inquiry within 24 hours (usually faster). If your project aligns with our capabilities, we'll reach out to schedule a discovery call. We'll never pressure you to commit — the goal of the first conversation is mutual fit, not a sale.",
+      },
+      {
+        question: "Do you offer ongoing support or retainers?",
+        answer: "Yes. After project delivery, we offer ongoing support, maintenance retainers, and staff augmentation arrangements. Many clients retain us after initial engagements for continuous improvement, security monitoring, or advisory support.",
+      },
+      {
+        question: "Where are you located and do you work remotely?",
+        answer: "We are based in Springfield, Missouri and serve clients throughout Southwest Missouri, nationally, and with government agencies federally. All our services are available remotely — we have worked effectively with clients across the country and are set up for distributed collaboration.",
+      },
+      {
+        question: "How do you handle security for sensitive or regulated projects?",
+        answer: "Security is built into our process from the start, not added at the end. For regulated projects, we design systems with NIST, FISMA, or HIPAA alignment in mind from the requirements phase. We don't deliver sensitive systems without appropriate security review and documentation.",
+      },
     ],
   },
   cta: {

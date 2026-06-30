@@ -41,10 +41,12 @@ export function createContactSubmissionRecord(
       phone: input.phone ?? null,
     },
     inquiry: {
+      orgType: input.orgType ?? null,
       service: input.service ?? null,
       budget: input.budget ?? null,
       timeline: input.timeline ?? null,
       preferredContact: input.preferredContact ?? null,
+      decisionMaker: input.decisionMaker ?? null,
       message: input.message,
     },
     processing: {
