@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { siteConfig } from "@/config/site";
 
 const CONTACT_HREF = "/contact";
@@ -148,48 +149,55 @@ export function Navbar() {
       </nav>
 
       {/* Mobile panel */}
-      {open && (
-        <div
-          id="mobile-menu"
-          className="border-t border-black/8 bg-white dark:border-white/8 dark:bg-[#060d1a] md:hidden"
-        >
-          <ul className="mx-auto max-w-content space-y-0.5 px-4 py-3 sm:px-6">
-            {siteConfig.nav.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  aria-current={isActive(item.href) ? "page" : undefined}
-                  className={[
-                    "flex items-center rounded-lg px-3 py-3 text-sm font-medium transition-colors",
-                    isActive(item.href)
-                      ? "bg-[#EEF3FA] text-[#1E3A5F] font-semibold dark:bg-white/10 dark:text-white"
-                      : "text-neutral-700 hover:bg-black/5 dark:text-neutral-300 dark:hover:bg-white/8",
-                  ].join(" ")}
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <div className="mx-auto max-w-content border-t border-black/8 px-4 py-4 sm:px-6 dark:border-white/8 space-y-2">
-            <Link
-              href={START_HREF}
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#0D1B2A] px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-[#1E3A5F] dark:bg-[#1E3A5F] dark:hover:bg-[#2B4C7E]"
-            >
-              Start a Project
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M2 7h10M7 2l5 5-5 5" />
-              </svg>
-            </Link>
-            <Link
-              href={CONTACT_HREF}
-              className="flex w-full items-center justify-center rounded-xl border border-black/10 px-4 py-2.5 text-sm font-medium text-neutral-700 transition-all hover:bg-black/5 dark:border-white/10 dark:text-neutral-200 dark:hover:bg-white/8"
-            >
-              Contact Us
-            </Link>
-          </div>
-        </div>
-      )}
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            id="mobile-menu"
+            key="mobile-menu"
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2, ease: "easeOut" as const }}
+            className="border-t border-black/8 bg-white dark:border-white/8 dark:bg-[#060d1a] md:hidden"
+          >
+            <ul className="mx-auto max-w-content space-y-0.5 px-4 py-3 sm:px-6">
+              {siteConfig.nav.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    aria-current={isActive(item.href) ? "page" : undefined}
+                    className={[
+                      "flex items-center rounded-lg px-3 py-3 text-sm font-medium transition-colors",
+                      isActive(item.href)
+                        ? "bg-[#EEF3FA] text-[#1E3A5F] font-semibold dark:bg-white/10 dark:text-white"
+                        : "text-neutral-700 hover:bg-black/5 dark:text-neutral-300 dark:hover:bg-white/8",
+                    ].join(" ")}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <div className="mx-auto max-w-content border-t border-black/8 px-4 py-4 sm:px-6 dark:border-white/8 space-y-2">
+              <Link
+                href={START_HREF}
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#0D1B2A] px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-[#1E3A5F] dark:bg-[#1E3A5F] dark:hover:bg-[#2B4C7E]"
+              >
+                Start a Project
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M2 7h10M7 2l5 5-5 5" />
+                </svg>
+              </Link>
+              <Link
+                href={CONTACT_HREF}
+                className="flex w-full items-center justify-center rounded-xl border border-black/10 px-4 py-2.5 text-sm font-medium text-neutral-700 transition-all hover:bg-black/5 dark:border-white/10 dark:text-neutral-200 dark:hover:bg-white/8"
+              >
+                Contact Us
+              </Link>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }

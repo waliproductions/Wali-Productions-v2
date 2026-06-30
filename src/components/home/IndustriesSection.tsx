@@ -46,6 +46,12 @@ const INDUSTRY_ICONS: Record<string, React.ReactNode> = {
   ),
 };
 
+const DEFAULT_ICON = (
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+    <circle cx="10" cy="10" r="8.5" />
+  </svg>
+);
+
 export function IndustriesSection() {
   const { eyebrow, heading, items } = homeContent.industries;
 
@@ -61,20 +67,25 @@ export function IndustriesSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="max-w-2xl"
+          className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
         >
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#B8831A]">
-            {eyebrow}
+          <div className="max-w-2xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#B8831A]">
+              {eyebrow}
+            </p>
+            <h2
+              id="industries-heading"
+              className="mt-4 font-display text-4xl font-bold tracking-tight text-[#0D1B2A] sm:text-5xl dark:text-white"
+            >
+              {heading}
+            </h2>
+          </div>
+          <p className="text-sm text-neutral-500 dark:text-neutral-400 sm:text-right sm:max-w-xs">
+            Serving clients across public and private sectors nationwide.
           </p>
-          <h2
-            id="industries-heading"
-            className="mt-4 font-display text-4xl font-bold tracking-tight text-[#0D1B2A] sm:text-5xl dark:text-white"
-          >
-            {heading}
-          </h2>
         </motion.div>
 
-        <ul className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4" role="list">
+        <ul className="mt-12 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4" role="list">
           {items.map((industry, i) => (
             <motion.li
               key={industry.name}
@@ -82,18 +93,14 @@ export function IndustriesSection() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, ease: "easeOut", delay: i * 0.05 }}
-              className="group flex flex-col gap-3 rounded-xl border border-black/8 bg-white p-5 transition-all duration-300 hover:border-[#4A7DB5]/30 hover:shadow-card dark:border-white/8 dark:bg-white/[0.03] dark:hover:bg-white/[0.06]"
+              className="group flex flex-col gap-3 rounded-xl border border-black/8 bg-white p-5 transition-all duration-300 hover:border-[#4A7DB5]/30 hover:shadow-card-blue dark:border-white/8 dark:bg-white/[0.03] dark:hover:bg-white/[0.06]"
             >
               <div className="text-[#1E3A5F] transition-colors group-hover:text-[#4A7DB5] dark:text-[#60a5fa]">
-                {INDUSTRY_ICONS[industry.name] ?? (
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
-                    <circle cx="10" cy="10" r="8.5" />
-                  </svg>
-                )}
+                {INDUSTRY_ICONS[industry.name] ?? DEFAULT_ICON}
               </div>
               <div>
-                <p className="text-sm font-semibold text-[#0D1B2A] dark:text-white">{industry.name}</p>
-                <p className="mt-0.5 text-xs text-neutral-500">{industry.description}</p>
+                <p className="text-sm font-semibold leading-snug text-[#0D1B2A] dark:text-white">{industry.name}</p>
+                <p className="mt-0.5 text-xs text-neutral-500 dark:text-neutral-400">{industry.description}</p>
               </div>
             </motion.li>
           ))}

@@ -82,25 +82,25 @@ export const homeContent: HomeContent = {
     eyebrow: "Enterprise Technology Consulting · Springfield, Missouri",
     headline: "Digital Transformation. Enterprise Results.",
     subhead:
-      "Wali Productions LLC delivers technology consulting, cybersecurity, AI integration, and software engineering for government agencies, nonprofits, churches, and private enterprises. Based in Springfield, Missouri. Serving clients nationwide.",
+      "Custom software, cybersecurity, AI integration, and government IT — delivered with military discipline and senior-level technical depth. Serving agencies, businesses, nonprofits, and ministries nationwide.",
     primaryCta: { label: "Start a Project", href: "/start" },
     secondaryCta: { label: "Explore Our Capabilities", href: "/services" },
     trustBadges: [
       "Veteran-Owned Small Business (VOSB)",
       "Government Contracting Ready",
-      "Based in Springfield, Missouri",
+      "Springfield, Missouri",
     ],
   },
   stats: [
-    { value: "10+", label: "Core Service Areas", sublabel: "Across technology domains" },
-    { value: "VOSB", label: "Veteran-Owned", sublabel: "Certified small business" },
-    { value: "Gov", label: "Contract Ready", sublabel: "Federal, state & local" },
-    { value: "24/7", label: "Commitment", sublabel: "To client success" },
+    { value: "12+", label: "Technology Domains", sublabel: "Full-spectrum capabilities" },
+    { value: "VOSB", label: "Veteran-Owned", sublabel: "SAM.gov registration in progress" },
+    { value: "5", label: "Practice Areas", sublabel: "Software · Security · AI · Cloud · Gov" },
+    { value: "24hr", label: "Response Time", sublabel: "Commitment to every inquiry" },
   ],
   mission: {
     eyebrow: "Our Mission",
     heading: "Technology is our profession. Service is our calling.",
-    body: "We exist to provide enterprise-grade technology and digital transformation services while maintaining the highest standards of integrity, excellence, and faithful stewardship. Every engagement is approached with military precision, technical depth, and a genuine commitment to long-term client success.",
+    body: "We exist to provide enterprise-grade technology and digital transformation services while maintaining the highest standards of integrity, excellence, and faithful stewardship. Every engagement is approached with structured methodology, technical depth, and a genuine commitment to long-term client success.",
   },
   services: {
     eyebrow: "Core Capabilities",

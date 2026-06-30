@@ -178,7 +178,7 @@ export function Hero() {
             <motion.div
               initial={{ opacity: 0, x: 32 }}
               animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+              transition={{ duration: 0.8, ease: "easeOut" as const, delay: 0.2 }}
             >
               {/* Glass container */}
               <div className="relative rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-sm">

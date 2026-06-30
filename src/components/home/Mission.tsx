@@ -58,7 +58,7 @@ export function Mission() {
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.6, ease: "easeOut" as const }}
           >
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#B8831A]">
               {eyebrow}
@@ -93,7 +93,7 @@ export function Mission() {
             initial={{ opacity: 0, x: 24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+            transition={{ duration: 0.7, ease: "easeOut" as const, delay: 0.1 }}
             className="relative"
           >
             <div className="absolute -left-6 top-0 bottom-0 w-0.5 rounded-full bg-gradient-to-b from-[#4A7DB5] via-[#4A7DB5]/50 to-transparent" aria-hidden="true" />

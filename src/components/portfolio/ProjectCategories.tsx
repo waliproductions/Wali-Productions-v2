@@ -43,7 +43,7 @@ export function ProjectCategories() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: i * 0.07 }}
+              transition={{ duration: 0.5, ease: "easeOut" as const, delay: i * 0.07 }}
               className="group flex flex-col rounded-2xl border border-black/8 bg-white p-6 shadow-card transition-all duration-300 hover:border-[#4A7DB5]/25 hover:shadow-card-hover dark:border-white/8 dark:bg-white/[0.03]"
             >
               <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-lg bg-[#EEF3FA] dark:bg-white/[0.06]">

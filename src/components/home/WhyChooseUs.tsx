@@ -31,7 +31,7 @@ export function WhyChooseUs() {
   return (
     <section
       aria-labelledby="why-heading"
-      className="relative border-t border-black/8 dark:border-white/8"
+      className="relative overflow-hidden border-t border-black/8 dark:border-white/8"
     >
       <div className="mx-auto max-w-content px-4 py-20 sm:px-6 sm:py-24 lg:px-8 lg:py-28">
 
@@ -63,7 +63,7 @@ export function WhyChooseUs() {
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: i * 0.08 }}
+              transition={{ duration: 0.5, ease: "easeOut" as const, delay: i * 0.08 }}
               className="group relative flex flex-col rounded-2xl border border-black/8 bg-white p-7 shadow-card transition-all duration-300 hover:border-[#4A7DB5]/25 hover:shadow-card-hover dark:border-white/8 dark:bg-white/[0.03] dark:hover:bg-white/[0.05]"
             >
               {/* Icon */}
@@ -78,7 +78,7 @@ export function WhyChooseUs() {
                 {item.description}
               </p>
 
-              {/* Accent bar */}
+              {/* Accent bar on hover */}
               <div className="absolute left-0 top-1/4 h-1/2 w-0.5 rounded-r-full bg-gradient-to-b from-[#4A7DB5] to-[#4A7DB5]/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden="true" />
             </motion.div>
           ))}

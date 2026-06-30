@@ -50,7 +50,7 @@ export function NarrativeBlock({
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+            transition={{ duration: 0.7, ease: "easeOut" as const, delay: 0.1 }}
             className="relative pl-6 lg:pl-8"
           >
             <div

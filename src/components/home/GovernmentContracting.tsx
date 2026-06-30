@@ -6,8 +6,8 @@ import { homeContent } from "@/config/home";
 
 const GOV_CERTIFICATIONS = [
   { label: "Veteran-Owned Small Business", abbr: "VOSB" },
-  { label: "SAM.gov Registered", abbr: "SAM" },
-  { label: "GSA Schedule Ready", abbr: "GSA" },
+  { label: "SAM.gov Registration in Preparation", abbr: "SAM" },
+  { label: "Government Contracting Ready", abbr: "GOV" },
 ];
 
 export function GovernmentContracting() {
@@ -88,7 +88,7 @@ export function GovernmentContracting() {
             initial={{ opacity: 0, x: 24 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
+            transition={{ duration: 0.7, ease: "easeOut" as const, delay: 0.15 }}
             className="space-y-0"
           >
             {items.map((item, i) => (

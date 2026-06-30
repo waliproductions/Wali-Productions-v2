@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { homeContent } from "@/config/home";
 
 const ICONS: Record<string, React.ReactNode> = {
-  "10+": (
+  "12+": (
     <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <rect x="2" y="3" width="8" height="8" rx="1.5" /><rect x="12" y="3" width="8" height="8" rx="1.5" /><rect x="2" y="13" width="8" height="8" rx="1.5" /><rect x="12" y="13" width="8" height="8" rx="1.5" />
     </svg>
@@ -14,12 +14,12 @@ const ICONS: Record<string, React.ReactNode> = {
       <path d="M11 2L2 6v5c0 5 3.5 8.5 9 10 5.5-1.5 9-5 9-10V6L11 2z" /><path d="M7 11l3 3 5-5" />
     </svg>
   ),
-  "Gov": (
+  "5": (
     <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M2 20h18M2 12h18M5 12V9M11 12V9M17 12V9M1 9h20M11 2L1 9" />
     </svg>
   ),
-  "24/7": (
+  "24hr": (
     <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <circle cx="11" cy="11" r="9" /><path d="M11 6v5l3.5 3.5" />
     </svg>
