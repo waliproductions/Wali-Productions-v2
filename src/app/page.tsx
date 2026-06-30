@@ -3,25 +3,20 @@ import { CredibilityBar } from "@/components/home/CredibilityBar";
 import { Mission } from "@/components/home/Mission";
 import { ServicesOverview } from "@/components/home/ServicesOverview";
 import { GovernmentContracting } from "@/components/home/GovernmentContracting";
+import { ProcessSection } from "@/components/home/ProcessSection";
+import { IndustriesSection } from "@/components/home/IndustriesSection";
 import { WhyChooseUs } from "@/components/home/WhyChooseUs";
 import { CallToAction } from "@/components/home/CallToAction";
 import { buildMetadata } from "@/lib/seo";
 
 export const metadata = buildMetadata({
   absoluteTitle:
-    "Wali Productions — Christian Veteran-Owned Technology & Digital Solutions",
+    "Wali Productions — Enterprise Technology Consulting & Digital Transformation",
   description:
-    "Wali Productions LLC delivers professional technology and digital solutions — website development, software engineering, AI integration, IT consulting, and media production. Christian Veteran-Owned.",
+    "Wali Productions LLC delivers enterprise technology consulting, cybersecurity, AI integration, software engineering, and digital transformation for government agencies and private enterprises. Veteran-Owned.",
   path: "/",
 });
 
-/**
- * Wali Productions LLC — homepage.
- *
- * Composes the approved homepage sections in order. All copy is sourced from
- * `src/config/home.ts`, which currently holds placeholders pending approved
- * messaging from canonical documentation.
- */
 export default function HomePage() {
   return (
     <>
@@ -30,6 +25,8 @@ export default function HomePage() {
       <Mission />
       <ServicesOverview />
       <GovernmentContracting />
+      <ProcessSection />
+      <IndustriesSection />
       <WhyChooseUs />
       <CallToAction />
     </>

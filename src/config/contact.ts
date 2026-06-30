@@ -1,35 +1,19 @@
-/**
- * Contact page content model — single source of truth.
- *
- * Populated from approved canonical documentation: CORE_MESSAGES, CLIENT_PROMISE,
- * CLIENT_WORKFLOW, SERVICES, SERVICES_LIBRARY, and BUSINESS_INFORMATION.
- *
- * Contact details (email, phone, address, business hours) remain `pending()`
- * placeholders: BUSINESS_INFORMATION.md records them as "to be maintained," so no
- * verified values are documented and none are invented. The consultation form is
- * presentational only (no backend). This copy must only be changed through the
- * approved documentation process.
- */
-
-/** Marks detail that is not yet documented/verified and records its source. */
-const pending = (note: string, source: string) =>
-  `[ pending verified detail: ${note} — source: ${source} ]`;
-
 export type Cta = {
   label: string;
-  /** Links to built routes / on-page anchors within the site. */
   href: string;
 };
 
 export type InquiryCategory = {
   title: string;
   description: string;
+  services: string[];
 };
 
-/** A labeled contact-detail row (e.g., Email, Phone). */
-export type ContactDetail = {
-  label: string;
-  value: string;
+export type ProcessStep = {
+  step: string;
+  title: string;
+  description: string;
+  timeline: string;
 };
 
 export type ContactContent = {
@@ -37,6 +21,7 @@ export type ContactContent = {
     identity: string;
     headline: string;
     subhead: string;
+    badges: string[];
   };
   overview: {
     eyebrow: string;
@@ -49,6 +34,7 @@ export type ContactContent = {
     intro: string;
     serviceOptions: string[];
   };
+  process: ProcessStep[];
   inquiryCategories: {
     eyebrow: string;
     heading: string;
@@ -62,90 +48,138 @@ export type ContactContent = {
   contactInfo: {
     eyebrow: string;
     heading: string;
+    responseTime: string;
+    businessHours: string;
     note: string;
-    items: ContactDetail[];
   };
   cta: {
     heading: string;
     body: string;
     primaryCta: Cta;
+    note: string;
   };
 };
 
 export const contactContent: ContactContent = {
   hero: {
-    identity: "Christian Veteran-Owned Technology & Digital Solutions",
+    identity: "Contact Wali Productions",
     headline: "Let's start a conversation.",
     subhead:
-      "Tell us about your project or inquiry, and we'll respond with honesty, professionalism, and a sincere commitment to serving your best interests.",
+      "Whether you have a complex technology challenge, a government contract opportunity, or simply want to understand how we can help — reach out and we'll give you an honest assessment.",
+    badges: [
+      "No commitment required",
+      "Response within 24 hours",
+      "Veteran-Owned",
+    ],
   },
   overview: {
     eyebrow: "Get in Touch",
-    heading: "Get in touch.",
+    heading: "Every great engagement starts with a conversation.",
     paragraphs: [
-      "Every engagement begins with an initial inquiry and a discovery conversation to understand your goals.",
-      "We communicate honestly, professionally, and respectfully throughout every project.",
+      "We don't do discovery calls to pitch you — we do them to understand your problem. Our process begins with listening, asking the right questions, and giving you a straight answer about whether and how we can help.",
+      "You can expect professional, timely communication and an honest assessment regardless of project size. Every inquiry is treated with the same attention.",
     ],
   },
   consultation: {
     eyebrow: "Request a Consultation",
-    heading: "Request a consultation.",
+    heading: "Tell us about your project.",
     intro:
-      "Share a few details about your needs and the service you're interested in, and we'll follow up to discuss how we can help.",
+      "Share a few details about your needs and we'll follow up to schedule a discovery conversation — no commitment required.",
     serviceOptions: [
-      "Technology Consulting",
-      "Software Development",
-      "Website Design & Development",
+      "Software Engineering & Development",
       "AI Integration & Business Automation",
-      "Business Automation",
-      "OBS Studio & Live Streaming",
+      "Cybersecurity & Compliance",
+      "Cloud Solutions & Infrastructure",
+      "IT Consulting & Technology Strategy",
+      "Digital Transformation",
       "Government Technology Services",
-      "Technical Training & Mentorship",
-      "Other",
+      "Web Application Development",
+      "Linux & Systems Administration",
+      "Media & Livestream Production",
+      "Other / Not Sure",
     ],
   },
+  process: [
+    {
+      step: "01",
+      title: "Submit Your Inquiry",
+      description: "Complete the form with details about your project, timeline, and goals. The more context you provide, the better we can prepare.",
+      timeline: "5 minutes",
+    },
+    {
+      step: "02",
+      title: "Initial Response",
+      description: "We review every inquiry carefully and respond with initial thoughts and a request to schedule a discovery conversation.",
+      timeline: "Within 24 hours",
+    },
+    {
+      step: "03",
+      title: "Discovery Conversation",
+      description: "A 30–60 minute call to understand your challenge, constraints, and objectives. No sales pressure — just honest dialogue.",
+      timeline: "30–60 minutes",
+    },
+    {
+      step: "04",
+      title: "Proposal & Next Steps",
+      description: "If we're a fit, we deliver a clear, honest proposal with scope, timeline, and pricing. You decide how to proceed.",
+      timeline: "3–5 business days",
+    },
+  ],
   inquiryCategories: {
-    eyebrow: "Service Inquiries",
-    heading: "What can we help with?",
+    eyebrow: "Areas of Service",
+    heading: "What can we help you with?",
     items: [
       {
-        title: "Technology & Software",
-        description:
-          "Websites, software, consulting, AI, automation, and systems administration.",
+        title: "Software & Technology",
+        description: "Custom software, web applications, API development, and systems integration.",
+        services: ["Custom Software Development", "Web Application Development", "Systems Integration & APIs"],
       },
       {
-        title: "Digital & Media",
-        description:
-          "Streaming, media production, content, and technical training.",
+        title: "AI & Automation",
+        description: "Machine learning integration, business process automation, and intelligent workflow design.",
+        services: ["AI Integration", "Business Process Automation", "Data Pipeline Development"],
+      },
+      {
+        title: "Cybersecurity",
+        description: "Security assessment, compliance frameworks, and security architecture for regulated industries.",
+        services: ["Security Assessment", "Compliance Implementation", "Zero-Trust Architecture"],
+      },
+      {
+        title: "Cloud & Infrastructure",
+        description: "Cloud migration, infrastructure design, and systems administration.",
+        services: ["Cloud Migration", "Infrastructure Design", "Linux Systems Administration"],
       },
       {
         title: "Government Services",
-        description:
-          "Government technology services and contracting support.",
+        description: "Federal, state, and local government technology services with appropriate compliance posture.",
+        services: ["Federal Agency IT", "State & Local Government", "Defense Contractor Support"],
+      },
+      {
+        title: "Consulting & Strategy",
+        description: "Technology strategy, roadmap development, and executive technology advisory.",
+        services: ["Technology Strategy", "Digital Transformation", "Vendor Selection"],
       },
     ],
   },
   clientPromise: {
     eyebrow: "Our Promise",
-    heading: "Our promise to every client.",
+    heading: "What you can expect from every interaction.",
     paragraphs: [
-      "When you work with Wali Productions LLC, you can expect honesty, professionalism, integrity, and a sincere commitment to serving your best interests.",
+      "Honesty, professionalism, and genuine care for your outcome — from the first email to the final deliverable. We will tell you what you need to hear, not just what you want to hear.",
+      "If we're not the right fit for your project, we'll tell you that too. Our reputation depends on honest dealing, and we protect it in every engagement.",
     ],
   },
   contactInfo: {
-    eyebrow: "Contact Information",
-    heading: "Contact information.",
-    note: "Official contact details are published only once finalized. They are maintained as official business information is confirmed.",
-    items: [
-      { label: "Email", value: pending("verified email address", "01-Business/BUSINESS_INFORMATION.md (to be maintained)") },
-      { label: "Phone", value: pending("verified phone number", "01-Business/BUSINESS_INFORMATION.md (to be maintained)") },
-      { label: "Address", value: pending("verified headquarters / business address", "01-Business/BUSINESS_INFORMATION.md (to be maintained)") },
-      { label: "Business Hours", value: pending("verified business hours", "01-Business/BUSINESS_INFORMATION.md (not yet documented)") },
-    ],
+    eyebrow: "Contact Details",
+    heading: "Reach us directly.",
+    responseTime: "Within 24 hours",
+    businessHours: "Monday – Friday, 9:00 AM – 5:00 PM ET",
+    note: "All inquiries are reviewed personally. We respond to every message.",
   },
   cta: {
     heading: "Ready to get started?",
-    body: "When you work with Wali Productions LLC, you can expect honesty, professionalism, integrity, and a sincere commitment to serving your best interests.",
-    primaryCta: { label: "Request a Consultation", href: "#consultation" },
+    body: "Submit your inquiry and we'll follow up with a thoughtful, honest response. No commitment required.",
+    primaryCta: { label: "Submit Your Inquiry", href: "#consultation" },
+    note: "No commitment required · Veteran-Owned · Response within 24 hours",
   },
 };

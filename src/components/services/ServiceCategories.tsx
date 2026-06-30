@@ -1,72 +1,94 @@
-import type { ReactNode } from "react";
-import { servicesContent } from "@/config/services";
-import { Section, SectionEyebrow } from "@/components/home/Section";
+"use client";
 
-const CATEGORY_ICONS: Record<string, ReactNode> = {
-  "Technology Services": (
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <rect x="3" y="6" width="26" height="20" rx="2" />
-      <path d="M11 14l-3 3 3 3M21 14l3 3-3 3M16 12l-2 8" />
+import { motion } from "framer-motion";
+import { servicesContent } from "@/config/services";
+
+const CATEGORY_ICONS: Record<string, React.ReactNode> = {
+  "software": (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <polyline points="6 10 2 14 6 18" /><polyline points="22 10 26 14 22 18" /><path d="M12 4l-4 20" />
     </svg>
   ),
-  "Digital & Media Services": (
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <rect x="2" y="6" width="18" height="14" rx="2" />
-      <path d="M28 8l-8 5 8 5V8z" />
-      <path d="M2 24h12M8 20v4" />
+  "ai-automation": (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" aria-hidden="true">
+      <circle cx="14" cy="14" r="4" /><path d="M14 3v5M14 20v5M3 14h5M20 14h5M6.9 6.9l3.5 3.5M17.6 17.6l3.5 3.5M21.1 6.9l-3.5 3.5M10.4 17.6l-3.5 3.5" />
     </svg>
   ),
-  "Government Services": (
-    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M3 28h26M3 14h26M7 14V10M16 14V10M25 14V10M1 10h30L16 3 1 10z" />
+  "cybersecurity": (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M14 2L3 7v7c0 7 5 12 11 14 6-2 11-7 11-14V7L14 2z" /><path d="M9.5 14l3.5 3.5 6-7" />
+    </svg>
+  ),
+  "cloud": (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M23 21H8a6 6 0 0 1-.7-11.96A7.5 7.5 0 0 1 22 13.5 5 5 0 0 1 23 21z" /><path d="M14 21v-8M11 16l3-3 3 3" />
+    </svg>
+  ),
+  "consulting": (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <rect x="2" y="4" width="24" height="17" rx="2" /><path d="M2 10h24M10 25h8M14 21v4" />
+    </svg>
+  ),
+  "government": (
+    <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M2 25h24M2 16h24M6 16V12M14 16V12M22 16V12M1 12h26L14 4 1 12z" />
     </svg>
   ),
 };
-
-const ICON_FALLBACK = (
-  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-    <circle cx="16" cy="16" r="12" />
-  </svg>
-);
 
 export function ServiceCategories() {
   const { categories } = servicesContent;
 
   return (
-    <Section
+    <section
       id="service-categories"
-      labelledById="service-categories-heading"
-      className="border-t border-black/10 dark:border-white/10"
+      aria-labelledby="service-categories-heading"
+      className="relative border-t border-black/8 dark:border-white/8"
     >
-      <SectionEyebrow variant="gold">Service Categories</SectionEyebrow>
-      <h2
-        id="service-categories-heading"
-        className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-4xl"
-      >
-        What we offer
-      </h2>
-
-      <div className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-3">
-        {categories.map((category, i) => (
-          <div
-            key={i}
-            className="group rounded-2xl border border-black/10 bg-white p-8 shadow-card transition-all hover:shadow-card-hover hover:border-[#4A7DB5]/25 dark:border-white/10 dark:bg-white/[0.03]"
+      <div className="mx-auto max-w-content px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="mb-10"
+        >
+          <h2
+            id="service-categories-heading"
+            className="font-display text-2xl font-bold tracking-tight text-[#0D1B2A] dark:text-white"
           >
-            <div className="mb-5 inline-flex h-14 w-14 items-center justify-center rounded-xl bg-[#F0F4F8] text-[#1E3A5F] transition-colors group-hover:bg-[#E8EFF8] dark:bg-white/[0.06]">
-              {CATEGORY_ICONS[category.title] ?? ICON_FALLBACK}
-            </div>
-            <h3 className="font-display text-xl font-bold tracking-tight">
-              {category.title}
-            </h3>
-            <p className="mt-3 text-sm leading-relaxed text-neutral-600 dark:text-neutral-400">
-              {category.description}
-            </p>
-            <p className="mt-4 text-xs font-semibold text-[#4A7DB5]">
-              {category.services.length} service{category.services.length !== 1 ? "s" : ""}
-            </p>
-          </div>
-        ))}
+            Practice Areas
+          </h2>
+        </motion.div>
+
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+          {categories.map((category, i) => (
+            <motion.a
+              key={category.id}
+              href={`#service-catalog`}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.45, delay: i * 0.06 }}
+              className="group flex flex-col items-center gap-3 rounded-xl border border-black/8 bg-white p-5 text-center shadow-card transition-all duration-300 hover:border-[#4A7DB5]/30 hover:shadow-card-hover dark:border-white/8 dark:bg-white/[0.03] dark:hover:bg-white/[0.06]"
+            >
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#EEF3FA] text-[#1E3A5F] transition-all duration-300 group-hover:bg-[#1E3A5F] group-hover:text-white dark:bg-white/[0.06] dark:text-[#60a5fa]">
+                {CATEGORY_ICONS[category.id] ?? (
+                  <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true">
+                    <circle cx="14" cy="14" r="11" />
+                  </svg>
+                )}
+              </div>
+              <span className="text-xs font-semibold leading-tight text-[#0D1B2A] dark:text-white">
+                {category.title}
+              </span>
+              <span className="text-[10px] text-neutral-500">
+                {category.services.length} service{category.services.length !== 1 ? "s" : ""}
+              </span>
+            </motion.a>
+          ))}
+        </div>
       </div>
-    </Section>
+    </section>
   );
 }

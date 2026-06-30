@@ -1,25 +1,18 @@
 import { buildMetadata } from "@/lib/seo";
-import { portfolioContent } from "@/config/portfolio";
 import { PortfolioHero } from "@/components/portfolio/PortfolioHero";
-import { PortfolioNarrative } from "@/components/portfolio/PortfolioNarrative";
 import { ProjectCategories } from "@/components/portfolio/ProjectCategories";
 import { FeaturedProjects } from "@/components/portfolio/FeaturedProjects";
+import { PortfolioNarrative } from "@/components/portfolio/PortfolioNarrative";
 import { PortfolioCallToAction } from "@/components/portfolio/PortfolioCallToAction";
+import { portfolioContent } from "@/config/portfolio";
 
 export const metadata = buildMetadata({
   title: "Portfolio",
-  description: "Work and capabilities of Wali Productions LLC — websites, software, AI integration, consulting, and media production. Christian Veteran-Owned technology firm.",
+  description:
+    "Work and capabilities of Wali Productions LLC — enterprise software engineering, AI integration, cybersecurity, cloud solutions, and government IT services. Veteran-Owned technology consulting.",
   path: "/portfolio",
 });
 
-/**
- * Wali Productions LLC — Portfolio page.
- *
- * Composes the portfolio sections in order. All copy is sourced from
- * `src/config/portfolio.ts`, which holds placeholders pending verified
- * documentation. Client names, project results, and testimonials are never
- * authored here.
- */
 export default function PortfolioPage() {
   const { overview, pastPerformance, documentation } = portfolioContent;
 
@@ -39,13 +32,13 @@ export default function PortfolioPage() {
         eyebrow={pastPerformance.eyebrow}
         heading={pastPerformance.heading}
         paragraphs={pastPerformance.paragraphs}
+        tone="muted"
       />
       <PortfolioNarrative
         id="portfolio-documentation"
         eyebrow={documentation.eyebrow}
         heading={documentation.heading}
         paragraphs={documentation.paragraphs}
-        tone="muted"
       />
       <PortfolioCallToAction />
     </>

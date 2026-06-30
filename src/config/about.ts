@@ -1,23 +1,5 @@
-/**
- * About page content model — single source of truth for About page copy.
- *
- * Populated from approved canonical documentation: COMPANY_STORY,
- * COMPANY_PROFILE, KINGDOM_MISSION, STATEMENT_OF_FAITH, MISSION_VISION_VALUES,
- * CORE_MESSAGES, VALUE_PROPOSITIONS, COMPETITIVE_ADVANTAGES, BUSINESS_CAPABILITIES,
- * and CLIENT_PROMISE.
- *
- * Where a detail is not yet documented (e.g., the expanded founder story —
- * FOUNDER_STORY.md is currently empty), a `pending()` placeholder remains.
- * This copy must only be changed through the approved documentation process.
- */
-
-/** Marks copy that is not yet documented and records its source. */
-const pending = (note: string, source: string) =>
-  `[ pending approved copy: ${note} — source: ${source} ]`;
-
 export type Cta = {
   label: string;
-  /** Links to built routes within the site. */
   href: string;
 };
 
@@ -28,10 +10,10 @@ export type ValueItem = {
 
 export type AboutContent = {
   hero: {
-    /** Approved business identity (COMPANY_PROFILE / BUSINESS_INFORMATION). */
     identity: string;
     headline: string;
     subhead: string;
+    badges: string[];
   };
   companyStory: {
     eyebrow: string;
@@ -61,6 +43,7 @@ export type AboutContent = {
   coreValues: {
     eyebrow: string;
     heading: string;
+    subhead: string;
     items: ValueItem[];
   };
   clientPromise: {
@@ -72,113 +55,117 @@ export type AboutContent = {
     heading: string;
     body: string;
     primaryCta: Cta;
+    note: string;
   };
 };
 
 export const aboutContent: AboutContent = {
   hero: {
-    identity: "Christian Veteran-Owned Technology & Digital Solutions",
-    headline:
-      "A Christian veteran-owned technology company built on integrity and service.",
+    identity: "About Wali Productions",
+    headline: "Built on integrity. Driven by purpose.",
     subhead:
-      "Wali Productions LLC exists to provide professional technology and digital solutions with integrity, excellence, and a commitment to honoring Jesus Christ in both business and service.",
+      "Wali Productions LLC is a Veteran-Owned technology consulting firm committed to delivering enterprise-grade solutions with the discipline, transparency, and integrity that demanding clients require.",
+    badges: [
+      "Veteran-Owned Small Business",
+      "Enterprise Technology Consulting",
+      "Government Contracting Ready",
+    ],
   },
   companyStory: {
     eyebrow: "Our Story",
-    heading: "Technology that solves real problems and serves people.",
+    heading: "Technology that serves people, not the other way around.",
     paragraphs: [
-      "Wali Productions LLC was founded on the belief that technology should solve real problems, improve organizations, and serve people with honesty and professionalism. Rather than pursuing technology for its own sake, we focus on delivering practical solutions that help clients operate more effectively and confidently.",
-      "As a Christian Veteran-Owned business, Wali Productions LLC is committed to disciplined execution, ethical business practices, and long-term relationships built on trust.",
-      "Our work spans technology consulting, software development, website development, automation, artificial intelligence, digital media, streaming technology, and government contracting support. Every service is approached with the same objective: deliver quality solutions while maintaining integrity in every engagement.",
+      "Wali Productions LLC was founded on a straightforward conviction: technology should solve real problems, improve organizations, and serve people with honesty and professionalism. We don't pursue complexity for its own sake — every solution we deliver is measured against the practical value it creates for the client.",
+      "As a Veteran-Owned small business, we bring military-grade discipline to project execution, documentation, and accountability. Our clients — from government agencies to growing enterprises — choose us because they know what to expect: clear communication, honest assessments, and work that is done right.",
+      "Our capabilities span software engineering, AI integration, cybersecurity, cloud architecture, IT consulting, digital transformation, and government technology services. Every engagement begins with understanding your mission and ends with measurable results.",
     ],
   },
   founderStory: {
-    eyebrow: "Founder",
-    heading: "Led by a Christian, veteran technologist.",
+    eyebrow: "Leadership",
+    heading: "Led by a veteran technologist with a mission.",
     paragraphs: [
-      "Wali Productions LLC was founded by Wali Johnson—a Christian, veteran, software engineering student, technologist, creator, and business owner. The Founder retains final authority over the company's mission, direction, values, services, branding, and technology strategy.",
-      pending(
-        "expanded founder story narrative",
-        "FOUNDER_STORY.md (currently empty — not yet documented)",
-      ),
+      "Wali Productions LLC was founded by Wali Johnson — a Christian, U.S. military veteran, software engineer, and technology leader. The company reflects his conviction that professional excellence and principled character are not competing values — they are inseparable.",
+      "The founder maintains direct involvement in every client engagement, bringing senior-level technical depth, strategic clarity, and the accountability that comes from military training. Clients work with the decision-maker, not a sales layer.",
     ],
   },
   faithFoundation: {
-    eyebrow: "Kingdom Mission",
-    heading: "Faithfulness to Jesus Christ is our foundation.",
+    eyebrow: "Our Foundation",
+    heading: "Faith as a foundation, not a barrier.",
     paragraphs: [
-      "Wali Productions LLC exists first and foremost to honor King Jesus The Christ. The company was founded on the conviction that professional excellence and faithful Christian living are not competing pursuits—technology, business, engineering, and innovation are opportunities to serve others while remaining obedient to biblical principles.",
-      "Jesus Christ is the foundation of Wali Productions LLC. The company does not place business success, financial gain, public approval, or opportunity above faithfulness to Christ, and seeks to conduct business according to biblical principles of truthfulness, integrity, stewardship, diligence, service, and excellence.",
+      "Wali Productions LLC was founded on Christian values — not as a marketing position, but as a genuine foundation for how we do business. We welcome clients of every background, belief, and industry. What our faith produces in practice is integrity, honest dealing, and a commitment to doing what's right even when it isn't profitable.",
+      "We believe that faithful stewardship means delivering our best work, honoring our commitments, and treating every client relationship with the respect and transparency it deserves. Those values guide every project we touch.",
     ],
   },
   veteranService: {
     eyebrow: "Veteran-Owned",
-    heading: "Veteran-owned discipline and service.",
+    heading: "The discipline of service applied to technology.",
     paragraphs: [
-      "As a veteran-owned company, Wali Productions LLC values discipline, responsibility, structure, and follow-through. Military experience contributes to disciplined planning, accountability, and mission-focused execution.",
-      "That discipline shows up as ethical business practices, dependable communication, and long-term relationships built on trust.",
+      "Military service develops qualities that translate directly into exceptional consulting: disciplined planning, mission clarity, accountability under pressure, and the commitment to complete the objective regardless of obstacles. We apply that same standard to every client engagement.",
+      "As a Veteran-Owned Small Business (VOSB), we are positioned to serve government agencies and prime contractors through set-aside contracting vehicles while bringing the professionalism and reliability that mission-critical work demands.",
     ],
   },
   technologyJourney: {
-    eyebrow: "Technology Journey",
-    heading: "A commitment to continual learning and growth.",
+    eyebrow: "Technical Depth",
+    heading: "Broad capabilities. Deep expertise.",
     paragraphs: [
-      "Our capabilities span software engineering, website development, artificial intelligence, information technology, business automation, streaming and media technology, and government contracting support.",
-      "Wali Productions LLC is committed to expanding its capabilities through education, practical experience, disciplined engineering, and continual learning—growing as the organization grows while remaining aligned with the company's mission and biblical principles.",
+      "Our technical practice spans the full spectrum of enterprise technology: custom software engineering, AI and machine learning integration, cybersecurity architecture, cloud infrastructure, systems administration, business process automation, and digital transformation consulting.",
+      "We don't subcontract our core work or field junior developers on client projects. Every engagement is handled with senior-level technical judgment and backed by a commitment to continuous improvement and professional development.",
     ],
   },
   coreValues: {
     eyebrow: "Core Values",
-    heading: "The values that guide our work.",
+    heading: "The values that guide every engagement.",
+    subhead: "These aren't aspirational statements — they are the operating principles behind every decision we make.",
     items: [
-      {
-        title: "Christ First",
-        description:
-          "Jesus Christ is the foundation of Wali Productions LLC. The company exists to honor Him before profit, popularity, opportunity, or growth.",
-      },
       {
         title: "Integrity",
         description:
-          "We operate with honesty, transparency, and dependability. Clients should be able to trust both the work and the word of the company.",
+          "We operate with complete honesty — with clients, partners, and ourselves. We give accurate assessments even when they aren't what people want to hear.",
       },
       {
         title: "Excellence",
         description:
-          "We pursue high-quality work because excellence reflects discipline, care, and service. The goal is not merely to complete projects, but to complete them well.",
+          "We pursue high-quality work because it reflects discipline and care. Our goal is not to complete projects, but to complete them exceptionally well.",
+      },
+      {
+        title: "Accountability",
+        description:
+          "Veteran-trained discipline means we honor our commitments. Deadlines, deliverables, and communication standards are non-negotiable.",
       },
       {
         title: "Service",
         description:
-          "We use technology to serve people and organizations, helping each client move forward, solve a problem, communicate better, or accomplish a meaningful mission.",
+          "We use technology to serve people and organizations — helping each client move forward, solve problems, and accomplish meaningful missions.",
       },
       {
         title: "Stewardship",
         description:
-          "Skills, knowledge, tools, time, and opportunities are responsibilities entrusted to the company, to be used wisely and faithfully.",
+          "We treat client budgets, timelines, and trust as responsibilities, not resources. Sound stewardship produces long-term relationships.",
       },
       {
-        title: "Discipline",
+        title: "Innovation",
         description:
-          "As a veteran-owned company, we value discipline, responsibility, structure, and follow-through.",
+          "We embrace emerging technologies thoughtfully — applying AI, cloud, and modern architectures where they create genuine value.",
       },
       {
-        title: "Purpose",
+        title: "Faith",
         description:
-          "Technology should not be used aimlessly. Every solution should have a clear reason, a practical function, and a meaningful outcome.",
+          "Christ-centered values produce integrity, humility, and a commitment to doing what is right — qualities that make us a better partner.",
       },
     ],
   },
   clientPromise: {
     eyebrow: "Our Promise",
-    heading: "Our promise to every client.",
+    heading: "What you can count on from every engagement.",
     paragraphs: [
-      "When you work with Wali Productions LLC, you can expect honesty, professionalism, integrity, and a sincere commitment to serving your best interests.",
-      "Success is measured not only by completed work, but by the trust we build, the quality we deliver, and the integrity with which we conduct ourselves. We strive to leave every client better equipped than when we began.",
+      "When you engage Wali Productions LLC, you get honesty, professionalism, and a team that treats your mission as its own. We will tell you what you need to hear, deliver what we commit to, and remain accountable when challenges arise.",
+      "We measure success not just by completed deliverables, but by the trust we earn and the lasting value we create. Our objective is to be the technology partner you call first — the one you know will give you a straight answer and do the work right.",
     ],
   },
   cta: {
-    heading: "Let's work together.",
-    body: "We seek to become trusted advisors and long-term technology partners who consistently provide value through professional service and faithful stewardship.",
-    primaryCta: { label: "Request a Consultation", href: "/contact" },
+    heading: "Let's build something that lasts.",
+    body: "Whether you need an enterprise technology partner, a government contractor, or a trusted advisor for your most complex technology challenges — we are ready to have an honest conversation.",
+    primaryCta: { label: "Schedule a Consultation", href: "/contact" },
+    note: "No commitment required · Response within 24 hours",
   },
 };

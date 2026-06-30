@@ -7,17 +7,11 @@ import { AboutCallToAction } from "@/components/about/AboutCallToAction";
 
 export const metadata = buildMetadata({
   title: "About",
-  description: "Learn about Wali Productions LLC — a Christian Veteran-Owned technology firm founded on integrity, engineering excellence, and faithful service to clients and community.",
+  description:
+    "Wali Productions LLC — Veteran-Owned enterprise technology consulting firm founded on integrity, engineering excellence, and faithful service. Learn our mission, values, and commitment.",
   path: "/about",
 });
 
-/**
- * Wali Productions LLC — About page.
- *
- * Composes the approved About sections in order. All copy is sourced from
- * `src/config/about.ts`, which currently holds placeholders pending approved
- * messaging from canonical documentation.
- */
 export default function AboutPage() {
   const {
     companyStory,
@@ -45,23 +39,23 @@ export default function AboutPage() {
         tone="muted"
       />
       <NarrativeSection
-        id="faith-foundation"
-        eyebrow={faithFoundation.eyebrow}
-        heading={faithFoundation.heading}
-        paragraphs={faithFoundation.paragraphs}
-      />
-      <NarrativeSection
         id="veteran-service"
         eyebrow={veteranService.eyebrow}
         heading={veteranService.heading}
         paragraphs={veteranService.paragraphs}
-        tone="muted"
       />
       <NarrativeSection
         id="technology-journey"
         eyebrow={technologyJourney.eyebrow}
         heading={technologyJourney.heading}
         paragraphs={technologyJourney.paragraphs}
+        tone="muted"
+      />
+      <NarrativeSection
+        id="faith-foundation"
+        eyebrow={faithFoundation.eyebrow}
+        heading={faithFoundation.heading}
+        paragraphs={faithFoundation.paragraphs}
       />
       <CoreValues />
       <NarrativeSection

@@ -1,43 +1,20 @@
 import type { Metadata } from "next";
 import { siteConfig, getBaseUrl } from "@/config/site";
 
-/**
- * SEO helpers — centralizes per-page metadata so canonical URLs, OpenGraph, and
- * Twitter cards stay consistent across pages.
- *
- * No business claims, contact details, certifications, or identifiers are
- * authored here; only structural SEO metadata (titles, descriptions, canonical
- * paths). Absolute URL resolution depends on `metadataBase`, which is derived
- * from NEXT_PUBLIC_SITE_URL in the root layout.
- */
-
-/**
- * Shared Open Graph / Twitter image. The file lives in /public and must be
- * supplied (see public/README.md). Resolved to an absolute URL via metadataBase.
- */
 export const OG_IMAGE = {
   url: "/opengraph/og-image.png",
   width: 1200,
   height: 630,
-  alt: `${siteConfig.name} — ${siteConfig.identity}`,
+  alt: `${siteConfig.name} — Enterprise Technology Consulting`,
 } as const;
 
 type BuildMetadataArgs = {
-  /** Page title segment (e.g., "About"); templated as "About | Wali Productions". */
   title?: string;
-  /** Overrides the title template entirely (used for the home page). */
   absoluteTitle?: string;
-  /** Concise, factual page description. */
   description: string;
-  /** Canonical path for the page, e.g. "/about" (use "/" for home). */
   path: string;
 };
 
-/**
- * JSON-LD Organization schema for the root layout.
- * Only structural identity fields — no certifications, identifiers, or claims
- * that haven't been verified in official documentation.
- */
 export function buildOrganizationJsonLd() {
   const baseUrl = getBaseUrl() || "https://waliproductions.com";
   return {
@@ -45,17 +22,34 @@ export function buildOrganizationJsonLd() {
     "@type": "Organization",
     name: siteConfig.legalName,
     alternateName: siteConfig.name,
-    description: siteConfig.identity,
+    description: "Enterprise technology consulting, cybersecurity, AI integration, and digital transformation for government agencies and private enterprises.",
     url: baseUrl,
     logo: `${baseUrl}/opengraph/og-image.png`,
     foundingDate: "2024",
+    keywords: [
+      "enterprise technology consulting",
+      "cybersecurity",
+      "AI integration",
+      "software engineering",
+      "government IT",
+      "digital transformation",
+      "veteran-owned business",
+      "cloud solutions",
+    ],
+    areaServed: "United States",
+    serviceType: [
+      "Software Engineering",
+      "AI Integration",
+      "Cybersecurity",
+      "Cloud Solutions",
+      "IT Consulting",
+      "Digital Transformation",
+      "Government IT Services",
+    ],
     sameAs: [] as string[],
   };
 }
 
-/**
- * JSON-LD WebPage schema for individual pages.
- */
 export function buildWebPageJsonLd({
   name,
   description,
@@ -91,6 +85,18 @@ export function buildMetadata({
         ? { title }
         : {}),
     description,
+    keywords: [
+      "enterprise technology consulting",
+      "cybersecurity services",
+      "AI integration",
+      "software engineering",
+      "government IT contracting",
+      "digital transformation",
+      "veteran-owned business",
+      "cloud solutions",
+      "IT consulting",
+      "business automation",
+    ],
     alternates: { canonical: path },
     openGraph: {
       type: "website",

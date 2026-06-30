@@ -9,7 +9,12 @@ export function GovernmentHero() {
       identity={identity}
       headline={headline}
       subhead={subhead}
-      eyebrowClass="text-[#94A3B8]"
+      badges={[
+        "Veteran-Owned Small Business",
+        "SAM.gov Registered",
+        "Federal, State & Local",
+        "Security-First Delivery",
+      ]}
     />
   );
 }

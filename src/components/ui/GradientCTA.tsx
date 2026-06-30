@@ -1,6 +1,7 @@
-import Link from "next/link";
+"use client";
 
-const DOT_BG = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ccircle cx='1' cy='1' r='1' fill='white' fill-opacity='0.07'/%3E%3C/svg%3E")`;
+import Link from "next/link";
+import { motion } from "framer-motion";
 
 type GradientCTAProps = {
   id?: string;
@@ -8,9 +9,7 @@ type GradientCTAProps = {
   body: string;
   primaryCta: { label: string; href: string };
   secondaryLink?: { label: string; href: string };
-  /** Short trust/note text below the CTA buttons. */
   note?: string;
-  /** Which side the glow orb appears on. Defaults to right. */
   glowSide?: "left" | "right";
 };
 
@@ -25,8 +24,8 @@ export function GradientCTA({
 }: GradientCTAProps) {
   const glowClass =
     glowSide === "left"
-      ? "pointer-events-none absolute -left-40 -top-40 h-[500px] w-[500px] rounded-full bg-[#4A7DB5] opacity-10 blur-3xl"
-      : "pointer-events-none absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-[#4A7DB5] opacity-10 blur-3xl";
+      ? "pointer-events-none absolute -left-48 -top-48 h-[600px] w-[600px] rounded-full bg-[#4A7DB5] opacity-[0.12] blur-[100px]"
+      : "pointer-events-none absolute -right-48 -top-48 h-[600px] w-[600px] rounded-full bg-[#4A7DB5] opacity-[0.12] blur-[100px]";
 
   return (
     <section
@@ -34,33 +33,43 @@ export function GradientCTA({
       aria-labelledby={id ? `${id}-heading` : undefined}
       className="relative overflow-hidden"
     >
-      <div
-        className="absolute inset-0 bg-gradient-to-br from-[#0D1B2A] via-[#1E3A5F] to-[#2B4C7E]"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute inset-0"
-        aria-hidden="true"
-        style={{ backgroundImage: DOT_BG }}
-      />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#060d1a] via-[#0d1b38] to-[#1e3a5f]" aria-hidden="true" />
+      <div className="absolute inset-0 bg-dot-pattern" aria-hidden="true" />
       <div className={glowClass} aria-hidden="true" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#4A7DB5]/30 to-transparent" aria-hidden="true" />
 
-      <div className="relative mx-auto max-w-content px-4 py-20 sm:px-6 sm:py-24 lg:px-8 lg:py-28">
+      <div className="relative mx-auto max-w-content px-4 py-24 sm:px-6 sm:py-28 lg:px-8 lg:py-32">
         <div className="mx-auto max-w-3xl text-center">
-          <h2
-            id={id ? `${id}-heading` : undefined}
-            className="font-display text-3xl font-bold tracking-tight text-white sm:text-4xl lg:text-5xl"
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
           >
-            {heading}
-          </h2>
-          <p className="mt-5 text-lg leading-relaxed text-[#94A3B8]">{body}</p>
+            <h2
+              id={id ? `${id}-heading` : undefined}
+              className="font-display text-4xl font-bold tracking-tight text-white sm:text-5xl"
+            >
+              {heading}
+            </h2>
+            <p className="mt-5 text-lg leading-relaxed text-[#94A3B8]">{body}</p>
+          </motion.div>
 
-          <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
+          >
             <Link
               href={primaryCta.href}
-              className="inline-flex items-center rounded-lg bg-white px-7 py-3.5 text-base font-semibold text-[#0D1B2A] shadow-sm transition-colors hover:bg-[#F0F4F8]"
+              className="group inline-flex items-center gap-2 rounded-xl bg-white px-8 py-4 text-base font-semibold text-[#0D1B2A] shadow-premium transition-all duration-300 hover:bg-white/95 hover:shadow-premium-blue"
             >
               {primaryCta.label}
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="transition-transform group-hover:translate-x-1">
+                <path d="M3 8h10M8 3l5 5-5 5" />
+              </svg>
             </Link>
             {secondaryLink && (
               <Link
@@ -70,10 +79,18 @@ export function GradientCTA({
                 {secondaryLink.label}
               </Link>
             )}
-          </div>
+          </motion.div>
 
           {note && (
-            <p className="mt-6 text-sm text-white/40">{note}</p>
+            <motion.p
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="mt-6 text-sm text-white/35"
+            >
+              {note}
+            </motion.p>
           )}
         </div>
       </div>

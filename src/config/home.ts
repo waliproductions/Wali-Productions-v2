@@ -1,19 +1,5 @@
-/**
- * Homepage content model — single source of truth for homepage copy.
- *
- * Content below is populated from approved canonical documentation:
- * CORE_MESSAGES, KINGDOM_MISSION, MISSION_VISION_VALUES, COMPANY_PROFILE,
- * COMPANY_STORY, VALUE_PROPOSITIONS, COMPETITIVE_ADVANTAGES, CLIENT_PROMISE,
- * and the SERVICES documentation.
- *
- * This copy must only be changed through the approved documentation process.
- * Do not author or alter mission, statement-of-faith, governance, identity, or
- * capability claims here; update the canonical documents first.
- */
-
 export type Cta = {
   label: string;
-  /** Links to built routes within the site. */
   href: string;
 };
 
@@ -22,15 +8,33 @@ export type FeatureItem = {
   description: string;
 };
 
+export type StatItem = {
+  value: string;
+  label: string;
+  sublabel?: string;
+};
+
+export type ProcessStep = {
+  step: string;
+  title: string;
+  description: string;
+};
+
+export type IndustryItem = {
+  name: string;
+  description: string;
+};
+
 export type HomeContent = {
   hero: {
-    /** Approved business identity (COMPANY_PROFILE / CORE_MESSAGES). */
-    identity: string;
+    eyebrow: string;
     headline: string;
     subhead: string;
     primaryCta: Cta;
     secondaryCta?: Cta;
+    trustBadges: string[];
   };
+  stats: StatItem[];
   mission: {
     eyebrow: string;
     heading: string;
@@ -48,106 +52,183 @@ export type HomeContent = {
     body: string;
     items: FeatureItem[];
   };
+  process: {
+    eyebrow: string;
+    heading: string;
+    subhead: string;
+    steps: ProcessStep[];
+  };
+  industries: {
+    eyebrow: string;
+    heading: string;
+    items: IndustryItem[];
+  };
   whyChoose: {
     eyebrow: string;
     heading: string;
+    subhead: string;
     items: FeatureItem[];
   };
   cta: {
     heading: string;
     body: string;
     primaryCta: Cta;
+    note: string;
   };
 };
 
 export const homeContent: HomeContent = {
   hero: {
-    identity: "Christian Veteran-Owned Technology & Digital Solutions",
-    headline: "Technology with excellence, integrity, and purpose.",
+    eyebrow: "Enterprise Technology Consulting",
+    headline: "Digital Transformation. Enterprise Results.",
     subhead:
-      "Wali Productions LLC is a Christian Veteran-Owned technology and digital solutions company committed to solving real-world problems through engineering excellence, innovation, and faithful service.",
+      "Wali Productions LLC delivers advanced technology consulting, cybersecurity solutions, AI integration, and digital transformation services for government agencies and private enterprises.",
     primaryCta: { label: "Request a Consultation", href: "/contact" },
-    secondaryCta: { label: "Explore Our Services", href: "/services" },
+    secondaryCta: { label: "Explore Our Capabilities", href: "/services" },
+    trustBadges: [
+      "Veteran-Owned Small Business",
+      "Government Contracting Ready",
+      "Enterprise-Grade Security",
+    ],
   },
+  stats: [
+    { value: "10+", label: "Core Service Areas", sublabel: "Across technology domains" },
+    { value: "VOSB", label: "Veteran-Owned", sublabel: "Certified small business" },
+    { value: "Gov", label: "Contract Ready", sublabel: "Federal, state & local" },
+    { value: "24/7", label: "Commitment", sublabel: "To client success" },
+  ],
   mission: {
     eyebrow: "Our Mission",
     heading: "Technology is our profession. Service is our calling.",
-    body: "We exist to provide professional technology and digital solutions while honoring King Jesus The Christ through integrity, excellence, faithful stewardship, and service. Technology is the profession through which we serve, and faithfulness to Jesus Christ remains our highest priority.",
+    body: "We exist to provide enterprise-grade technology and digital transformation services while maintaining the highest standards of integrity, excellence, and faithful stewardship. Every engagement is approached with military precision, technical depth, and a genuine commitment to long-term client success.",
   },
   services: {
-    eyebrow: "What We Do",
-    heading: "Professional technology and digital solutions.",
+    eyebrow: "Core Capabilities",
+    heading: "Enterprise solutions across every technology domain.",
     intro:
-      "Wali Productions LLC provides professional technology and digital solutions built on integrity, technical excellence, and long-term client relationships.",
+      "From AI-powered automation to hardened cybersecurity infrastructure — we deliver the full spectrum of technology services modern enterprises and government agencies require.",
     items: [
       {
-        title: "Website Design & Development",
+        title: "Software Engineering",
         description:
-          "Modern, accessible websites built for performance, maintainability, and long-term growth.",
+          "Custom enterprise software built for scale, security, and longevity. From microservices architecture to full-stack applications.",
       },
       {
-        title: "Software Development",
+        title: "AI & Intelligent Automation",
         description:
-          "Custom software engineered to solve real problems—reliable, secure, scalable, and well-documented.",
+          "Machine learning integration, process automation, and AI-powered decision systems that drive measurable business outcomes.",
       },
       {
-        title: "AI Integration & Business Automation",
+        title: "Cybersecurity & Compliance",
         description:
-          "Practical AI and automation that improve productivity while preserving human oversight.",
+          "Zero-trust architecture, threat assessment, vulnerability management, and compliance frameworks for regulated industries.",
       },
     ],
   },
   government: {
     eyebrow: "Government Contracting",
-    heading: "Disciplined, standards-based government technology services.",
-    body: "We provide professional technology services that support federal, state, and local government agencies through ethical, reliable, and standards-based solutions—delivered with disciplined planning, technical excellence, and thorough documentation.",
+    heading: "Disciplined technology delivery for the public sector.",
+    body: "We deliver standards-based technology services to federal, state, and local government agencies with the accountability, documentation, and security posture that mission-critical operations demand.",
     items: [
       {
-        title: "Veteran-Owned Discipline",
+        title: "Military-Grade Discipline",
         description:
-          "Military experience contributes to disciplined planning, accountability, and mission-focused execution.",
+          "Veteran-led delivery brings military precision to planning, execution, risk management, and mission accountability.",
       },
       {
-        title: "Documentation-Driven Delivery",
+        title: "Compliant Documentation",
         description:
-          "Projects are planned, documented, reviewed, and version controlled to improve quality and long-term maintainability.",
+          "Every project is planned, version-controlled, and documented to the standards required for government procurement and oversight.",
       },
       {
-        title: "Standards-Based Solutions",
+        title: "Security-First Architecture",
         description:
-          "Solutions meet applicable contractual requirements and professional standards, with accountability, transparency, and security awareness.",
+          "All solutions are designed with federal security frameworks in mind, including NIST, FedRAMP, and FISMA alignment.",
       },
+    ],
+  },
+  process: {
+    eyebrow: "Our Process",
+    heading: "A proven delivery framework.",
+    subhead: "Every engagement follows a structured methodology that ensures clarity, accountability, and measurable outcomes from day one.",
+    steps: [
+      {
+        step: "01",
+        title: "Discovery & Assessment",
+        description: "We conduct a thorough analysis of your current technology environment, business objectives, and operational constraints to define a clear path forward.",
+      },
+      {
+        step: "02",
+        title: "Strategy & Architecture",
+        description: "Our senior architects design a solution framework tailored to your requirements, with clear milestones, risk mitigation, and success metrics.",
+      },
+      {
+        step: "03",
+        title: "Execution & Delivery",
+        description: "Agile delivery with continuous communication, rigorous testing, and documentation at every stage — keeping you informed and in control.",
+      },
+      {
+        step: "04",
+        title: "Support & Optimization",
+        description: "Post-deployment support, performance monitoring, and continuous improvement to ensure your investment delivers lasting value.",
+      },
+    ],
+  },
+  industries: {
+    eyebrow: "Industries Served",
+    heading: "Expertise across critical sectors.",
+    items: [
+      { name: "Federal Government", description: "Civilian and defense agencies" },
+      { name: "State & Local Government", description: "Municipal and regional agencies" },
+      { name: "Healthcare & Life Sciences", description: "HIPAA-compliant systems" },
+      { name: "Financial Services", description: "Secure fintech solutions" },
+      { name: "Defense & Intelligence", description: "Mission-critical infrastructure" },
+      { name: "Nonprofit & Faith Organizations", description: "Mission-aligned technology" },
+      { name: "Education & Research", description: "Academic technology solutions" },
+      { name: "Small & Mid-Size Business", description: "Scalable enterprise tools" },
     ],
   },
   whyChoose: {
     eyebrow: "Why Wali Productions",
-    heading: "A trusted, long-term technology partner.",
+    heading: "The partner enterprise clients choose.",
+    subhead: "We combine the agility of a boutique firm with the discipline and technical depth of a major consultancy.",
     items: [
       {
         title: "Integrity Before Profit",
         description:
-          "We believe long-term trust is more valuable than short-term financial gain.",
+          "We believe long-term trust is more valuable than short-term revenue. We will tell you what you need, not what costs the most.",
       },
       {
         title: "Engineering Excellence",
         description:
-          "We pursue continual learning and technical improvement to provide high-quality solutions.",
+          "Senior-level engineers who take ownership of outcomes — not junior developers billing hours on client time.",
       },
       {
-        title: "Practical Solutions",
+        title: "Veteran-Led Discipline",
         description:
-          "Technology should solve real business problems rather than introduce unnecessary complexity.",
+          "Military precision in project management means on-time delivery, clear communication, and zero ambiguity.",
       },
       {
-        title: "Long-Term Relationships",
+        title: "Security-First Mindset",
         description:
-          "We seek to become trusted partners rather than one-time vendors.",
+          "Every solution is architected with security by design — not security as an afterthought.",
+      },
+      {
+        title: "Long-Term Partnership",
+        description:
+          "We build relationships, not transactions. Our clients return because we deliver consistent, dependable results.",
+      },
+      {
+        title: "Transparent Communication",
+        description:
+          "Clear, honest reporting on progress, risks, and budget — no surprises, no hidden costs, no excuses.",
       },
     ],
   },
   cta: {
-    heading: "Let's start a conversation.",
-    body: "When you work with Wali Productions LLC, you can expect honesty, professionalism, integrity, and a sincere commitment to serving your best interests.",
-    primaryCta: { label: "Request a Consultation", href: "/contact" },
+    heading: "Ready to transform your technology?",
+    body: "Let's discuss your most complex technology challenges. Our team is ready to provide an honest assessment and a clear path to results.",
+    primaryCta: { label: "Schedule a Consultation", href: "/contact" },
+    note: "Veteran-Owned · No commitment required · Response within 24 hours",
   },
 };

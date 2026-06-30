@@ -10,6 +10,7 @@ const inter = Inter({
   subsets: ["latin"],
   variable: "--font-sans",
   display: "swap",
+  preload: true,
 });
 
 const spaceGrotesk = Space_Grotesk({
@@ -17,14 +18,16 @@ const spaceGrotesk = Space_Grotesk({
   variable: "--font-display",
   weight: ["400", "500", "600", "700"],
   display: "swap",
+  preload: true,
 });
 
-const rootDescription = `${siteConfig.legalName} — Christian Veteran-Owned Technology & Digital Solutions.`;
+const rootDescription =
+  "Wali Productions LLC — Veteran-Owned enterprise technology consulting. Cybersecurity, AI integration, software engineering, cloud solutions, and digital transformation for government agencies and private enterprises.";
 
 export const metadata: Metadata = {
   ...(siteConfig.url ? { metadataBase: new URL(siteConfig.url) } : {}),
   title: {
-    default: siteConfig.name,
+    default: `${siteConfig.name} | Enterprise Technology Consulting`,
     template: `%s | ${siteConfig.name}`,
   },
   description: rootDescription,
@@ -32,10 +35,22 @@ export const metadata: Metadata = {
   authors: [{ name: siteConfig.legalName }],
   creator: siteConfig.legalName,
   publisher: siteConfig.legalName,
+  keywords: [
+    "enterprise technology consulting",
+    "cybersecurity",
+    "AI integration",
+    "software engineering",
+    "government IT contracting",
+    "digital transformation",
+    "veteran-owned business",
+    "cloud solutions",
+    "IT consulting",
+    "business automation",
+  ],
   robots: {
     index: true,
     follow: true,
-    googleBot: { index: true, follow: true },
+    googleBot: { index: true, follow: true, "max-video-preview": -1, "max-image-preview": "large", "max-snippet": -1 },
   },
   icons: {
     icon: "/favicon.ico",
@@ -45,7 +60,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: siteConfig.name,
-    title: siteConfig.name,
+    title: `${siteConfig.name} | Enterprise Technology Consulting`,
     description: rootDescription,
     locale: "en_US",
     images: [OG_IMAGE],
@@ -53,7 +68,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: siteConfig.name,
+    title: `${siteConfig.name} | Enterprise Technology Consulting`,
     description: rootDescription,
     images: [OG_IMAGE.url],
   },
@@ -62,8 +77,10 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+    { media: "(prefers-color-scheme: dark)", color: "#060d1a" },
   ],
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({
@@ -80,10 +97,9 @@ export default function RootLayout({
         />
       </head>
       <body className="flex min-h-screen flex-col bg-background font-sans text-foreground antialiased">
-        {/* Skip link: first focusable element, visible only on focus. */}
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-md focus:bg-background focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:shadow"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-[#0D1B2A] focus:shadow-premium"
         >
           Skip to main content
         </a>

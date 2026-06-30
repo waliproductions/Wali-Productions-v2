@@ -1,60 +1,86 @@
-const DOT_BG = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ccircle cx='1' cy='1' r='1' fill='white' fill-opacity='0.07'/%3E%3C/svg%3E")`;
+"use client";
+
+import { motion } from "framer-motion";
 
 type PageHeroProps = {
-  /** Accessible ID for the h1; the section uses aria-labelledby with this value. */
   headingId: string;
-  /** Small eyebrow label above the headline. */
   identity: string;
-  /** Page <h1>. */
   headline: string;
-  /** Descriptive subhead. */
   subhead: string;
-  /** Tailwind color class for the eyebrow. Defaults to brand gold. */
   eyebrowClass?: string;
+  badges?: string[];
 };
 
-/**
- * Shared gradient hero for inner pages (Services, Government, Portfolio,
- * About, Contact). The homepage Hero is separate — it has a two-column layout
- * with service-preview cards. This component handles the standard single-column
- * pattern that all inner pages share.
- */
 export function PageHero({
   headingId,
   identity,
   headline,
   subhead,
   eyebrowClass = "text-gold",
+  badges,
 }: PageHeroProps) {
   return (
     <section aria-labelledby={headingId} className="relative overflow-hidden">
-      <div
-        className="absolute inset-0 bg-gradient-to-br from-[#0D1B2A] via-[#1E3A5F] to-[#2B4C7E]"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute inset-0"
-        aria-hidden="true"
-        style={{ backgroundImage: DOT_BG }}
-      />
-      <div
-        className="pointer-events-none absolute -right-40 -top-40 h-[500px] w-[500px] rounded-full bg-[#4A7DB5] opacity-10 blur-3xl"
-        aria-hidden="true"
-      />
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#060d1a] via-[#0d1b38] to-[#1e3a5f]" aria-hidden="true" />
+      <div className="absolute inset-0 bg-grid-pattern" aria-hidden="true" />
+      <div className="pointer-events-none absolute -right-40 -top-40 h-[600px] w-[600px] rounded-full bg-[#4A7DB5] opacity-[0.10] blur-[100px]" aria-hidden="true" />
+      <div className="pointer-events-none absolute left-0 bottom-0 h-[300px] w-[400px] rounded-full bg-[#2b4c7e] opacity-[0.12] blur-[80px]" aria-hidden="true" />
+
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#4A7DB5]/30 to-transparent" aria-hidden="true" />
+      <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" aria-hidden="true" />
 
       <div className="relative mx-auto max-w-content px-4 py-20 sm:px-6 sm:py-24 lg:px-8 lg:py-28">
-        <p className={`text-xs font-semibold uppercase tracking-[0.18em] ${eyebrowClass}`}>
-          {identity}
-        </p>
-        <h1
+        <motion.div
+          initial={{ opacity: 0, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 backdrop-blur-sm">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#4A7DB5]" aria-hidden="true" />
+            <p className={`text-xs font-semibold uppercase tracking-[0.2em] ${eyebrowClass} text-[#94A3B8]`}>
+              {identity}
+            </p>
+          </div>
+        </motion.div>
+
+        <motion.h1
           id={headingId}
-          className="mt-6 max-w-3xl font-display text-4xl font-bold leading-tight tracking-tight text-white sm:text-5xl lg:text-6xl"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+          className="mt-7 max-w-4xl font-display text-5xl font-bold leading-tight tracking-tight text-white sm:text-6xl lg:text-7xl"
         >
           {headline}
-        </h1>
-        <p className="mt-6 max-w-2xl text-lg leading-relaxed text-[#94A3B8]">
+        </motion.h1>
+
+        <motion.p
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+          className="mt-6 max-w-2xl text-lg leading-relaxed text-[#94A3B8]"
+        >
           {subhead}
-        </p>
+        </motion.p>
+
+        {badges && badges.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="mt-8 flex flex-wrap gap-3"
+          >
+            {badges.map((badge) => (
+              <span
+                key={badge}
+                className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3.5 py-1.5 text-xs font-medium text-white/70"
+              >
+                <span className="h-1 w-1 rounded-full bg-[#4A7DB5]" aria-hidden="true" />
+                {badge}
+              </span>
+            ))}
+          </motion.div>
+        )}
       </div>
     </section>
   );

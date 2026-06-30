@@ -2,22 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Theme colors as space-separated RGB channels so Tailwind can apply the
-   <alpha-value> placeholder (enables bg-background/75, etc.). */
 :root {
   --background: 255 255 255;
-  /* Dark navy-tinted foreground (#0F172A) — cohesive with blue palette. */
   --foreground: 15 23 42;
 
-  /* Brand gold (#B8831A) — subtle identity accent only. */
+  /* Brand palette */
   --gold: 184 131 26;
   --gold-subtle: 253 246 233;
-  /* Deep navy (#0D1B2A) — dark section backgrounds. */
+
+  /* Deep navy */
   --gov-slate: 13 27 42;
-  /* Light blue-grey (#F0F4F8) — cool tinted government page backgrounds. */
+  /* Light blue-grey */
   --gov-light: 240 244 248;
-  /* Steel blue (#4A7DB5) — interactive accents, icons, accent bars. */
+  /* Steel blue */
   --steel: 74 125 181;
+
+  /* Premium additions */
+  --navy-900: 10 20 38;
+  --navy-800: 13 27 56;
+  --navy-700: 20 40 80;
+  --navy-600: 30 58 95;
+  --slate-500: 100 116 139;
+  --slate-400: 148 163 184;
+
+  /* Glass */
+  --glass-white: 255 255 255;
+  --glass-dark: 15 23 42;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -41,13 +51,14 @@
     background-color: rgb(var(--background));
     color: rgb(var(--foreground));
     text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Consistent, visible keyboard focus across interactive elements. */
   :focus-visible {
-    outline: 2px solid currentColor;
+    outline: 2px solid rgb(74 125 181);
     outline-offset: 2px;
-    border-radius: 2px;
+    border-radius: 3px;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -62,5 +73,60 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
     }
+  }
+}
+
+@layer utilities {
+  /* Premium glass morphism utility */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .glass-card-light {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+  }
+
+  /* Gradient text */
+  .text-gradient-blue {
+    background: linear-gradient(135deg, #e2e8f0 0%, #94a3b8 50%, #60a5fa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-gold {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Premium grid patterns */
+  .bg-grid-pattern {
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .bg-dot-pattern {
+    background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  /* Noise texture overlay for premium feel */
+  .noise-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
   }
 }
