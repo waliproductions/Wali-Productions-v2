@@ -8,8 +8,9 @@ export function GovernmentCallToAction() {
       id="government-cta"
       heading={heading}
       body={body}
-      primaryCta={primaryCta}
-      secondaryLink={{ label: "View full capabilities", href: "/government" }}
+      primaryCta={{ label: "Start a Project", href: "/start" }}
+      secondaryLink={{ label: "View capability statement", href: "/capability-statement" }}
+      note="VOSB · Government Contracting Ready · Response within 24 hours"
     />
   );
 }

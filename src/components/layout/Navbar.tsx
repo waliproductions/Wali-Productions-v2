@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { siteConfig } from "@/config/site";
 
 const CONTACT_HREF = "/contact";
+const START_HREF = "/start";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -35,7 +36,9 @@ export function Navbar() {
     return () => document.removeEventListener("keydown", onKeyDown);
   }, [open]);
 
-  const desktopNav = siteConfig.nav.filter((item) => item.href !== CONTACT_HREF);
+  const desktopNav = siteConfig.nav.filter(
+    (item) => item.href !== CONTACT_HREF && item.href !== START_HREF
+  );
 
   return (
     <header
@@ -102,23 +105,21 @@ export function Navbar() {
           ))}
         </ul>
 
-        {/* Desktop CTA */}
-        <div className="hidden md:flex items-center gap-3">
-          <Link
-            href="/government"
-            className="hidden lg:inline-flex items-center gap-1.5 text-xs font-semibold text-neutral-500 transition-colors hover:text-[#1E3A5F] dark:text-neutral-400 dark:hover:text-white"
-          >
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <path d="M1 11h10M1 7h10M2.5 7V5.5M6 7V5.5M9.5 7V5.5M1 5.5h10L6 1.5 1 5.5z" />
-            </svg>
-            Gov
-          </Link>
+        {/* Desktop CTAs */}
+        <div className="hidden md:flex items-center gap-2">
           <Link
             href={CONTACT_HREF}
             aria-current={isActive(CONTACT_HREF) ? "page" : undefined}
+            className="rounded-lg px-3.5 py-2 text-sm font-medium text-neutral-600 transition-all duration-200 hover:bg-black/5 hover:text-[#0D1B2A] dark:text-neutral-300 dark:hover:bg-white/8 dark:hover:text-white"
+          >
+            Contact
+          </Link>
+          <Link
+            href={START_HREF}
+            aria-current={isActive(START_HREF) ? "page" : undefined}
             className="group inline-flex items-center gap-2 rounded-lg bg-[#0D1B2A] px-5 py-2 text-sm font-semibold text-white transition-all duration-200 hover:bg-[#1E3A5F] dark:bg-[#1E3A5F] dark:hover:bg-[#2B4C7E]"
           >
-            Contact Us
+            Start a Project
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">
               <path d="M2 6h8M6 2l4 4-4 4" />
             </svg>
@@ -170,15 +171,21 @@ export function Navbar() {
               </li>
             ))}
           </ul>
-          <div className="mx-auto max-w-content border-t border-black/8 px-4 py-4 sm:px-6 dark:border-white/8">
+          <div className="mx-auto max-w-content border-t border-black/8 px-4 py-4 sm:px-6 dark:border-white/8 space-y-2">
             <Link
-              href={CONTACT_HREF}
+              href={START_HREF}
               className="flex w-full items-center justify-center gap-2 rounded-xl bg-[#0D1B2A] px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-[#1E3A5F] dark:bg-[#1E3A5F] dark:hover:bg-[#2B4C7E]"
             >
-              Request a Consultation
+              Start a Project
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M2 7h10M7 2l5 5-5 5" />
               </svg>
+            </Link>
+            <Link
+              href={CONTACT_HREF}
+              className="flex w-full items-center justify-center rounded-xl border border-black/10 px-4 py-2.5 text-sm font-medium text-neutral-700 transition-all hover:bg-black/5 dark:border-white/10 dark:text-neutral-200 dark:hover:bg-white/8"
+            >
+              Contact Us
             </Link>
           </div>
         </div>

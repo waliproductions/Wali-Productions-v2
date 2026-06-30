@@ -29,6 +29,7 @@ export const siteConfig = {
     { label: "Government", href: "/government" },
     { label: "Portfolio", href: "/portfolio" },
     { label: "Contact", href: "/contact" },
+    { label: "Start a Project", href: "/start" },
   ] satisfies NavItem[],
   /** Legal navigation, rendered in the footer. Add reviewed legal pages here once approved. */
   legal: [] as NavItem[],
@@ -43,6 +44,8 @@ export const siteConfig = {
     "/government",
     "/portfolio",
     "/contact",
+    "/start",
+    "/capability-statement",
     // Legal pages intentionally excluded until reviewed content is approved.
   ],
 } as const;

@@ -341,8 +341,8 @@ export const servicesContent: ServicesContent = {
   },
   cta: {
     heading: "Ready to solve your technology challenge?",
-    body: "Tell us about your most complex problem. We'll give you an honest assessment and a clear proposal — no sales pressure, no commitment required.",
-    primaryCta: { label: "Request a Consultation", href: "/contact" },
+    body: "Tell us about your project goals, timeline, and budget — we'll give you an honest assessment and a clear proposal. No sales pressure, no commitment required.",
+    primaryCta: { label: "Start a Project", href: "/start" },
     note: "No commitment required · Veteran-Owned · Response within 24 hours",
   },
 };

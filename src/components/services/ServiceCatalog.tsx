@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { servicesContent } from "@/config/services";
 
@@ -157,6 +158,19 @@ export function ServiceCatalog() {
                         <span className="font-semibold text-[#0D1B2A] dark:text-neutral-300">Outcome: </span>
                         {service.outcomes}
                       </p>
+                    </div>
+
+                    {/* CTA */}
+                    <div className="mt-5">
+                      <Link
+                        href={`/start?service=${encodeURIComponent(service.title)}`}
+                        className="group/cta inline-flex items-center gap-1.5 text-xs font-semibold text-[#1E3A5F] transition-colors hover:text-[#4A7DB5] dark:text-[#60a5fa] dark:hover:text-[#93c5fd]"
+                      >
+                        Request this service
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="transition-transform group-hover/cta:translate-x-0.5">
+                          <path d="M2 6h8M5 2.5L9.5 6 5 9.5" />
+                        </svg>
+                      </Link>
                     </div>
 
                     {/* Hover accent */}

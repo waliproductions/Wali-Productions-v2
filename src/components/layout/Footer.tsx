@@ -3,18 +3,19 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 
 const SERVICES_LINKS = [
-  { label: "Software Engineering", href: "/services" },
-  { label: "AI & Automation", href: "/services" },
-  { label: "Cybersecurity", href: "/services" },
-  { label: "Cloud Solutions", href: "/services" },
-  { label: "IT Consulting", href: "/services" },
-  { label: "Digital Transformation", href: "/services" },
+  { label: "Software Engineering", href: "/services#service-catalog" },
+  { label: "AI & Automation", href: "/services#service-catalog" },
+  { label: "Cybersecurity", href: "/services#service-catalog" },
+  { label: "Cloud Solutions", href: "/services#service-catalog" },
+  { label: "IT Consulting", href: "/services#service-catalog" },
+  { label: "Government IT", href: "/government" },
 ];
 
 const COMPANY_LINKS = [
   { label: "About", href: "/about" },
-  { label: "Government", href: "/government" },
   { label: "Portfolio", href: "/portfolio" },
+  { label: "Government", href: "/government" },
+  { label: "Capability Statement", href: "/capability-statement" },
   { label: "Contact", href: "/contact" },
 ];
 
@@ -23,11 +24,9 @@ export function Footer() {
 
   return (
     <footer className="relative overflow-hidden bg-[#060d1a]">
-      {/* Subtle top gradient */}
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#4A7DB5]/20 to-transparent" aria-hidden="true" />
 
       <div className="mx-auto max-w-content px-4 pb-10 pt-16 sm:px-6 lg:px-8">
-        {/* Main grid */}
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-4">
 
           {/* Brand column */}
@@ -53,14 +52,14 @@ export function Footer() {
               </div>
             </Link>
             <p className="mt-6 max-w-xs text-sm leading-relaxed text-neutral-500">
-              Enterprise technology consulting, cybersecurity, AI integration, and digital transformation for government agencies and private enterprises.
+              Enterprise technology consulting, cybersecurity, AI integration, and digital transformation — delivered with veteran discipline and integrity.
             </p>
             <div className="mt-6 flex flex-wrap gap-2">
               <span className="rounded-md border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-neutral-400">
                 VOSB
               </span>
               <span className="rounded-md border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wider text-neutral-400">
-                SAM Registered
+                Gov Ready
               </span>
             </div>
           </div>
@@ -106,20 +105,28 @@ export function Footer() {
           {/* CTA Column */}
           <div>
             <h2 className="text-xs font-semibold uppercase tracking-widest text-neutral-400">
-              Work With Us
+              Start Today
             </h2>
             <p className="mt-5 text-sm leading-relaxed text-neutral-500">
-              Ready to modernize your technology infrastructure or secure a government contract? Let&apos;s start a conversation.
+              Government agency, small business, nonprofit, or ministry — we&apos;re ready to help. No commitment required.
             </p>
-            <Link
-              href="/contact"
-              className="group mt-6 inline-flex items-center gap-2 rounded-xl bg-[#1E3A5F] px-5 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-[#2B4C7E]"
-            >
-              Request a Consultation
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">
-                <path d="M2 7h10M7 2l5 5-5 5" />
-              </svg>
-            </Link>
+            <div className="mt-6 flex flex-col gap-3">
+              <Link
+                href="/start"
+                className="group inline-flex items-center justify-center gap-2 rounded-xl bg-[#1E3A5F] px-5 py-3 text-sm font-semibold text-white transition-all duration-200 hover:bg-[#2B4C7E]"
+              >
+                Start a Project
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="transition-transform group-hover:translate-x-0.5">
+                  <path d="M2 7h10M7 2l5 5-5 5" />
+                </svg>
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center rounded-xl border border-white/10 px-5 py-2.5 text-sm font-medium text-neutral-400 transition-all duration-200 hover:border-white/20 hover:text-neutral-200"
+              >
+                Contact Us
+              </Link>
+            </div>
 
             <div className="mt-8">
               <p className="text-xs text-neutral-600">Response within 24 hours</p>
@@ -133,9 +140,9 @@ export function Footer() {
           <p className="text-xs text-neutral-600">
             &copy; {year} {siteConfig.legalName}. All rights reserved.
           </p>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-4">
             <p className="text-xs text-neutral-600">
-              Veteran-Owned Technology Consulting
+              Veteran-Owned · Government Contracting Ready
             </p>
             {siteConfig.legal.length > 0 && (
               <ul className="flex gap-4">

@@ -165,7 +165,7 @@ export const aboutContent: AboutContent = {
   cta: {
     heading: "Let's build something that lasts.",
     body: "Whether you need an enterprise technology partner, a government contractor, or a trusted advisor for your most complex technology challenges — we are ready to have an honest conversation.",
-    primaryCta: { label: "Schedule a Consultation", href: "/contact" },
+    primaryCta: { label: "Start a Project", href: "/start" },
     note: "No commitment required · Response within 24 hours",
   },
 };

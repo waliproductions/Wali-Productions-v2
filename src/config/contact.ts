@@ -33,6 +33,9 @@ export type ContactContent = {
     heading: string;
     intro: string;
     serviceOptions: string[];
+    budgetOptions: string[];
+    timelineOptions: string[];
+    preferredContactOptions: string[];
   };
   process: ProcessStep[];
   inquiryCategories: {
@@ -97,6 +100,28 @@ export const contactContent: ContactContent = {
       "Linux & Systems Administration",
       "Media & Livestream Production",
       "Other / Not Sure",
+    ],
+    budgetOptions: [
+      "Under $5,000",
+      "$5,000 – $15,000",
+      "$15,000 – $50,000",
+      "$50,000 – $150,000",
+      "$150,000+",
+      "Not yet determined",
+    ],
+    timelineOptions: [
+      "As soon as possible",
+      "Within 30 days",
+      "1–3 months",
+      "3–6 months",
+      "6+ months",
+      "Flexible / ongoing support",
+    ],
+    preferredContactOptions: [
+      "Email",
+      "Phone call",
+      "Video call (Zoom/Teams)",
+      "No preference",
     ],
   },
   process: [

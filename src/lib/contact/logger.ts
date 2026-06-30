@@ -33,7 +33,7 @@ export function createContactSubmissionRecord(
     lifecycleStatus: "received",
     emailDeliveryStatus: "pending",
     source: "website-contact-form",
-    formVersion: "contact-v1",
+    formVersion: "contact-v2",
     requester: {
       name: input.name,
       email: input.email,
@@ -42,6 +42,9 @@ export function createContactSubmissionRecord(
     },
     inquiry: {
       service: input.service ?? null,
+      budget: input.budget ?? null,
+      timeline: input.timeline ?? null,
+      preferredContact: input.preferredContact ?? null,
       message: input.message,
     },
     processing: {

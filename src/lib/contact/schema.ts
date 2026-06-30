@@ -4,6 +4,9 @@ export type ContactSubmissionInput = {
   company?: string;
   phone?: string;
   service?: string;
+  budget?: string;
+  timeline?: string;
+  preferredContact?: string;
   message: string;
 };
 
@@ -16,7 +19,7 @@ export type ContactSubmissionRecord = {
   lifecycleStatus: "received" | "processed" | "failed" | "archived";
   emailDeliveryStatus: "pending" | "sent" | "failed";
   source: "website-contact-form";
-  formVersion: "contact-v1";
+  formVersion: "contact-v2";
   requester: {
     name: string;
     email: string;
@@ -25,6 +28,9 @@ export type ContactSubmissionRecord = {
   };
   inquiry: {
     service: string | null;
+    budget: string | null;
+    timeline: string | null;
+    preferredContact: string | null;
     message: string;
   };
   processing: {
@@ -56,6 +62,9 @@ export function validateContactSubmission(input: unknown): {
   const company = String(value.company ?? "").trim();
   const phone = String(value.phone ?? "").trim();
   const service = String(value.service ?? "").trim();
+  const budget = String(value.budget ?? "").trim();
+  const timeline = String(value.timeline ?? "").trim();
+  const preferredContact = String(value.preferredContact ?? "").trim();
   const message = String(value.message ?? "").trim();
 
   if (name.length < 2) errors.push("Name is required.");
@@ -72,6 +81,9 @@ export function validateContactSubmission(input: unknown): {
       company: company || undefined,
       phone: phone || undefined,
       service: service || undefined,
+      budget: budget || undefined,
+      timeline: timeline || undefined,
+      preferredContact: preferredContact || undefined,
       message,
     },
   };

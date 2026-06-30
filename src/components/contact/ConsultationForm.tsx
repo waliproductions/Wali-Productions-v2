@@ -18,7 +18,8 @@ type SubmitState = {
 };
 
 export function ConsultationForm() {
-  const { serviceOptions } = contactContent.consultation;
+  const { serviceOptions, budgetOptions, timelineOptions, preferredContactOptions } =
+    contactContent.consultation;
   const [state, setState] = useState<SubmitState>({ status: "idle", message: "" });
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -33,12 +34,15 @@ export function ConsultationForm() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name:    String(data.get("name") ?? ""),
-          email:   String(data.get("email") ?? ""),
-          company: String(data.get("company") ?? ""),
-          phone:   String(data.get("phone") ?? ""),
-          service: String(data.get("service") ?? ""),
-          message: String(data.get("message") ?? ""),
+          name:             String(data.get("name") ?? ""),
+          email:            String(data.get("email") ?? ""),
+          company:          String(data.get("company") ?? ""),
+          phone:            String(data.get("phone") ?? ""),
+          service:          String(data.get("service") ?? ""),
+          budget:           String(data.get("budget") ?? ""),
+          timeline:         String(data.get("timeline") ?? ""),
+          preferredContact: String(data.get("preferredContact") ?? ""),
+          message:          String(data.get("message") ?? ""),
         }),
       });
 
@@ -64,7 +68,7 @@ export function ConsultationForm() {
       setState({
         status: "success",
         message:
-          "Your inquiry was received. Wali Productions LLC will review the request and follow up as appropriate.",
+          "Your inquiry was received. Wali Productions LLC will review your request and follow up within 24 hours.",
         submissionId: result.submissionId,
       });
     } catch {
@@ -76,29 +80,31 @@ export function ConsultationForm() {
     }
   };
 
-  const serviceSelectOptions = serviceOptions.map((s) => ({ value: s, label: s }));
+  const disabled = state.status === "submitting";
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-2xl space-y-5" noValidate>
+    <form onSubmit={handleSubmit} className="space-y-5" noValidate>
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <Field label="Name" htmlFor="contact-name" required>
+        <Field label="Full name" htmlFor="contact-name" required>
           <Input
             id="contact-name"
             name="name"
             type="text"
             autoComplete="name"
+            placeholder="Your name"
             required
-            disabled={state.status === "submitting"}
+            disabled={disabled}
           />
         </Field>
-        <Field label="Email" htmlFor="contact-email" required>
+        <Field label="Email address" htmlFor="contact-email" required>
           <Input
             id="contact-email"
             name="email"
             type="email"
             autoComplete="email"
+            placeholder="you@organization.com"
             required
-            disabled={state.status === "submitting"}
+            disabled={disabled}
           />
         </Field>
       </div>
@@ -110,50 +116,97 @@ export function ConsultationForm() {
             name="company"
             type="text"
             autoComplete="organization"
-            disabled={state.status === "submitting"}
+            placeholder="Company, agency, or ministry"
+            disabled={disabled}
           />
         </Field>
-        <Field label="Phone" htmlFor="contact-phone">
+        <Field label="Phone number" htmlFor="contact-phone">
           <Input
             id="contact-phone"
             name="phone"
             type="tel"
             autoComplete="tel"
-            disabled={state.status === "submitting"}
+            placeholder="(000) 000-0000"
+            disabled={disabled}
           />
         </Field>
       </div>
 
-      <Field label="Service of interest" htmlFor="contact-service" required>
+      <Field label="Service needed" htmlFor="contact-service" required>
         <Select
           id="contact-service"
           name="service"
-          options={serviceSelectOptions}
+          options={serviceOptions.map((s) => ({ value: s, label: s }))}
           placeholder="Select a service"
           defaultValue=""
           required
-          disabled={state.status === "submitting"}
+          disabled={disabled}
         />
       </Field>
 
-      <Field label="Message" htmlFor="contact-message" required>
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+        <Field label="Budget range" htmlFor="contact-budget">
+          <Select
+            id="contact-budget"
+            name="budget"
+            options={budgetOptions.map((b) => ({ value: b, label: b }))}
+            placeholder="Select a range"
+            defaultValue=""
+            disabled={disabled}
+          />
+        </Field>
+        <Field label="Project timeline" htmlFor="contact-timeline">
+          <Select
+            id="contact-timeline"
+            name="timeline"
+            options={timelineOptions.map((t) => ({ value: t, label: t }))}
+            placeholder="When do you need this?"
+            defaultValue=""
+            disabled={disabled}
+          />
+        </Field>
+      </div>
+
+      <Field label="Preferred contact method" htmlFor="contact-preferred">
+        <Select
+          id="contact-preferred"
+          name="preferredContact"
+          options={preferredContactOptions.map((p) => ({ value: p, label: p }))}
+          placeholder="How should we follow up?"
+          defaultValue=""
+          disabled={disabled}
+        />
+      </Field>
+
+      <Field
+        label="Project goals and description"
+        htmlFor="contact-message"
+        hint="Tell us about the problem you're trying to solve, your goals, and any relevant context."
+        required
+      >
         <Textarea
           id="contact-message"
           name="message"
           rows={5}
+          placeholder="Describe your project, challenge, or goals…"
           required
-          disabled={state.status === "submitting"}
+          disabled={disabled}
         />
       </Field>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 pt-1">
         <Button
           type="submit"
-          disabled={state.status === "submitting"}
+          disabled={disabled}
           size="md"
+          className="w-full sm:w-auto"
         >
-          {state.status === "submitting" ? "Submitting…" : "Request consultation"}
+          {disabled ? "Submitting…" : "Submit inquiry"}
         </Button>
+
+        <p className="text-xs text-neutral-500 dark:text-neutral-400">
+          No commitment required. We respond to every inquiry within 24 hours.
+        </p>
 
         {state.status === "error" && (
           <FormFeedback variant="error" message={state.message} />
@@ -162,7 +215,7 @@ export function ConsultationForm() {
           <FormFeedback
             variant="success"
             message={state.message}
-            detail={state.submissionId ? `Reference: ${state.submissionId}` : undefined}
+            detail={state.submissionId ? `Reference ID: ${state.submissionId}` : undefined}
           />
         )}
       </div>

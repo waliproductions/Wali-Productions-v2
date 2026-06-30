@@ -3,12 +3,13 @@ import { aboutContent } from "@/config/about";
 import { AboutHero } from "@/components/about/AboutHero";
 import { NarrativeSection } from "@/components/about/NarrativeSection";
 import { CoreValues } from "@/components/about/CoreValues";
+import { TechCapabilities } from "@/components/about/TechCapabilities";
 import { AboutCallToAction } from "@/components/about/AboutCallToAction";
 
 export const metadata = buildMetadata({
   title: "About",
   description:
-    "Wali Productions LLC — Veteran-Owned enterprise technology consulting firm founded on integrity, engineering excellence, and faithful service. Learn our mission, values, and commitment.",
+    "Wali Productions LLC — Veteran-Owned enterprise technology consulting founded on integrity, engineering excellence, and faithful service. Learn about our mission, values, and commitment to government agencies, businesses, nonprofits, and churches.",
   path: "/about",
 });
 
@@ -44,6 +45,7 @@ export default function AboutPage() {
         heading={veteranService.heading}
         paragraphs={veteranService.paragraphs}
       />
+      <TechCapabilities />
       <NarrativeSection
         id="technology-journey"
         eyebrow={technologyJourney.eyebrow}

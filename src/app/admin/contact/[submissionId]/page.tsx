@@ -93,9 +93,26 @@ export default async function ContactDetailPage({ params }: ContactDetailPagePro
 
         <section className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
           <h2 className="text-xl font-semibold">Inquiry</h2>
-          <p className="mt-4 text-sm text-zinc-500">Service</p>
-          <p className="text-zinc-200">{submission.inquiry.service ?? "Not specified"}</p>
-          <p className="mt-5 whitespace-pre-wrap leading-7 text-zinc-200">
+          <dl className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <dt className="text-sm text-zinc-500">Service</dt>
+              <dd className="text-zinc-200">{submission.inquiry.service ?? "Not specified"}</dd>
+            </div>
+            <div>
+              <dt className="text-sm text-zinc-500">Budget Range</dt>
+              <dd className="text-zinc-200">{submission.inquiry.budget ?? "Not specified"}</dd>
+            </div>
+            <div>
+              <dt className="text-sm text-zinc-500">Timeline</dt>
+              <dd className="text-zinc-200">{submission.inquiry.timeline ?? "Not specified"}</dd>
+            </div>
+            <div>
+              <dt className="text-sm text-zinc-500">Preferred Contact</dt>
+              <dd className="text-zinc-200">{submission.inquiry.preferredContact ?? "Not specified"}</dd>
+            </div>
+          </dl>
+          <p className="mt-5 text-sm text-zinc-500">Message / Project Goals</p>
+          <p className="mt-2 whitespace-pre-wrap leading-7 text-zinc-200">
             {submission.inquiry.message}
           </p>
         </section>

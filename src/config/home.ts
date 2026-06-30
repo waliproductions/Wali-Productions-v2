@@ -83,7 +83,7 @@ export const homeContent: HomeContent = {
     headline: "Digital Transformation. Enterprise Results.",
     subhead:
       "Wali Productions LLC delivers advanced technology consulting, cybersecurity solutions, AI integration, and digital transformation services for government agencies and private enterprises.",
-    primaryCta: { label: "Request a Consultation", href: "/contact" },
+    primaryCta: { label: "Start a Project", href: "/start" },
     secondaryCta: { label: "Explore Our Capabilities", href: "/services" },
     trustBadges: [
       "Veteran-Owned Small Business",
@@ -226,9 +226,9 @@ export const homeContent: HomeContent = {
     ],
   },
   cta: {
-    heading: "Ready to transform your technology?",
-    body: "Let's discuss your most complex technology challenges. Our team is ready to provide an honest assessment and a clear path to results.",
-    primaryCta: { label: "Schedule a Consultation", href: "/contact" },
+    heading: "Ready to start your project?",
+    body: "Share your goals, timeline, and budget — we'll respond within 24 hours with an honest assessment and a clear path forward.",
+    primaryCta: { label: "Start a Project", href: "/start" },
     note: "Veteran-Owned · No commitment required · Response within 24 hours",
   },
 };

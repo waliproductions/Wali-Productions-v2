@@ -10,7 +10,7 @@ import { ServicesCallToAction } from "@/components/services/ServicesCallToAction
 export const metadata = buildMetadata({
   title: "Services",
   description:
-    "Enterprise technology services from Wali Productions LLC — software engineering, AI integration, cybersecurity, cloud solutions, IT consulting, and government IT services. Veteran-Owned.",
+    "Enterprise technology services from Wali Productions LLC — custom software, AI integration, cybersecurity, cloud solutions, IT consulting, and government IT services. Veteran-Owned small business serving government, commercial, nonprofits, and churches.",
   path: "/services",
 });
 
