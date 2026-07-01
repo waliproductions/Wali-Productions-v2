@@ -150,6 +150,22 @@ export async function restoreLeadAction(leadId: string): Promise<void> {
   revalidateLead(leadId);
 }
 
+export async function deleteLeadAction(leadId: string): Promise<void> {
+  const session = await requireAdmin();
+  const existing = await leadRepository.findById(leadId);
+  if (!existing) throw new Error("Lead not found.");
+
+  await leadRepository.delete(leadId, session.username);
+  await activityRepository.log("deleted", session.username ?? "admin", "lead", "Lead deleted.", {
+    entityId: leadId,
+    entityTitle: existing.fullName,
+  });
+
+  revalidatePath("/admin/leads");
+  revalidatePath("/admin");
+  redirect("/admin/leads");
+}
+
 // ─── Notes ─────────────────────────────────────────────────────────────────
 
 export async function addLeadNoteAction(leadId: string, formData: FormData): Promise<void> {

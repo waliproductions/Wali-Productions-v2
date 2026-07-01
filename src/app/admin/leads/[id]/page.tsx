@@ -14,6 +14,7 @@ import {
   addLeadNoteAction,
   archiveLeadAction,
   restoreLeadAction,
+  deleteLeadAction,
   sendQuestionnaireInviteAction,
   convertLeadToProjectAction,
 } from "@/lib/leads/actions";
@@ -24,6 +25,7 @@ import { AdminBadge } from "@/components/admin/AdminBadge";
 import { formatDate, formatDateTime, formatRelativeTime, humanizeSegment } from "@/lib/admin/utils";
 import { LeadFileUpload } from "@/components/admin/leads/LeadFileUpload";
 import { LeadMergeForm } from "@/components/admin/leads/LeadMergeForm";
+import { DeleteLeadButton } from "@/components/admin/leads/DeleteLeadButton";
 
 export const dynamic = "force-dynamic";
 
@@ -58,6 +60,7 @@ export default async function LeadDetailPage({ params }: LeadDetailPageProps) {
   const boundAddNote = addLeadNoteAction.bind(null, id);
   const boundArchive = archiveLeadAction.bind(null, id);
   const boundRestore = restoreLeadAction.bind(null, id);
+  const boundDelete = deleteLeadAction.bind(null, id);
   const boundSendQuestionnaire = sendQuestionnaireInviteAction.bind(null, id);
   const boundConvertToProject = convertLeadToProjectAction.bind(null, id);
 
@@ -72,6 +75,7 @@ export default async function LeadDetailPage({ params }: LeadDetailPageProps) {
             {lead.mergedIntoId && (
               <AdminBadge variant="warning">Merged into {lead.mergedIntoId}</AdminBadge>
             )}
+            {lead.deleted && <AdminBadge variant="danger">Deleted</AdminBadge>}
           </span>
         }
         actions={
@@ -79,18 +83,29 @@ export default async function LeadDetailPage({ params }: LeadDetailPageProps) {
             <AdminButton href="/admin/leads" variant="ghost" size="md">
               Back to leads
             </AdminButton>
-            {lead.archived ? (
+            {lead.deleted ? (
               <form action={boundRestore}>
                 <AdminButton type="submit" variant="secondary" size="md">
                   Restore
                 </AdminButton>
               </form>
             ) : (
-              <form action={boundArchive}>
-                <AdminButton type="submit" variant="outline" size="md">
-                  Archive
-                </AdminButton>
-              </form>
+              <>
+                {lead.archived ? (
+                  <form action={boundRestore}>
+                    <AdminButton type="submit" variant="secondary" size="md">
+                      Restore
+                    </AdminButton>
+                  </form>
+                ) : (
+                  <form action={boundArchive}>
+                    <AdminButton type="submit" variant="outline" size="md">
+                      Archive
+                    </AdminButton>
+                  </form>
+                )}
+                <DeleteLeadButton action={boundDelete} leadName={lead.fullName} />
+              </>
             )}
           </>
         }
