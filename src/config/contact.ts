@@ -36,6 +36,7 @@ export type ContactContent = {
     budgetOptions: string[];
     timelineOptions: string[];
     preferredContactOptions: string[];
+    preferredContactTimeOptions: string[];
     orgTypeOptions: string[];
     decisionMakerOptions: string[];
   };
@@ -124,6 +125,12 @@ export const contactContent: ContactContent = {
       "Phone call",
       "Video call (Zoom/Teams)",
       "No preference",
+    ],
+    preferredContactTimeOptions: [
+      "Morning",
+      "Afternoon",
+      "Evening",
+      "Anytime",
     ],
     orgTypeOptions: [
       "Federal Agency",

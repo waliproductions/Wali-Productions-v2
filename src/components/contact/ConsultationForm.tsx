@@ -9,17 +9,31 @@ import { Select } from "@/components/ui/forms/Select";
 import { FormFeedback } from "@/components/ui/forms/FormFeedback";
 import { Button } from "@/components/ui/Button";
 
+const CONTACT_METHOD_OPTIONS = [
+  { value: "email", label: "Email" },
+  { value: "phone", label: "Phone call" },
+  { value: "video-call", label: "Video call (Zoom/Teams)" },
+  { value: "text", label: "Text message" },
+  { value: "no-preference", label: "No preference" },
+];
+
+const CONTACT_TIME_OPTIONS = [
+  { value: "morning", label: "Morning" },
+  { value: "afternoon", label: "Afternoon" },
+  { value: "evening", label: "Evening" },
+  { value: "anytime", label: "Anytime" },
+];
+
 type SubmitStatus = "idle" | "submitting" | "success" | "error";
 
 type SubmitState = {
   status: SubmitStatus;
   message: string;
-  submissionId?: string;
+  leadId?: string;
 };
 
 export function ConsultationForm() {
-  const { serviceOptions, budgetOptions, timelineOptions, preferredContactOptions, orgTypeOptions, decisionMakerOptions } =
-    contactContent.consultation;
+  const { serviceOptions } = contactContent.consultation;
   const [state, setState] = useState<SubmitState>({ status: "idle", message: "" });
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -30,28 +44,28 @@ export function ConsultationForm() {
     setState({ status: "submitting", message: "" });
 
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch("/api/consultation", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name:             String(data.get("name") ?? ""),
-          email:            String(data.get("email") ?? ""),
-          company:          String(data.get("company") ?? ""),
-          phone:            String(data.get("phone") ?? ""),
-          orgType:          String(data.get("orgType") ?? ""),
-          service:          String(data.get("service") ?? ""),
-          budget:           String(data.get("budget") ?? ""),
-          timeline:         String(data.get("timeline") ?? ""),
-          preferredContact: String(data.get("preferredContact") ?? ""),
-          decisionMaker:    String(data.get("decisionMaker") ?? ""),
-          message:          String(data.get("message") ?? ""),
+          fullName: String(data.get("fullName") ?? ""),
+          email: String(data.get("email") ?? ""),
+          companyName: String(data.get("companyName") ?? ""),
+          phone: String(data.get("phone") ?? ""),
+          website: String(data.get("website") ?? ""),
+          servicesInterested: [String(data.get("service") ?? "")].filter(Boolean),
+          preferredContactMethod: String(data.get("preferredContactMethod") ?? ""),
+          preferredContactTime: String(data.get("preferredContactTime") ?? ""),
+          projectDescription: String(data.get("projectDescription") ?? ""),
+          // Honeypot — legitimate visitors never see or fill this field.
+          website2: String(data.get("website2") ?? ""),
         }),
       });
 
       const result = (await response.json()) as {
         ok?: boolean;
         message?: string;
-        submissionId?: string;
+        leadId?: string;
         errors?: string[];
       };
 
@@ -71,7 +85,7 @@ export function ConsultationForm() {
         status: "success",
         message:
           "Your inquiry was received. Wali Productions LLC will review your request and follow up within 24 hours.",
-        submissionId: result.submissionId,
+        leadId: result.leadId,
       });
     } catch {
       setState({
@@ -86,11 +100,17 @@ export function ConsultationForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+      {/* Honeypot field — hidden from sighted and screen-reader users, bots often fill every input. */}
+      <div className="absolute -left-[9999px] top-auto h-0 w-0 overflow-hidden" aria-hidden="true">
+        <label htmlFor="contact-website2">Leave this field blank</label>
+        <input id="contact-website2" name="website2" type="text" tabIndex={-1} autoComplete="off" />
+      </div>
+
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <Field label="Full name" htmlFor="contact-name" required>
           <Input
             id="contact-name"
-            name="name"
+            name="fullName"
             type="text"
             autoComplete="name"
             placeholder="Your name"
@@ -112,10 +132,10 @@ export function ConsultationForm() {
       </div>
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <Field label="Organization" htmlFor="contact-company">
+        <Field label="Company name" htmlFor="contact-company">
           <Input
             id="contact-company"
-            name="company"
+            name="companyName"
             type="text"
             autoComplete="organization"
             placeholder="Company, agency, or ministry"
@@ -135,17 +155,17 @@ export function ConsultationForm() {
       </div>
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <Field label="Organization type" htmlFor="contact-orgtype">
-          <Select
-            id="contact-orgtype"
-            name="orgType"
-            options={orgTypeOptions.map((o) => ({ value: o, label: o }))}
-            placeholder="Type of organization"
-            defaultValue=""
+        <Field label="Website" htmlFor="contact-website">
+          <Input
+            id="contact-website"
+            name="website"
+            type="text"
+            autoComplete="url"
+            placeholder="yourcompany.com"
             disabled={disabled}
           />
         </Field>
-        <Field label="Service needed" htmlFor="contact-service" required>
+        <Field label="Service you're interested in" htmlFor="contact-service" required>
           <Select
             id="contact-service"
             name="service"
@@ -159,45 +179,22 @@ export function ConsultationForm() {
       </div>
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        <Field label="Budget range" htmlFor="contact-budget">
-          <Select
-            id="contact-budget"
-            name="budget"
-            options={budgetOptions.map((b) => ({ value: b, label: b }))}
-            placeholder="Select a range"
-            defaultValue=""
-            disabled={disabled}
-          />
-        </Field>
-        <Field label="Project timeline" htmlFor="contact-timeline">
-          <Select
-            id="contact-timeline"
-            name="timeline"
-            options={timelineOptions.map((t) => ({ value: t, label: t }))}
-            placeholder="When do you need this?"
-            defaultValue=""
-            disabled={disabled}
-          />
-        </Field>
-      </div>
-
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <Field label="Preferred contact method" htmlFor="contact-preferred">
           <Select
             id="contact-preferred"
-            name="preferredContact"
-            options={preferredContactOptions.map((p) => ({ value: p, label: p }))}
+            name="preferredContactMethod"
+            options={CONTACT_METHOD_OPTIONS}
             placeholder="How should we follow up?"
             defaultValue=""
             disabled={disabled}
           />
         </Field>
-        <Field label="Are you the decision-maker?" htmlFor="contact-decision">
+        <Field label="Preferred contact time" htmlFor="contact-preferred-time">
           <Select
-            id="contact-decision"
-            name="decisionMaker"
-            options={decisionMakerOptions.map((d) => ({ value: d, label: d }))}
-            placeholder="Your role in this decision"
+            id="contact-preferred-time"
+            name="preferredContactTime"
+            options={CONTACT_TIME_OPTIONS}
+            placeholder="Best time to reach you"
             defaultValue=""
             disabled={disabled}
           />
@@ -205,17 +202,15 @@ export function ConsultationForm() {
       </div>
 
       <Field
-        label="Project goals and description"
-        htmlFor="contact-message"
-        hint="Tell us about the problem you're trying to solve, your goals, and any relevant context."
-        required
+        label="Brief project description"
+        htmlFor="contact-description"
+        hint="A sentence or two is plenty — we'll get the full picture during our conversation."
       >
         <Textarea
-          id="contact-message"
-          name="message"
-          rows={5}
-          placeholder="Describe your project, challenge, or goals…"
-          required
+          id="contact-description"
+          name="projectDescription"
+          rows={4}
+          placeholder="What are you looking to build or solve?"
           disabled={disabled}
         />
       </Field>
@@ -227,7 +222,7 @@ export function ConsultationForm() {
           size="md"
           className="w-full sm:w-auto"
         >
-          {disabled ? "Submitting…" : "Submit inquiry"}
+          {disabled ? "Submitting…" : "Request a consultation"}
         </Button>
 
         <p className="text-xs text-neutral-500 dark:text-neutral-400">
@@ -241,7 +236,7 @@ export function ConsultationForm() {
           <FormFeedback
             variant="success"
             message={state.message}
-            detail={state.submissionId ? `Reference ID: ${state.submissionId}` : undefined}
+            detail={state.leadId ? `Reference ID: ${state.leadId}` : undefined}
           />
         )}
       </div>
