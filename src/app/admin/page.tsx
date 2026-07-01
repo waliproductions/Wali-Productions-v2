@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { leadRepository } from "@/lib/repositories/lead.repository";
 import { organizationRepository } from "@/lib/repositories/organization.repository";
 import { contactRepository } from "@/lib/repositories/contact.repository";
 import { meetingRepository } from "@/lib/repositories/meeting.repository";
@@ -37,6 +38,8 @@ function healthScore(active: number, atRisk: number, blocked: number): number {
 
 export default async function AdminDashboardPage() {
   const [
+    leadStats,
+    recentLeads,
     orgStats,
     contactStats,
     meetingStats,
@@ -54,6 +57,8 @@ export default async function AdminDashboardPage() {
     recentActivity,
     expiringProposals,
   ] = await Promise.all([
+    leadRepository.getStats(),
+    leadRepository.getRecent(5),
     organizationRepository.getStats(),
     contactRepository.getStats(),
     meetingRepository.getStats(),
@@ -92,6 +97,15 @@ export default async function AdminDashboardPage() {
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
+          {leadStats.followUpsDue > 0 && (
+            <Link
+              href="/admin/leads?followups=1"
+              className="flex items-center gap-1.5 rounded-full border border-sky-500/30 bg-sky-500/10 px-3 py-1 text-xs font-medium text-sky-300 transition-colors hover:border-sky-400/50"
+            >
+              <span className="h-1.5 w-1.5 rounded-full bg-sky-400" />
+              {leadStats.followUpsDue} lead follow-up{leadStats.followUpsDue !== 1 ? "s" : ""} due
+            </Link>
+          )}
           {unreadCount > 0 && (
             <Link
               href="/admin/notifications"
@@ -123,8 +137,9 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Top KPIs — Business Health */}
-      <section className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+      <section className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-7">
         {[
+          { label: "Leads", value: leadStats.total, sub: `${leadStats.new} new · ${leadStats.qualified} qualified`, href: "/admin/leads" },
           { label: "Organizations", value: orgStats.total, sub: `${orgStats.activeClients} clients`, href: "/admin/crm/organizations" },
           { label: "Revenue Pipeline", value: currency(pipelineStats.totalValue), sub: `${pipelineStats.activeCount} active`, href: "/admin/crm/pipeline" },
           { label: "Proposal Win Rate", value: winRate, sub: `${proposalStats.accepted} won`, href: "/admin/operations/proposals" },
@@ -191,6 +206,37 @@ export default async function AdminDashboardPage() {
 
         {/* Column 1: Business Development */}
         <div className="flex flex-col gap-6">
+          <AdminWidget title="Leads" action={{ label: "View all", href: "/admin/leads" }}>
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { label: "New", value: leadStats.new },
+                { label: "Qualified", value: leadStats.qualified },
+                { label: "Open", value: leadStats.openCount },
+                { label: "Follow-ups due", value: leadStats.followUpsDue },
+              ].map(({ label, value }) => (
+                <div key={label} className="rounded-lg bg-zinc-800/40 p-3">
+                  <p className="text-xs text-zinc-500">{label}</p>
+                  <p className="mt-1 text-lg font-bold text-zinc-100">{value}</p>
+                </div>
+              ))}
+            </div>
+            {recentLeads.length > 0 && (
+              <div className="mt-4 border-t border-zinc-800 pt-3">
+                <AdminWidgetList
+                  items={recentLeads.map((lead) => ({
+                    label: lead.companyName ? `${lead.fullName} · ${lead.companyName}` : lead.fullName,
+                    badge: (
+                      <AdminBadge variant={lead.status === "won" ? "success" : lead.status === "lost" ? "danger" : "info"}>
+                        {lead.status}
+                      </AdminBadge>
+                    ),
+                    href: `/admin/leads/${lead.id}`,
+                  }))}
+                />
+              </div>
+            )}
+          </AdminWidget>
+
           <AdminWidget title="Business Development" action={{ label: "CRM", href: "/admin/crm" }}>
             <div className="space-y-3 text-sm">
               {[
