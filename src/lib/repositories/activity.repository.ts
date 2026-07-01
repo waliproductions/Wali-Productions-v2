@@ -22,7 +22,24 @@ export type ActivityVerb =
   | "workflow-started"
   | "workflow-completed"
   | "workflow-failed"
-  | "notification-sent";
+  | "notification-sent"
+  // Lead lifecycle
+  | "consultation-requested"
+  | "consultation-scheduled"
+  | "status-changed"
+  | "note-added"
+  | "questionnaire-sent"
+  | "questionnaire-progress-saved"
+  | "questionnaire-completed"
+  | "proposal-created"
+  | "proposal-sent"
+  | "contract-signed"
+  | "deposit-received"
+  | "development-started"
+  | "delivered"
+  | "project-closed"
+  | "converted-to-project"
+  | "leads-merged";
 
 export type ActivityRecord = EntityRecord & {
   verb: ActivityVerb;

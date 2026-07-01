@@ -21,3 +21,17 @@ export async function requireAdmin(): Promise<SessionData> {
   }
   return session;
 }
+
+/**
+ * Admin guard for API route handlers. Unlike requireAdmin(), this never
+ * calls redirect() — a redirect response makes no sense for a fetch()
+ * caller. Returns the session on success, or null when unauthenticated so
+ * the caller can respond with 401 JSON.
+ */
+export async function requireAdminApi(): Promise<SessionData | null> {
+  const session = await getSession();
+  if (!session.isLoggedIn || !session.username || session.role !== "admin") {
+    return null;
+  }
+  return session;
+}

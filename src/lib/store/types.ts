@@ -131,6 +131,10 @@ export const ID_PREFIXES = {
   asset: "ASSET",
   calendarEvent: "CAL",
   invitation: "INV",
+  // v1.5 additions — lead intake & CRM pipeline
+  lead: "LEAD",
+  questionnaireResponse: "QR",
+  note: "NOTE",
 } as const;
 
 export type EntityType = keyof typeof ID_PREFIXES;
@@ -164,6 +168,10 @@ export const COLLECTION_PATHS: Record<EntityType, string> = {
   asset: "assets",
   calendarEvent: "calendar",
   invitation: "iam/invitations",
+  // v1.5 additions — lead intake & CRM pipeline
+  lead: "crm/leads",
+  questionnaireResponse: "crm/questionnaire-responses",
+  note: "notes",
 };
 
 // ─── Search index ─────────────────────────────────────────────────────────────

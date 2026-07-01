@@ -35,6 +35,22 @@ const VERB_VARIANT: Record<ActivityVerb, "success" | "info" | "neutral" | "warni
   "workflow-completed": "success",
   "workflow-failed": "danger",
   "notification-sent": "neutral",
+  "consultation-requested": "info",
+  "consultation-scheduled": "info",
+  "status-changed": "warning",
+  "note-added": "neutral",
+  "questionnaire-sent": "info",
+  "questionnaire-progress-saved": "neutral",
+  "questionnaire-completed": "success",
+  "proposal-created": "info",
+  "proposal-sent": "info",
+  "contract-signed": "success",
+  "deposit-received": "success",
+  "development-started": "info",
+  delivered: "success",
+  "project-closed": "success",
+  "converted-to-project": "success",
+  "leads-merged": "warning",
 };
 
 function ActivityRow({ a }: { a: ActivityRecord }) {

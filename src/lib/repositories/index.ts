@@ -61,3 +61,12 @@ export type {
   VehicleStatus,
   VehicleSetAside,
 } from "./contract-vehicle.repository";
+
+export { leadRepository } from "./lead.repository";
+export type { StoredLead, LeadSortField } from "./lead.repository";
+
+export { questionnaireResponseRepository } from "./questionnaire-response.repository";
+export type { StoredQuestionnaireResponse } from "./questionnaire-response.repository";
+
+export { noteRepository } from "./note.repository";
+export type { StoredNote } from "./note.repository";
