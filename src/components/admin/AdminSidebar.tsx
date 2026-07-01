@@ -212,6 +212,7 @@ const CloseIcon = (props: SVGProps<SVGSVGElement>) => (
 
 export const ADMIN_NAV: AdminNavItem[] = [
   { label: "Dashboard", href: "/admin", icon: DashboardIcon },
+  { label: "Leads", href: "/admin/leads", icon: CrmIcon, matchPrefix: true },
   { label: "Contact Inquiries", href: "/admin/contact", icon: InboxIcon, matchPrefix: true },
   { label: "Audit Log", href: "/admin/audit", icon: AuditIcon, matchPrefix: true },
   { label: "Portfolio", href: "/admin/portfolio", icon: PortfolioIcon, matchPrefix: true },
@@ -229,6 +230,7 @@ export const ADMIN_NAV_SECTIONS: AdminNavSection[] = [
   {
     title: "Business Development",
     items: [
+      { label: "Leads", href: "/admin/leads", icon: InboxIcon, matchPrefix: true },
       { label: "CRM", href: "/admin/crm", icon: CrmIcon, matchPrefix: true },
       { label: "Operations", href: "/admin/operations", icon: OperationsIcon, matchPrefix: true },
       { label: "Gov Contracts", href: "/admin/contracts", icon: ContractsIcon, matchPrefix: true },
